@@ -1,8 +1,12 @@
 import React from 'react';
+import { useSetOuMode } from 'capture-core/components/ScopeSelector';
+import { useLocationQuery } from 'capture-core/utils/routing';
+
 import { SelectorBar } from '@dhis2/ui';
 import { ProgramSelector } from './Program/ProgramSelector.component';
 import { OrgUnitSelector } from './OrgUnitSelector.component';
 import type { Props } from './QuickSelector.types';
+import { OrgUnitModeSelector } from './OrgUnitModeSelector.component';
 
 export const QuickSelector = ({
     selectedOrgUnitId,
@@ -22,8 +26,10 @@ export const QuickSelector = ({
     onStartAgain,
     isReadOnlyOrgUnit,
     orgUnitTooltip,
-}: Props) => (
-    <SelectorBar
+}: Props) => {
+    const { setOuMode } = useSetOuMode();
+    const { ouMode } = useLocationQuery();
+    return (<SelectorBar
         disableClearSelections={!selectedProgramId && !selectedOrgUnitId}
         onClearSelectionClick={() => onStartAgain()}
     >
@@ -49,6 +55,11 @@ export const QuickSelector = ({
             isReadOnly={isReadOnlyOrgUnit}
             tooltip={orgUnitTooltip}
         />
+        <OrgUnitModeSelector
+            onClickOuMode={setOuMode}
+            selectedOuMode={ouMode}
+            isReadOnly={!selectedOrgUnitId}
+        />
         {children}
-    </SelectorBar>
-);
+    </SelectorBar>);
+};
