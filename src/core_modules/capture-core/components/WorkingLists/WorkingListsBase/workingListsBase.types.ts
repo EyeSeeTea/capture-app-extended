@@ -96,6 +96,7 @@ export type UpdateList = (data: {
     programId: string,
     programStageId: string,
     orgUnitId: string,
+    ouMode: string,
     categories?: Categories,
     lastIdDeleted?: string,
     resetMode: boolean,

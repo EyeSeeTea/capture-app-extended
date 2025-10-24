@@ -44,6 +44,7 @@ export type RawQueryArgs = {
     programId: string;
     programStageId?: string;
     orgUnitId: string;
+    ouMode: string,
     filters?: { [id: string]: string };
     sortById: string;
     sortByDirection: string;

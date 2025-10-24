@@ -7,6 +7,7 @@ export const useEventsInOrgUnit = (
     orgUnitId: string,
     selectedDate: string,
     programId: string,
+    ouMode: string,
 ) => {
     const { data, error, loading, refetch } = useDataQuery(
         useMemo(
@@ -21,14 +22,14 @@ export const useEventsInOrgUnit = (
                 return {
                     events: {
                         resource: 'tracker/events',
-                        params: ({ variables: { orgUnitId: ouId, selectedDate: date, programId: pId } }: any) => ({
+                        params: ({ variables: { orgUnitId: ouId, selectedDate: date, programId: pId, ouMode: orgUnitMode } }: any) => ({
                             orgUnit: ouId,
                             program: pId,
                             scheduledAfter: date,
                             scheduledBefore: date,
                             ...newPagingQueryParam,
                             status: 'SCHEDULE',
-                            [orgUnitModeQueryParam]: 'SELECTED',
+                            [orgUnitModeQueryParam]: orgUnitMode,
                             fields: 'scheduledAt',
                         }),
                     },
@@ -41,9 +42,9 @@ export const useEventsInOrgUnit = (
 
     useEffect(() => {
         if (orgUnitId && selectedDate && programId) {
-            refetch({ variables: { orgUnitId, selectedDate, programId } });
+            refetch({ variables: { orgUnitId, selectedDate, programId, ouMode } });
         }
-    }, [refetch, orgUnitId, selectedDate, programId]);
+    }, [refetch, orgUnitId, selectedDate, programId, ouMode]);
 
     const apiEvents = handleAPIResponse(REQUESTED_ENTITIES.events, data?.events);
     return {
