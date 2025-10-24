@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useOuMode } from 'capture-core/components/ScopeSelector';
 import { ActionButtons } from './TopBarActions.component';
 import { DiscardDialog } from '../Dialogs/DiscardDialog.component';
 import type { Props } from './TopBarActions.types';
@@ -32,6 +33,7 @@ export const TopBarActions = ({
         openSearchPageWithoutProgramId;
 
     const { navigate } = useNavigate();
+    const { ouMode } = useOuMode();
 
     const newRegistrationPage = () => {
         const queryArgs: Record<string, string> = {};
@@ -51,7 +53,7 @@ export const TopBarActions = ({
     };
 
     const searchPage = () => {
-        const queryArgs: Record<string, string> = {};
+        const queryArgs: Record<string, string> = { ouMode };
         if (selectedOrgUnitId) {
             queryArgs.orgUnitId = selectedOrgUnitId;
         }
@@ -64,7 +66,7 @@ export const TopBarActions = ({
 
     const searchPageWithoutProgramId = () => {
         const queryArgs = selectedOrgUnitId ? { orgUnitId: selectedOrgUnitId } : {};
-        navigate(`search?${buildUrlQueryString(queryArgs)}`);
+        navigate(`search?${buildUrlQueryString({ ...queryArgs, ouMode })}`);
     };
 
     const handleOpenNewRegistrationPage = () => {

@@ -9,8 +9,8 @@ export const navigateBackToMainPageEpic = (action$: EpicAction<any>, store: Redu
     action$.pipe(
         ofType(searchPageActionTypes.TO_MAIN_PAGE_NAVIGATE),
         switchMap(() => {
-            const { currentSelections: { programId, orgUnitId } } = store.value;
-            navigate(`/?${buildUrlQueryString({ programId, orgUnitId })}`);
+            const { currentSelections: { programId, orgUnitId, ouMode } } = store.value;
+            navigate(`/?${buildUrlQueryString({ programId, orgUnitId, ouMode })}`);
             return new Promise((resolve) => {
                 setTimeout(() => resolve(resetLocationChange()), 0);
             });

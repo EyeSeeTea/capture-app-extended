@@ -7,6 +7,7 @@ export type ReduxStore = {
         currentSelections: {
             programId: string;
             orgUnitId?: string;
+            ouMode: string;
             complete?: boolean;
         };
         possibleDuplicates: {
