@@ -26,7 +26,6 @@ export type LoadView = (
     context: {
         programId: string,
         orgUnitId: string,
-        ouMode: string,
         categories?: Categories,
         programStageId?: string,
         currentRequest?: string,
