@@ -1,3 +1,4 @@
+import { isProgramAccessible } from 'capture-core/utils/isProgramAccessible';
 import type { Program, Icon } from '../../../../metaData';
 
 const getOptionsFromPrograms = (
@@ -13,12 +14,6 @@ const getOptionsFromPrograms = (
         icon: program.icon,
     }));
 
-export const getOptions = (programsArray: Array<Program>, selectedOrgUnitId?: string) => {
-    const programOptions = selectedOrgUnitId
-        ? getOptionsFromPrograms(
-            programsArray.filter(program => program.organisationUnits[selectedOrgUnitId] && program.access.data.read),
-        )
-        : getOptionsFromPrograms(programsArray.filter(program => program.access.data.read));
-
-    return programOptions;
-};
+export const getOptions = (programsArray: Array<Program>, ouMode: string, selectedOrgUnitId?: string) => getOptionsFromPrograms(
+    programsArray.filter(program => isProgramAccessible(program, ouMode, selectedOrgUnitId)),
+);
