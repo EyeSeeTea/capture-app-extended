@@ -181,7 +181,7 @@ export class ProgramFactory {
         program.organisationUnits = cachedProgram.organisationUnits?.reduce((acc, { id, path }) => {
             acc[id] = path;
             return acc;
-        }, {});// ?? (await getUserMetadataStorageController().get(USER_METADATA_STORES.ORGANISATION_UNITS_BY_PROGRAM, program.id))?.organisationUnits;
+        }, {});
         program.icon = buildIcon(cachedProgram.style);
         program.displayFrontPageList = cachedProgram.displayFrontPageList;
         program.onlyEnrollOnce = cachedProgram.onlyEnrollOnce;

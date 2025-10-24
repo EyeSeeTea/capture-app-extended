@@ -22,16 +22,11 @@ import type { EpicAction, ReduxStore } from '../../../capture-core-utils/types/g
 export const getOrgUnitDataBasedOnUrlUpdateEpic = (action$: EpicAction<any>, store: ReduxStore) =>
     action$.pipe(
         ofType(lockedSelectorActionTypes.FROM_URL_UPDATE),
-        filter((action) => {
-            console.log('FROM_URL_UPDATE received:', action.payload.nextProps);
-            return action.payload.nextProps.orgUnitId;
-        }),
+        filter(action => action.payload.nextProps.orgUnitId),
         concatMap((action) => {
             const { organisationUnits } = store.value as any;
             const { orgUnitId } = action.payload.nextProps;
-            console.log('is this triggered?', organisationUnits[orgUnitId]);
             if (organisationUnits[orgUnitId]) {
-                console.log('Calling completeUrlUpdate');
                 return of(completeUrlUpdate());
             }
             return of(startLoading(), getCoreOrgUnit({
@@ -69,7 +64,9 @@ export const validateSelectionsBasedOnUrlUpdateEpic = (action$: EpicAction<any>)
                 }
 
                 if (orgUnitId && !program.organisationUnits[orgUnitId] && !isProgramAccessible(program, ouMode, orgUnitId)) {
-                    return invalidSelectionsFromUrl(i18n.t('Selected program is invalid for selected organisation unit and ouMode'));
+                    return invalidSelectionsFromUrl(
+                        i18n.t('Selected program is not available for this organisation unit with {{ouMode}} mode', { ouMode }),
+                    );
                 }
             }
 
