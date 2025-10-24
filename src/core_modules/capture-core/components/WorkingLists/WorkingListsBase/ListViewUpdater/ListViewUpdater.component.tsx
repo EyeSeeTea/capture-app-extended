@@ -6,6 +6,7 @@ import { ListViewUpdaterContext } from '../workingListsBase.context';
 import { ListViewBuilder } from '../ListViewBuilder';
 import { areFiltersEqual } from '../utils';
 import type { Props } from './listViewUpdater.types';
+import { useLocationQuery } from '../../../../utils/routing';
 
 const ListViewBuilderWithLoadingIndicator = withLoadingIndicator(() => ({ margin: 10, height: 60 }))(ListViewBuilder) as ComponentType<any>;
 
@@ -67,6 +68,8 @@ export const ListViewUpdater = (props: Props) => {
         loadedOrgUnitId,
     } = context;
 
+    const { ouMode = 'SELECTED' } = useLocationQuery();
+
     const forceFirstRunUpdateRef = useRef(
         (forceUpdateOnMount || dirtyList || loadedOrgUnitId !== orgUnitId) &&
         !viewLoadedOnFirstRun,
@@ -95,6 +98,7 @@ export const ListViewUpdater = (props: Props) => {
             programId,
             programStageId,
             orgUnitId,
+            ouMode,
             categories,
             resetMode,
         });
@@ -110,6 +114,7 @@ export const ListViewUpdater = (props: Props) => {
             programId,
             programStageId,
             orgUnitId,
+            ouMode,
             categories,
             customUpdateTrigger,
             onUpdateList,
