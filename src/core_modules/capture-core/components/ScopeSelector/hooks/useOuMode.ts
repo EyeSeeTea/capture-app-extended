@@ -1,10 +1,10 @@
 import { useLocation } from 'react-router-dom';
 import { useNavigate, buildUrlQueryString, useLocationQuery } from '../../../utils/routing';
 
-export const useSetOuMode = () => {
+export const useOuMode = () => {
     const { navigate } = useNavigate();
     const { pathname } = useLocation();
-    const restOfQueries = useLocationQuery();
+    const { ouMode: selectedOuMode, ...restOfQueries } = useLocationQuery();
 
     const setOuMode = (ouMode: string, pageToPush: string = pathname) => {
         navigate(`${pageToPush}?${buildUrlQueryString({ ...restOfQueries, ouMode })}`);
@@ -12,5 +12,6 @@ export const useSetOuMode = () => {
 
     return {
         setOuMode,
+        ouMode: selectedOuMode ? String(selectedOuMode) : 'SELECTED',
     };
 };

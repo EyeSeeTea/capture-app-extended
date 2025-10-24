@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useContext, type ComponentType } from 'react';
 import log from 'loglevel';
 import { errorCreator } from 'capture-core-utils';
+import { useOuMode } from 'capture-core/components/ScopeSelector';
 import { withLoadingIndicator } from '../../../../HOC';
 import { ListViewUpdaterContext } from '../workingListsBase.context';
 import { ListViewBuilder } from '../ListViewBuilder';
 import { areFiltersEqual } from '../utils';
 import type { Props } from './listViewUpdater.types';
-import { useLocationQuery } from '../../../../utils/routing';
 
 const ListViewBuilderWithLoadingIndicator = withLoadingIndicator(() => ({ margin: 10, height: 60 }))(ListViewBuilder) as ComponentType<any>;
 
@@ -68,7 +68,7 @@ export const ListViewUpdater = (props: Props) => {
         loadedOrgUnitId,
     } = context;
 
-    const { ouMode = 'SELECTED' } = useLocationQuery();
+    const { ouMode } = useOuMode();
 
     const forceFirstRunUpdateRef = useRef(
         (forceUpdateOnMount || dirtyList || loadedOrgUnitId !== orgUnitId) &&

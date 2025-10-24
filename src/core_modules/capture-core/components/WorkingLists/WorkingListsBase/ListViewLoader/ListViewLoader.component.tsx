@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useContext, useEffect, useRef } from 'react';
-import { useLocationQuery } from 'capture-core/utils/routing';
+import { useOuMode } from 'capture-core/components/ScopeSelector';
 import { withLoadingIndicator, withErrorMessageHandler } from '../../../../HOC';
 import { ListViewUpdater } from '../ListViewUpdater';
 import { ListViewLoaderContext } from '../workingListsBase.context';
@@ -46,7 +46,7 @@ const useLoadView = ({
     const prevTemplateRef = useRef(undefined);
     const triggerLoadRef = useRef(true);
     const viewLoadedOnFirstRunRef = useRef(false);
-    const { ouMode = 'SELECTED' } = useLocationQuery();
+    const { ouMode } = useOuMode();
 
     const triggerLoad = useCalculateTriggerLoad({
         programId,

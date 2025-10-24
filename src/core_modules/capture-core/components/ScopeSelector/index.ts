@@ -6,7 +6,7 @@ export {
 export {
     useSetProgramId,
     useSetOrgUnitId,
-    useSetOuMode,
+    useOuMode,
     useSetEnrollmentId,
     useResetProgramId,
     useResetOrgUnitId,
