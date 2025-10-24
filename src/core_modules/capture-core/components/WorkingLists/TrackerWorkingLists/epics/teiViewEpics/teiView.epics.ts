@@ -17,10 +17,11 @@ export const initTeiViewEpic = (
         filter(({ payload: { workingListsType } }) => workingListsType === TRACKER_WORKING_LISTS_TYPE),
         concatMap((action) => {
             const { storeId, columnsMetaForDataFetching, filtersOnlyMetaForDataFetching, selectedTemplate } = action.payload;
-            const { programId, orgUnitId } = action.payload.context;
+            const { programId, orgUnitId, ouMode } = action.payload.context;
             return from(initTrackerWorkingListsViewAsync({
                 programId,
                 orgUnitId,
+                ouMode,
                 storeId,
                 selectedTemplate,
                 columnsMetaForDataFetching,
@@ -50,6 +51,7 @@ export const updateTeiListEpic = (
                 programId,
                 programStageId,
                 orgUnitId,
+                ouMode,
                 filters,
                 sortById,
                 sortByDirection,
@@ -61,6 +63,7 @@ export const updateTeiListEpic = (
                 programId,
                 programStageId,
                 orgUnitId,
+                ouMode,
                 filters,
                 sortById,
                 sortByDirection,
@@ -74,4 +77,3 @@ export const updateTeiListEpic = (
                 filter(cancelAction => cancelAction.payload.storeId === storeId),
             )));
         }));
-

@@ -4,6 +4,7 @@ import type { QuerySingleResource } from '../../../../../../utils/api';
 export type Input = {
     programId: string,
     orgUnitId: string,
+    ouMode: string,
     storeId: string,
     selectedTemplate: TrackerWorkingListsTemplate,
     columnsMetaForDataFetching: TeiColumnsMetaForDataFetching,

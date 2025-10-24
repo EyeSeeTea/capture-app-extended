@@ -16,6 +16,7 @@ export const updateTrackerWorkingListsRecords = ({
     programId,
     programStageId,
     orgUnitId,
+    ouMode,
     sortById,
     sortByDirection,
     storeId,
@@ -27,7 +28,7 @@ export const updateTrackerWorkingListsRecords = ({
 }: Input) => {
     const filters = buildFilterQueryArgs(filterSource, { columns: columnsMetaForDataFetching, filtersOnly: filtersOnlyMetaForDataFetching, storeId });
     const rawQueryArgs
-    = { programId, orgUnitId, pageSize, page, filters, sortById, sortByDirection };
+    = { programId, orgUnitId, ouMode, pageSize, page, filters, sortById, sortByDirection };
     const params = { columnsMetaForDataFetching, filtersOnlyMetaForDataFetching, querySingleResource, absoluteApiPath };
     const promiseToUpdateRecordsList = programStageId
         ? getEventListData({ ...rawQueryArgs, programStageId }, params)
