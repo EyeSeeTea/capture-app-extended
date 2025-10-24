@@ -32,6 +32,7 @@ export const ScopeSelector = ({
     children,
     isReadOnlyOrgUnit,
     orgUnitTooltip,
+    showOuModeSelection,
 }: OwnProps) => {
     const dispatch = useDispatch();
     const [selectedOrgUnit, setSelectedOrgUnit] = useState<{ name?: string; id?: string | null }>({ name: undefined, id: selectedOrgUnitId });
@@ -84,6 +85,7 @@ export const ScopeSelector = ({
             onStartAgain={onStartAgain}
             isReadOnlyOrgUnit={isReadOnlyOrgUnit}
             orgUnitTooltip={orgUnitTooltip}
+            showOuModeSelection={showOuModeSelection}
             ready={ready}
         >
             {children}

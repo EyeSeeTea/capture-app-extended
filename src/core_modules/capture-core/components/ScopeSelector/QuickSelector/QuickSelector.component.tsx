@@ -25,6 +25,7 @@ export const QuickSelector = ({
     onStartAgain,
     isReadOnlyOrgUnit,
     orgUnitTooltip,
+    showOuModeSelection,
 }: Props) => {
     const { setOuMode, ouMode } = useOuMode();
     return (<SelectorBar
@@ -54,11 +55,11 @@ export const QuickSelector = ({
             isReadOnly={isReadOnlyOrgUnit}
             tooltip={orgUnitTooltip}
         />
-        <OrgUnitModeSelector
+        {showOuModeSelection && <OrgUnitModeSelector
             onClickOuMode={setOuMode}
             selectedOuMode={ouMode}
             isReadOnly={!selectedOrgUnitId}
-        />
+        />}
         {children}
     </SelectorBar>);
 };
