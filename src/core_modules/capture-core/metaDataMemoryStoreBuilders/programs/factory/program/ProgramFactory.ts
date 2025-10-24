@@ -9,7 +9,6 @@ import {
     type TrackedEntityType,
     type Category,
 } from '../../../../metaData';
-import { getUserMetadataStorageController, USER_METADATA_STORES } from '../../../../storageControllers';
 import { SearchGroupFactory } from '../../../common/factory';
 import { buildIcon } from '../../../common/helpers';
 import { EnrollmentFactory } from '../enrollment';

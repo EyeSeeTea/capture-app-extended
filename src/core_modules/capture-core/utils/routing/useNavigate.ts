@@ -6,22 +6,17 @@ export const useNavigate = () => {
 
     const persistOuModeQueryParam = (path: string) => {
         const { ouMode } = getLocationQuery();
-        if (ouMode) {
-            const [pathname, queryString] = path.split('?');
+        if (!ouMode) return path;
 
-            if (queryString) {
-                const params = new URLSearchParams(queryString);
+        const [pathname, queryString] = path.split('?');
+        const params = new URLSearchParams(queryString);
 
-                if (!params.has('ouMode')) {
-                    params.set('ouMode', ouMode);
-                    return `${pathname}?${params.toString()}`;
-                }
-                return path;
-            }
-            return `${path}?ouMode=${ouMode}`;
+        if (!params.has('ouMode')) {
+            params.set('ouMode', ouMode);
+            return `${pathname}?${params.toString()}`;
         }
+        return path;
     };
-
 
     const navigate = (path: string, scrollToTop = true) => {
         history.push(persistOuModeQueryParam(path));
