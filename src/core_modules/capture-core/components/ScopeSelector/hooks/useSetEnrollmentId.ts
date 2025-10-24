@@ -11,7 +11,7 @@ export const useSetEnrollmentId = () => {
     const history = useHistory();
     const { navigate } = useNavigate();
     const { pathname } = useLocation();
-    const { programId, orgUnitId, teiId } = useLocationQuery();
+    const { programId, orgUnitId, teiId, ouMode } = useLocationQuery();
 
     const setEnrollmentId = ({ enrollmentId, pageToPush = pathname, shouldReplaceHistory }: SetEnrollmentIdParams) => {
         const url = `${pageToPush}?${buildUrlQueryString({
@@ -19,6 +19,7 @@ export const useSetEnrollmentId = () => {
             orgUnitId,
             teiId,
             enrollmentId,
+            ouMode,
         })}`;
         shouldReplaceHistory ? history.replace(url) : navigate(url);
     };

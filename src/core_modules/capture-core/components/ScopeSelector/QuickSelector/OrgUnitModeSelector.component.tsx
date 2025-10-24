@@ -10,13 +10,13 @@ const ouModeOptions = {
         value: 'SELECTED',
         label: i18n.t('Selected'),
     },
-    DESCENDANTS: {
-        value: 'DESCENDANTS',
-        label: i18n.t('Descendants'),
-    },
     CHILDREN: {
         value: 'CHILDREN',
         label: i18n.t('Children'),
+    },
+    DESCENDANTS: {
+        value: 'DESCENDANTS',
+        label: i18n.t('Descendants'),
     },
 };
 
