@@ -2,6 +2,7 @@ import { actionCreator } from '../../../../actions/actions.utils';
 
 export const actionTypes = {
     SET_ORG_UNIT_ID: 'setOrgUnitId',
+    SET_OU_MODE: 'setOuMode',
     SET_PROGRAM_ID: 'setProgramId',
     SET_CATEGORY_ID: 'setCategoryId',
     RESET_CATEGORY_SELECTIONS: 'resetCategorySelections',
@@ -12,6 +13,9 @@ export const actionTypes = {
 
 export const setOrgUnitId =
     (orgUnitId: string) => actionCreator(actionTypes.SET_ORG_UNIT_ID)(orgUnitId);
+
+export const setOuMode =
+  (ouMode: string) => actionCreator(actionTypes.SET_OU_MODE)(ouMode);
 
 export const setProgramId =
     (programId: string) => actionCreator(actionTypes.SET_PROGRAM_ID)(programId);

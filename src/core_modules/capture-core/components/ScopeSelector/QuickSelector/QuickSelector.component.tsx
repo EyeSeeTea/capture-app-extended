@@ -28,7 +28,7 @@ export const QuickSelector = ({
     orgUnitTooltip,
 }: Props) => {
     const { setOuMode } = useSetOuMode();
-    const { ouMode } = useLocationQuery();
+    const { ouMode = 'SELECTED' } = useLocationQuery();
     return (<SelectorBar
         disableClearSelections={!selectedProgramId && !selectedOrgUnitId}
         onClearSelectionClick={() => onStartAgain()}
@@ -36,6 +36,7 @@ export const QuickSelector = ({
         <ProgramSelector
             selectedProgramId={selectedProgramId}
             selectedOrgUnitId={selectedOrgUnitId}
+            selectedOuMode={ouMode}
             selectedCategories={selectedCategories}
             handleClickProgram={onSetProgramId}
             handleSetCatergoryCombo={onSetCategoryOption}

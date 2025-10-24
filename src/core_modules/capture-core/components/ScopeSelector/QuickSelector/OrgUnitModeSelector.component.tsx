@@ -31,7 +31,7 @@ const styles = () => ({
 
 type OwnProps = {
     onClickOuMode: (ouMode: string) => void;
-    selectedOuMode?: string;
+    selectedOuMode: string;
     isReadOnly?: boolean;
 };
 
@@ -54,11 +54,12 @@ class OrgUnitModeSelectorPlain extends Component<Props, State> {
 
     handleClick(selectedOuMode: string) {
         const { onClickOuMode } = this.props;
+        this.setState({ open: false });
         onClickOuMode && onClickOuMode(selectedOuMode);
     }
 
     render() {
-        const { isReadOnly, classes, selectedOuMode = 'SELECTED' } = this.props;
+        const { isReadOnly, classes, selectedOuMode } = this.props;
 
         return (
             <ConditionalTooltip
