@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { connect, shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { programCollection } from 'capture-core/metaDataMemoryStores/programCollection/programCollection';
+import { useOuMode } from 'capture-core/components/ScopeSelector';
 import { MainPageComponent } from './MainPage.component';
 import { withLoadingIndicator } from '../../../HOC';
 import { updateShowAccessibleStatus } from '../actions/crossPage.actions';
@@ -34,7 +35,8 @@ const mapStateToProps = (state: ReduxState) => ({
     ready: !state.activePage.lockedSelectorLoads,  // TODO: Should probably remove this
 });
 
-const handleChangeTemplateUrl = ({ programId, orgUnitId, selectedTemplateId, showAllAccessible, navigate }: {
+const handleChangeTemplateUrl = ({ ouMode, programId, orgUnitId, selectedTemplateId, showAllAccessible, navigate }: {
+    ouMode: string;
     programId: string;
     orgUnitId?: string;
     selectedTemplateId?: string;
@@ -43,8 +45,8 @@ const handleChangeTemplateUrl = ({ programId, orgUnitId, selectedTemplateId, sho
 }) => {
     if (orgUnitId) {
         selectedTemplateId
-            ? navigate(`/?${buildUrlQueryString({ orgUnitId, programId, selectedTemplateId })}`)
-            : navigate(`/?${buildUrlQueryString({ orgUnitId, programId })}`);
+            ? navigate(`/?${buildUrlQueryString({ orgUnitId, ouMode, programId, selectedTemplateId })}`)
+            : navigate(`/?${buildUrlQueryString({ orgUnitId, ouMode, programId })}`);
     }
     if (showAllAccessible) {
         selectedTemplateId
@@ -114,6 +116,7 @@ const useSelectorMainPage = () =>
     );
 
 const useCallbackMainPage = ({
+    ouMode,
     orgUnitId,
     programId,
     showAllAccessible,
@@ -121,6 +124,7 @@ const useCallbackMainPage = ({
     setShowBulkDataEntryPlugin,
     setBulkDataEntryTrackedEntityIds,
 }: {
+    ouMode: string;
     orgUnitId?: string;
     programId?: string;
     showAllAccessible: boolean;
@@ -129,8 +133,8 @@ const useCallbackMainPage = ({
     setBulkDataEntryTrackedEntityIds: (ids?: Array<string>) => void;
 }) => {
     const onChangeTemplate = useCallback(
-        (id?: string) => handleChangeTemplateUrl({ programId: programId || '', orgUnitId, selectedTemplateId: id, showAllAccessible, navigate }),
-        [navigate, orgUnitId, programId, showAllAccessible],
+        (id?: string) => handleChangeTemplateUrl({ programId: programId || '', orgUnitId, ouMode, selectedTemplateId: id, showAllAccessible, navigate }),
+        [navigate, orgUnitId, programId, showAllAccessible, ouMode],
     );
 
     const onSetShowAccessible = useCallback(
@@ -163,6 +167,7 @@ const MainPageContainer = () => {
     const dispatch = useDispatch();
     const { navigate } = useNavigate();
     const { all, programId, orgUnitId, selectedTemplateId } = useLocationQuery();
+    const { ouMode } = useOuMode();
     const showAllAccessible = all !== undefined;
 
     const {
@@ -191,6 +196,7 @@ const MainPageContainer = () => {
 
     const { onChangeTemplate, onSetShowAccessible, onCloseBulkDataEntryPlugin, onOpenBulkDataEntryPlugin } =
         useCallbackMainPage({
+            ouMode,
             orgUnitId,
             programId,
             showAllAccessible,
@@ -207,6 +213,7 @@ const MainPageContainer = () => {
         if (programId && trackedEntityTypeId && selectedTemplateId === undefined) {
             if (reduxSelectedTemplateId && workingListProgramId === programId) {
                 handleChangeTemplateUrl({
+                    ouMode,
                     programId,
                     orgUnitId,
                     selectedTemplateId: reduxSelectedTemplateId,
@@ -217,6 +224,7 @@ const MainPageContainer = () => {
             }
             if (!displayFrontPageList) return;
             handleChangeTemplateUrl({
+                ouMode,
                 programId,
                 orgUnitId,
                 selectedTemplateId: `${programId}-default`,
@@ -227,6 +235,7 @@ const MainPageContainer = () => {
     }, [
         selectedTemplateId,
         orgUnitId,
+        ouMode,
         programId,
         showAllAccessible,
         trackedEntityTypeId,
