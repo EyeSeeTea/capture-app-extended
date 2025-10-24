@@ -9,17 +9,16 @@ export function isProgramAccessible(
     if (!selectedOrgUnitId) return true;
 
     const orgUnits = program.organisationUnits || {};
+    const isSelectedOrgUnitInProgram = Boolean(orgUnits[selectedOrgUnitId]);
 
     switch (ouMode) {
     case 'DESCENDANTS':
-        return Object.keys(orgUnits).includes(selectedOrgUnitId) ||
-        Object.values(orgUnits).some(path =>
+        return isSelectedOrgUnitInProgram || Object.values(orgUnits).some(path =>
             String(path).includes(`/${selectedOrgUnitId}/`),
         );
 
     case 'CHILDREN':
-        return Object.keys(orgUnits).includes(selectedOrgUnitId) ||
-        Object.values(orgUnits).some((path) => {
+        return isSelectedOrgUnitInProgram || Object.values(orgUnits).some((path) => {
             const parts = String(path).split('/');
             const index = parts.indexOf(selectedOrgUnitId);
             return index !== -1 && parts.length === index + 2;
@@ -27,7 +26,6 @@ export function isProgramAccessible(
 
     case 'SELECTED':
     default:
-        // Only the selected org unit
-        return Object.keys(orgUnits).includes(selectedOrgUnitId);
+        return isSelectedOrgUnitInProgram;
     }
 }
