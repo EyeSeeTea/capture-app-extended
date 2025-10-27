@@ -35,7 +35,7 @@ export const QuickSelector = ({
         <ProgramSelector
             selectedProgramId={selectedProgramId}
             selectedOrgUnitId={selectedOrgUnitId}
-            selectedOuMode={ouMode}
+            selectedOuMode={showOuModeSelection && ouMode}
             selectedCategories={selectedCategories}
             handleClickProgram={onSetProgramId}
             handleSetCatergoryCombo={onSetCategoryOption}
