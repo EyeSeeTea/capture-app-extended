@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ExtendedFiltersConfig } from 'capture-core/extended/filtersConfig.types';
 import { FiltersRows } from '../Filters';
 import type { Columns, FiltersOnly, AdditionalFilters, UpdateFilter, ClearFilter, RemoveFilter, StickyFilters } from '../types';
 
@@ -12,6 +13,7 @@ type Props = {
     onSelectRestMenuItem: (filterId: string, item: any) => void;
     stickyFilters: StickyFilters,
     programStageId?: string,
+    filtersConfig: ExtendedFiltersConfig;
 };
 
 export const withFilters = () => <P extends Record<string, unknown>>(InnerComponent: React.ComponentType<P>) =>
@@ -19,6 +21,7 @@ export const withFilters = () => <P extends Record<string, unknown>>(InnerCompon
         columns,
         filtersOnly,
         additionalFilters,
+        filtersConfig,
         onUpdateFilter,
         onClearFilter,
         onRemoveFilter,
@@ -30,6 +33,9 @@ export const withFilters = () => <P extends Record<string, unknown>>(InnerCompon
         <InnerComponent
             {...passOnProps as unknown as P}
             columns={columns}
+            filtersOnly={filtersOnly}
+            additionalFilters={additionalFilters}
+            filtersConfig={filtersConfig}
             filters={
                 <FiltersRows
                     columns={columns}
@@ -41,6 +47,7 @@ export const withFilters = () => <P extends Record<string, unknown>>(InnerCompon
                     onRemoveFilter={onRemoveFilter}
                     onSelectRestMenuItem={onSelectRestMenuItem}
                     stickyFilters={stickyFilters}
+                    filtersConfig={filtersConfig}
                 />}
         />
     );

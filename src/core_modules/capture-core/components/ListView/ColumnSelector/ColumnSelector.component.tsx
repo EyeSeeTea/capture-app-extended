@@ -2,12 +2,14 @@ import * as React from 'react';
 import { IconButton } from 'capture-ui';
 import { IconSettings24, Tooltip } from '@dhis2/ui';
 import i18n from '@dhis2/d2-i18n';
+import { ExtendedFilters } from 'capture-core/extended/filtersConfig.types';
 import { ColumnSelectorDialog } from './ColumnSelectorDialog.component';
-import type { Columns } from '../types';
+import { Columns } from '../types';
 
 type Props = {
-    onSave: (columns: Columns) => void;
+    onSave: (columns: Columns, defaultFilters?: ExtendedFilters) => void;
     columns: Columns;
+    defaultFilters?: ExtendedFilters;
 };
 
 type State = {
@@ -34,8 +36,8 @@ export class ColumnSelector extends React.PureComponent<Props, State> {
         });
     }
 
-    handleSaveColumns = (columns: Columns) => {
-        this.props.onSave(columns);
+    handleSave = (columns: Columns, defaultFilters?: ExtendedFilters) => {
+        this.props.onSave(columns, defaultFilters);
         this.closeDialog();
     }
 
@@ -57,8 +59,9 @@ export class ColumnSelector extends React.PureComponent<Props, State> {
                 <ColumnSelectorDialog
                     open={this.state.dialogOpen}
                     onClose={this.closeDialog}
-                    onSave={this.handleSaveColumns}
+                    onSave={this.handleSave}
                     columns={columns}
+                    defaultFilters={this.props.defaultFilters}
                 />
             </React.Fragment>
         );

@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+import { ExtendedFiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig.types';
 import type { dataElementTypes } from '../../../metaData';
 import type {
     AdditionalFilters,
@@ -194,6 +195,7 @@ export type InterfaceProps = Readonly<{
     customUpdateTrigger?: any,
     dataSource?: DataSource,
     filters?: FiltersData,
+    filtersConfig: ExtendedFiltersConfig,
     filtersOnly?: FiltersOnly,
     additionalFilters?: AdditionalFilters,
     forceUpdateOnMount?: boolean,
@@ -216,6 +218,7 @@ export type InterfaceProps = Readonly<{
     onSelectRestMenuItem: SelectRestMenuItem,
     onSelectTemplate: SelectTemplate,
     onSetListColumnOrder: SetColumnOrder,
+    onSetFiltersConfig: SetFiltersConfig,
     onSetTemplateSharingSettings?: SetTemplateSharingSettings,
     onSortList: Sort,
     onUnloadingContext?: UnloadingContext,

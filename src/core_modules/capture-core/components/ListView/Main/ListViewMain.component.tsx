@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { spacers } from '@dhis2/ui';
 import { withStyles, type WithStyles } from '@material-ui/core/styles';
+import { getFiltersWithFiltersConfig } from 'capture-core/extended/filterHelper';
+import { Columns } from 'capture-core/components/ListView';
+import { ExtendedFilters, ExtendedFiltersConfig } from 'capture-core/extended/filtersConfig.types';
 import { withFilters } from './withFilters';
 import { ListPagination } from '../Pagination';
 import { ColumnSelector } from '../ColumnSelector';
@@ -46,14 +49,38 @@ class ListViewMainPlain extends React.PureComponent<Props & WithStyles<typeof ge
     renderTopBar = () => {
         const {
             classes,
+            filtersOnly,
+            additionalFilters,
+            filtersConfig,
             filters,
             columns,
             customMenuContents,
             customTopBarActions,
             onSetColumnOrder,
+            onSetFiltersConfig,
             isSelectionInProgress,
             bulkActionBarComponent,
         } = this.props;
+
+        const defaultFilters = getFiltersWithFiltersConfig(
+            [...(filtersOnly || []), ...(additionalFilters || [])],
+            filtersConfig,
+        );
+
+        const onSaveColumnSelector = (columnsToSave: Columns, defaultFiltersToSave?: ExtendedFilters) => {
+            onSetColumnOrder(columnsToSave);
+            if (defaultFiltersToSave) {
+                const filtersConfigToSave = defaultFiltersToSave.reduce((acc, filter) => {
+                    if (filter.hidden) {
+                        acc[filter.id] = {
+                            hidden: true,
+                        };
+                    }
+                    return acc;
+                }, {} as ExtendedFiltersConfig);
+                onSetFiltersConfig(filtersConfigToSave);
+            }
+        };
 
         if (isSelectionInProgress) {
             return bulkActionBarComponent;
@@ -75,8 +102,9 @@ class ListViewMainPlain extends React.PureComponent<Props & WithStyles<typeof ge
                 >
                     <Actions customTopBarActions={customTopBarActions} />
                     <ColumnSelector
-                        onSave={onSetColumnOrder}
+                        onSave={onSaveColumnSelector}
                         columns={columns}
+                        defaultFilters={defaultFilters}
                     />
                     <ListViewMenu
                         customMenuContents={customMenuContents}

@@ -2,6 +2,8 @@ import * as React from 'react';
 import i18n from '@dhis2/d2-i18n';
 import { colors, spacersNum } from '@dhis2/ui';
 import { withStyles, type WithStyles } from '@material-ui/core/styles';
+import { ExtendedFiltersConfig } from 'capture-core/extended/filtersConfig.types';
+import { hideFilter } from 'capture-core/extended/filterHelper';
 import { Filters } from './Filters.component';
 import type { Column, FiltersOnly, AdditionalFilters, UpdateFilter, ClearFilter, RemoveFilter, StickyFilters } from '../types';
 
@@ -38,6 +40,7 @@ type Props = {
     }>;
     filtersOnly?: FiltersOnly;
     additionalFilters?: AdditionalFilters;
+    filtersConfig: ExtendedFiltersConfig;
     onUpdateFilter: UpdateFilter;
     onClearFilter: ClearFilter;
     onRemoveFilter: RemoveFilter;
@@ -51,6 +54,7 @@ export const FiltersRowsPlain = ({
     columns,
     filtersOnly,
     additionalFilters,
+    filtersConfig,
     onUpdateFilter,
     onClearFilter,
     onRemoveFilter,
@@ -64,12 +68,13 @@ export const FiltersRowsPlain = ({
         <div className={classes.filtersButtons}>
             <Filters
                 columns={columns.filter(item => !item.additionalColumn)}
-                filtersOnly={filtersOnly}
+                filtersOnly={filtersOnly?.filter(hideFilter(filtersConfig))}
                 additionalFilters={additionalFilters}
                 onUpdateFilter={onUpdateFilter}
                 onClearFilter={onClearFilter}
                 onSelectRestMenuItem={onSelectRestMenuItem}
                 stickyFilters={stickyFilters}
+                filtersConfig={filtersConfig}
             />
         </div>
         {shouldRenderAdditionalFiltersButtons && (
@@ -80,7 +85,7 @@ export const FiltersRowsPlain = ({
                     <div className={classes.break} />
                     <Filters
                         columns={columns.filter(item => item.additionalColumn)}
-                        filtersOnly={additionalFilters}
+                        filtersOnly={additionalFilters?.filter(hideFilter(filtersConfig))}
                         onUpdateFilter={onUpdateFilter}
                         onClearFilter={onClearFilter}
                         onSelectRestMenuItem={onSelectRestMenuItem}

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-10-24T10:10:31.415Z\n"
-"PO-Revision-Date: 2025-10-24T10:10:31.415Z\n"
+"POT-Creation-Date: 2025-10-29T00:57:07.012Z\n"
+"PO-Revision-Date: 2025-10-29T00:57:07.012Z\n"
 
 msgid "Choose one or more dates..."
 msgstr "Choose one or more dates..."
@@ -552,6 +552,12 @@ msgstr "No items to display"
 msgid "Select columns"
 msgstr "Select columns"
 
+msgid "Columns"
+msgstr "Columns"
+
+msgid "Filters"
+msgstr "Filters"
+
 msgid "Columns to show in table"
 msgstr "Columns to show in table"
 
@@ -560,6 +566,9 @@ msgstr "Column"
 
 msgid "Visible"
 msgstr "Visible"
+
+msgid "Default filters to hide"
+msgstr "Default filters to hide"
 
 msgid "Update"
 msgstr "Update"

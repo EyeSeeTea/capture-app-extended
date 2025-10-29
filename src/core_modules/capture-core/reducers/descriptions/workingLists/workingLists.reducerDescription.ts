@@ -1,4 +1,7 @@
 import moment from 'moment';
+import {
+    extendedWorkingListsCommonActionTypes,
+} from 'capture-core/extended/workingListCommon/workingList.extended';
 import { createReducerDescription } from '../../../trackerRedux/trackerReducer';
 import { workingListsCommonActionTypes } from '../../../components/WorkingLists/WorkingListsCommon';
 import { eventWorkingListsActionTypes } from '../../../components/WorkingLists/EventWorkingLists';
@@ -524,6 +527,25 @@ export const workingListsColumnsOrderDesc = createReducerDescription({
         return newState;
     },
 }, 'workingListsColumnsOrder');
+
+export const workingListsFiltersConfigDesc = createReducerDescription({
+    [workingListsCommonActionTypes.LIST_VIEW_INIT_SUCCESS]: (state, action) => {
+        const { storeId, config } = action.payload;
+        const filtersConfig = config.extended_filtersConfig;
+        return {
+            ...state,
+            [storeId]: filtersConfig,
+        };
+    },
+    [extendedWorkingListsCommonActionTypes.FILTERS_CONFIG_SET]: (state, action) => {
+        const { filtersConfig, storeId } = action.payload;
+
+        return {
+            ...state,
+            [storeId]: filtersConfig,
+        };
+    },
+}, 'workingListsFiltersConfig');
 
 export const workingListsContextDesc = createReducerDescription({
     /*
