@@ -38,6 +38,9 @@ export const initEventListEpic = (
                 ...(selectedTemplate.nextCriteria || selectedTemplate.criteria),
                 ...lockedFilters,
             };
+
+            const filtersConfig = selectedTemplate.filtersConfig;
+
             const orgUnitModeQueryParam = featureAvailable(FEATURES.newOrgUnitModeQueryParam)
                 ? 'orgUnitMode'
                 : 'ouMode';
@@ -55,6 +58,7 @@ export const initEventListEpic = (
                         categoryCombinationId,
                         storeId,
                         lastTransaction,
+                        filtersConfig,
                     },
                     absoluteApiPath,
                     querySingleResource);

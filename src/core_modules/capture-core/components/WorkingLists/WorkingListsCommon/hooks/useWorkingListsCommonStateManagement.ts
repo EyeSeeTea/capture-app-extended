@@ -3,7 +3,7 @@ import { useMemo, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import type { ReduxDispatch } from 'capture-core/components/App/withAppUrlSync.types';
 import { setFiltersConfig } from 'capture-core/extended/workingListCommon/workingList.extended';
-import { ExtendedFiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig.types';
+import { FiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig.types';
 import {
     selectTemplate,
     addTemplate,
@@ -247,7 +247,7 @@ const useView = (
         onSortList: (sortById: string, sortByDirection: string) => dispatch(sortList(sortById, sortByDirection, storeId)),
         onSetListColumnOrder: (columnOrder: any) => dispatch(setListColumnOrder(columnOrder, storeId)),
         onResetListColumnOrder: () => dispatch(resetListColumnOrder(storeId)),
-        onSetFiltersConfig: (filtersConfig: ExtendedFiltersConfig) => dispatch(setFiltersConfig(filtersConfig, storeId)),
+        onSetFiltersConfig: (filtersConfig: FiltersConfig) => dispatch(setFiltersConfig(filtersConfig, storeId)),
         onUpdateFilter: (filterId: string, filterValue: any) => dispatch(setFilter(filterId, filterValue, storeId)),
         onRemoveFilter: (filterId: string, filterValue: any) => dispatch(removeFilter(filterId, filterValue, storeId)),
         onClearFilter: (filterId: string) => dispatch(clearFilter(filterId, storeId)),

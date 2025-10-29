@@ -3,7 +3,7 @@ import { spacers } from '@dhis2/ui';
 import { withStyles, type WithStyles } from '@material-ui/core/styles';
 import { getFiltersWithFiltersConfig } from 'capture-core/extended/filterHelper';
 import { Columns } from 'capture-core/components/ListView';
-import { ExtendedFilters, ExtendedFiltersConfig } from 'capture-core/extended/filtersConfig.types';
+import { FiltersWithConfig, FiltersConfig } from 'capture-core/extended/filtersConfig.types';
 import { withFilters } from './withFilters';
 import { ListPagination } from '../Pagination';
 import { ColumnSelector } from '../ColumnSelector';
@@ -71,7 +71,7 @@ class ListViewMainPlain extends React.PureComponent<Props & WithStyles<typeof ge
             filtersConfig,
         );
 
-        const onSaveColumnSelector = (columnsToSave: Columns, defaultFiltersToSave?: ExtendedFilters) => {
+        const onSaveColumnSelector = (columnsToSave: Columns, defaultFiltersToSave?: FiltersWithConfig) => {
             onSetColumnOrder(columnsToSave);
             if (defaultFiltersToSave) {
                 const filtersConfigToSave = defaultFiltersToSave.reduce((acc, filter) => {
@@ -81,7 +81,7 @@ class ListViewMainPlain extends React.PureComponent<Props & WithStyles<typeof ge
                         };
                     }
                     return acc;
-                }, {} as ExtendedFiltersConfig);
+                }, {} as FiltersConfig);
                 onClearFilters(Object.keys(filtersConfigToSave));
                 onSetFiltersConfig(filtersConfigToSave);
             }

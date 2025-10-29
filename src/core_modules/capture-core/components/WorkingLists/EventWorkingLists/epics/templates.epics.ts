@@ -4,6 +4,11 @@ import { errorCreator } from 'capture-core-utils';
 import { ofType } from 'redux-observable';
 import { concatMap, filter, takeUntil } from 'rxjs/operators';
 import { from } from 'rxjs';
+import {
+    getTemplateExtendedProps,
+    saveTemplateExtendedProps,
+    templateExtendedPropType,
+} from 'capture-core/extended/dataStoreTemplateExtendedProps';
 import type { EpicAction, ReduxStore, ApiUtils } from '../../../../../capture-core-utils/types/global';
 import {
     workingListsCommonActionTypes,
@@ -29,6 +34,16 @@ export const retrieveTemplatesEpic = (
         filter(({ payload: { workingListsType } }) => workingListsType === SINGLE_EVENT_WORKING_LISTS_TYPE),
         concatMap(({ payload: { storeId, programId, mainViewConfig } }) => {
             const promise = getTemplates(programId, querySingleResource, mainViewConfig)
+                .then(({ templates, defaultTemplateId }) => getTemplateExtendedProps(querySingleResource, templateExtendedPropType.event).then((extendedTemplates) => {
+                    const updateTemplates = templates.map((template) => {
+                        const extendedProps = extendedTemplates[template.id] || {};
+                        return {
+                            ...template,
+                            ...extendedProps,
+                        };
+                    });
+                    return { templates: updateTemplates, defaultTemplateId };
+                }))
                 .then(({ templates, defaultTemplateId }) =>
                     fetchTemplatesSuccess(templates, defaultTemplateId, storeId))
                 .catch((error) => {
@@ -52,6 +67,7 @@ export const updateTemplateEpic = (
     action$: EpicAction<any>,
     store: ReduxStore, {
         mutate,
+        querySingleResource,
     }: ApiUtils) =>
     action$.pipe(
         ofType(workingListsCommonActionTypes.TEMPLATE_UPDATE),
@@ -70,6 +86,8 @@ export const updateTemplateEpic = (
             programId,
             storeId,
         } }: any) => {
+            const filtersConfig = store.value.workingListsFiltersConfig?.[storeId];
+
             const eventFilterData = {
                 name,
                 program: programId,
@@ -86,17 +104,26 @@ export const updateTemplateEpic = (
                 id,
                 data: eventFilterData,
                 type: 'replace',
-            }).then(() => {
-                const isActiveTemplate =
+            })
+                .then(() =>
+                    saveTemplateExtendedProps({ querySingleResource,
+                        mutate,
+                        type: templateExtendedPropType.event,
+                        config: {
+                            [id]: { filtersConfig },
+                        } }),
+                )
+                .then(() => {
+                    const isActiveTemplate =
                     store.value.workingListsTemplates[storeId].selectedTemplateId === id;
 
-                return updateTemplateSuccess(
-                    id,
-                    eventQueryCriteria, {
-                        storeId,
-                        isActiveTemplate,
-                    });
-            })
+                    return updateTemplateSuccess(
+                        id,
+                        eventQueryCriteria, {
+                            storeId,
+                            isActiveTemplate,
+                        });
+                })
                 .catch((error) => {
                     log.error(
                         errorCreator('could not update template')({

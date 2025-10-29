@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ExtendedFiltersConfig } from 'capture-core/extended/filtersConfig.types';
+import { FiltersConfig } from 'capture-core/extended/filtersConfig.types';
 import { FiltersRowsComponent } from './FiltersRows.component';
 import type { Column, FiltersOnly, AdditionalFilters, UpdateFilter, ClearFilter, RemoveFilter, StickyFilters } from '../types';
 
@@ -13,7 +13,7 @@ type Props = {
     onRemoveFilter: RemoveFilter,
     onSelectRestMenuItem: (filterId: string, item: any) => void,
     stickyFilters: StickyFilters,
-    filtersConfig: ExtendedFiltersConfig
+    filtersConfig: FiltersConfig
 };
 
 const useAdditionalFiltersButtons = ({ additionalFilters, stickyFilters, filterHasValue }) => {

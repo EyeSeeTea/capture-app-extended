@@ -2,7 +2,7 @@ import * as React from 'react';
 import i18n from '@dhis2/d2-i18n';
 import { colors, spacersNum } from '@dhis2/ui';
 import { withStyles, type WithStyles } from '@material-ui/core/styles';
-import { ExtendedFiltersConfig } from 'capture-core/extended/filtersConfig.types';
+import { FiltersConfig } from 'capture-core/extended/filtersConfig.types';
 import { hiddenFilters } from 'capture-core/extended/filterHelper';
 import { Filters } from './Filters.component';
 import type { Column, FiltersOnly, AdditionalFilters, UpdateFilter, ClearFilter, RemoveFilter, StickyFilters } from '../types';
@@ -40,7 +40,7 @@ type Props = {
     }>;
     filtersOnly?: FiltersOnly;
     additionalFilters?: AdditionalFilters;
-    filtersConfig: ExtendedFiltersConfig;
+    filtersConfig: FiltersConfig;
     onUpdateFilter: UpdateFilter;
     onClearFilter: ClearFilter;
     onRemoveFilter: RemoveFilter;

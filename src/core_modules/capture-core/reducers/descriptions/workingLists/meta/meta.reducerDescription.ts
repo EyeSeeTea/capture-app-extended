@@ -79,19 +79,21 @@ export const workingListsMetaDesc = createReducerDescription({
         return newState;
     },
     [workingListsCommonActionTypes.TEMPLATE_UPDATE]: (state, action) => {
-        const { visibleColumnIds, filters, sortById, sortByDirection, storeId } = action.payload;
+        const { visibleColumnIds, filters, sortById, sortByDirection, storeId, filtersConfig } = action.payload;
 
         const nextInitial = {
             filters,
             sortById,
             sortByDirection,
             customVisibleColumnIds: visibleColumnIds,
+            filtersConfig,
         };
 
         return {
             ...state,
             [storeId]: {
                 ...state[storeId],
+                filtersConfig,
                 nextInitial,
             },
         };

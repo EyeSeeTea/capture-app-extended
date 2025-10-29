@@ -1,5 +1,5 @@
 import { compact, isEqual } from 'lodash';
-import { BaseFilter, ExtendedFilters, ExtendedFiltersConfig } from 'capture-core/extended/filtersConfig.types';
+import { BaseFilter, FiltersWithConfig, FiltersConfig } from 'capture-core/extended/filtersConfig.types';
 
 export const defaultFilters = [
     'programStatus',
@@ -10,7 +10,7 @@ export const defaultFilters = [
     'occurredAt', // event program
 ];
 
-export function getFiltersWithFiltersConfig(filters: ExtendedFilters, filtersConfig: ExtendedFiltersConfig): ExtendedFilters {
+export function getFiltersWithFiltersConfig(filters: FiltersWithConfig, filtersConfig: FiltersConfig): FiltersWithConfig {
     return compact(filters.map((filter) => {
         const filterConfig = filtersConfig[filter.id] || {};
 
@@ -24,13 +24,13 @@ export function getFiltersWithFiltersConfig(filters: ExtendedFilters, filtersCon
     }));
 }
 
-export function hiddenFilters(filtersConfig: ExtendedFiltersConfig) {
+export function hiddenFilters(filtersConfig: FiltersConfig) {
     return (filter: BaseFilter) => {
         const filterConfig = filtersConfig[filter.id];
         return !filterConfig || !filterConfig.hidden;
     };
 }
 
-export function areFilterConfigsEqual(initial: ExtendedFiltersConfig, updated: ExtendedFiltersConfig) {
+export function areFilterConfigsEqual(initial: FiltersConfig, updated: FiltersConfig) {
     return isEqual(initial, updated);
 }

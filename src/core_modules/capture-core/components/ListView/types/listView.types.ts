@@ -1,5 +1,5 @@
 import type { ReactNode, ReactElement } from 'react';
-import { ExtendedFiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig.types';
+import { FiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig.types';
 import type { dataElementTypes } from '../../../metaData';
 import type { FilterData, Options } from '../../FiltersForTypes';
 
@@ -103,7 +103,7 @@ export type InterfaceProps = {
     customTopBarActions?: CustomTopBarActions;
     dataSource: DataSource;
     filters: FiltersData;
-    filtersConfig: ExtendedFiltersConfig;
+    filtersConfig: FiltersConfig;
     onChangePage: ChangePage;
     onChangeRowsPerPage: ChangeRowsPerPage;
     onClearFilter: ClearFilter;

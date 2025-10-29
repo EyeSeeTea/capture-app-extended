@@ -174,7 +174,7 @@ export const TrackerWorkingListsSetup = ({
                 programId: program.id,
                 programStageId,
             });
-            onUpdateTemplate(template, criteria, data);
+            onUpdateTemplate(template, criteria, { ...data, filtersConfig });
         },
         [
             onUpdateTemplate,
@@ -186,6 +186,7 @@ export const TrackerWorkingListsSetup = ({
             sortByDirection,
             program.id,
             programStageId,
+            filtersConfig,
         ],
     );
 

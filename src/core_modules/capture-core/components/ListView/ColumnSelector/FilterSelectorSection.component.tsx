@@ -10,11 +10,11 @@ import {
     TableHead,
 } from '@dhis2/ui';
 import i18n from '@dhis2/d2-i18n';
-import { ExtendedFilters } from 'capture-core/extended/filtersConfig.types';
+import { FiltersWithConfig } from 'capture-core/extended/filtersConfig.types';
 
 type Props = {
   handleToggle: (id: string) => () => any;
-  defaultFilters: ExtendedFilters;
+  defaultFilters: FiltersWithConfig;
 }
 
 export const FilterSelectorSection = ({ defaultFilters, handleToggle }: Props) => (<>

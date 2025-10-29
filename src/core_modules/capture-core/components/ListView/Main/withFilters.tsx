@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ExtendedFiltersConfig } from 'capture-core/extended/filtersConfig.types';
+import { FiltersConfig } from 'capture-core/extended/filtersConfig.types';
 import { FiltersRows } from '../Filters';
 import type { Columns, FiltersOnly, AdditionalFilters, UpdateFilter, ClearFilter, RemoveFilter, StickyFilters } from '../types';
 
@@ -13,7 +13,7 @@ type Props = {
     onSelectRestMenuItem: (filterId: string, item: any) => void;
     stickyFilters: StickyFilters,
     programStageId?: string,
-    filtersConfig: ExtendedFiltersConfig;
+    filtersConfig: FiltersConfig;
 };
 
 export const withFilters = () => <P extends Record<string, unknown>>(InnerComponent: React.ComponentType<P>) =>

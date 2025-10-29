@@ -2,12 +2,16 @@ type FilterConfig = {
   hidden?: boolean;
 };
 
-export type ExtendedFiltersConfig = Record<string, FilterConfig>;
+export type FiltersConfig = Record<string, FilterConfig>;
+export type ExtendedTemplate = {
+  filtersConfig: FiltersConfig;
+};
+export type ExtendedTemplates = Record<string, ExtendedTemplate>;
 
 export type BaseFilter = {
   id: string;
   header: string;
 }
-export type ExtendedFilters = Array<FilterConfig & BaseFilter>;
+export type FiltersWithConfig = Array<FilterConfig & BaseFilter>;
 
-export type SetFiltersConfig = (filtersConfig: ExtendedFiltersConfig) => void;
+export type SetFiltersConfig = (filtersConfig: FiltersConfig) => void;

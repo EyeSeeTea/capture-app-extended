@@ -13,16 +13,16 @@ import {
 import i18n from '@dhis2/d2-i18n';
 
 import { FilterSelectorSection } from 'capture-core/components/ListView/ColumnSelector/FilterSelectorSection.component';
-import { ExtendedFilters } from 'capture-core/extended/filtersConfig.types';
+import { FiltersWithConfig } from 'capture-core/extended/filtersConfig.types';
 import { DragDropList } from './DragDropList';
 import { Columns } from '../types';
 
 type Props = {
     open: boolean | null;
     onClose: () => void;
-    onSave: (columns: Columns, defaultFilters?: ExtendedFilters) => void;
+    onSave: (columns: Columns, defaultFilters?: FiltersWithConfig) => void;
     columns: Columns;
-    defaultFilters: ExtendedFilters
+    defaultFilters: FiltersWithConfig
 
 };
 
