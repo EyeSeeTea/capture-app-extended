@@ -18,10 +18,15 @@ type DeleteTemplateExtendedProps = {
 
 export const templateExtendedPropType = {
     event: 'extended_eventFilter',
-    tei: 'extended_trackedEntityFilter',
-    programStage: 'extended_programStageWorkingList',
+    tracker: 'extended_trackerFilter',
 } as const;
 type TemplateExtendedPropType = typeof templateExtendedPropType[keyof typeof templateExtendedPropType];
+
+export const getTemplateExtendedProps = async (querySingleResource: QuerySingleResource, type: TemplateExtendedPropType) => getFiltersConfig(querySingleResource, type);
+
+export const saveTemplateExtendedProps = async (props: SaveTemplateExtendedProps) => saveFiltersConfig(props);
+
+export const deleteTemplateExtendedProps = async (props: DeleteTemplateExtendedProps) => deleteFiltersConfig(props);
 
 async function getFiltersConfig(querySingleResource: QuerySingleResource, type: TemplateExtendedPropType) {
     try {
@@ -35,29 +40,22 @@ async function getFiltersConfig(querySingleResource: QuerySingleResource, type: 
     }
 }
 
-export const saveTemplateExtendedProps = async (props: SaveTemplateExtendedProps) => saveFiltersConfig(props);
-
-export const deleteTemplateExtendedProps = async (props: DeleteTemplateExtendedProps) => deleteFiltersConfig(props);
-
-export const getTemplateExtendedProps = async (querySingleResource: QuerySingleResource, type: TemplateExtendedPropType) => await getFiltersConfig(querySingleResource, type);
-
 async function saveFiltersConfig({
     mutate,
     querySingleResource,
     type,
     config,
 }: SaveTemplateExtendedProps) {
-    let storedValue = {};
+    let storedValue;
 
     try {
         storedValue = await getFiltersConfig(querySingleResource, type);
     } catch (e) {
         console.log('saveFiltersConfig - Error getting existing config, using empty object:', e);
-        storedValue = {};
     }
 
     const payload = {
-        ...storedValue,
+        ...(storedValue || {}),
         ...config,
     };
 
@@ -65,7 +63,7 @@ async function saveFiltersConfig({
         const apiRes = await mutate({
             resource: `dataStore/capture/${type}`,
             data: payload,
-            type: Object.keys(storedValue).length > 0 ? 'update' : 'create',
+            type: storedValue ? 'update' : 'create',
         });
         return apiRes;
     } catch (e) {

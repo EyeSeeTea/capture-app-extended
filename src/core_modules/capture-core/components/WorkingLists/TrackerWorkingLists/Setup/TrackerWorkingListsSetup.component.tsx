@@ -86,7 +86,7 @@ export const TrackerWorkingListsSetup = ({
         sortById,
         sortByDirection,
         isDefaultTemplateAltered: storedTemplates?.find(template => template.isDefault)?.isAltered,
-    }) || !areFilterConfigsEqual(currentTemplate.extended_filtersConfig || {}, filtersConfig);
+    }) || !areFilterConfigsEqual(currentTemplate.filtersConfig || {}, filtersConfig);
 
     useEffect(() => {
         const viewHasProgramStageChanges = viewHasChanges && programStageId !== prevProgramStageId.current;

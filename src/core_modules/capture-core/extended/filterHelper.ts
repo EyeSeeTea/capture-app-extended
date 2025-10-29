@@ -32,5 +32,6 @@ export function hiddenFilters(filtersConfig: FiltersConfig) {
 }
 
 export function areFilterConfigsEqual(initial: FiltersConfig, updated: FiltersConfig) {
+    console.log('areFilterConfigsEqual', initial, updated);
     return isEqual(initial, updated);
 }

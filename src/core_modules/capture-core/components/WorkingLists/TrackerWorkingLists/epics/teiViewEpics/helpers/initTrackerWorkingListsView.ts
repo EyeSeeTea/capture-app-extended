@@ -27,6 +27,7 @@ export const initTrackerWorkingListsViewAsync = async ({
         columnsMetaForDataFetching,
         querySingleResource,
     );
+    console.log('initTrackerWorkingListsViewAsync', selectedTemplate);
     const { currentPage, rowsPerPage, sortById, sortByDirection, filters, customColumnOrder } = clientConfig;
     const apiFilters = buildFilterQueryArgs(filters, {
         columns: columnsMetaForDataFetching,
@@ -69,6 +70,7 @@ export const initTrackerWorkingListsViewAsync = async ({
                         orgUnitId,
                     },
                     customColumnOrder,
+                    filtersConfig: selectedTemplate.filtersConfig,
                 },
                 context: {
                     programStageId,

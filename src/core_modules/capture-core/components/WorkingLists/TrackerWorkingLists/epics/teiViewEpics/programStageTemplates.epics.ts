@@ -4,6 +4,11 @@ import { batchActions } from 'redux-batched-actions';
 import { errorCreator } from 'capture-core-utils';
 import { ofType } from 'redux-observable';
 import { concatMap, filter, takeUntil } from 'rxjs/operators';
+import {
+    deleteTemplateExtendedProps,
+    saveTemplateExtendedProps,
+    templateExtendedPropType,
+} from 'capture-core/extended/dataStoreTemplateExtendedProps';
 import type { ReduxStore, ApiUtils, EpicAction } from '../../../../../../capture-core-utils/types';
 import {
     addTemplateError,
@@ -20,7 +25,13 @@ import { TRACKER_WORKING_LISTS_TYPE } from '../../constants';
 import { getLocationQuery } from '../../../../../utils/routing';
 import { getDefaultTemplate } from '../../helpers';
 
-export const addProgramStageTemplateEpic = (action$: EpicAction<any>, store: ReduxStore, { mutate }: ApiUtils) =>
+export const addProgramStageTemplateEpic = (
+    action$: EpicAction<any>,
+    store: ReduxStore,
+    {
+        mutate,
+        querySingleResource,
+    }: ApiUtils) =>
     action$.pipe(
         ofType(workingListsCommonActionTypes.TEMPLATE_ADD),
         filter(
@@ -52,6 +63,8 @@ export const addProgramStageTemplateEpic = (action$: EpicAction<any>, store: Red
                 callBacks: { onChangeTemplate },
             } = action.payload;
 
+            const filtersConfig = store.value.workingListsFiltersConfig?.[storeId];
+
             const programStageWorkingLists = {
                 name,
                 program,
@@ -77,13 +90,20 @@ export const addProgramStageTemplateEpic = (action$: EpicAction<any>, store: Red
                 resource: 'programStageWorkingLists',
                 type: 'create',
                 data: programStageWorkingLists,
-            })
+            }).then(result =>
+                saveTemplateExtendedProps({ querySingleResource,
+                    mutate,
+                    type: templateExtendedPropType.tracker,
+                    config: {
+                        [result.response.uid]: { filtersConfig },
+                    } }).then(() => result),
+            )
                 .then((result) => {
                     const isActiveTemplate = store.value.workingListsTemplates[storeId].selectedTemplateId === clientId;
                     onChangeTemplate && onChangeTemplate(result.response.uid);
 
                     return batchActions([
-                        addTemplateSuccess(result.response.uid, clientId, { storeId, isActiveTemplate }),
+                        addTemplateSuccess(result.response.uid, clientId, { storeId, isActiveTemplate, filtersConfig }),
                         updateDefaultTemplate(getDefaultTemplate(program.id), storeId),
                     ], workingListsCommonActionTypesBatchActionTypes.TEMPLATE_ADD_SUCCESS);
                 })
@@ -109,7 +129,13 @@ export const addProgramStageTemplateEpic = (action$: EpicAction<any>, store: Red
         }),
     );
 
-export const deleteProgramStageTemplateEpic = (action$: EpicAction<any>, store: ReduxStore, { mutate }: ApiUtils) =>
+export const deleteProgramStageTemplateEpic = (
+    action$: EpicAction<any>,
+    _: ReduxStore,
+    {
+        mutate,
+        querySingleResource,
+    }: ApiUtils) =>
     action$.pipe(
         ofType(workingListsCommonActionTypes.TEMPLATE_DELETE),
         filter(
@@ -129,6 +155,12 @@ export const deleteProgramStageTemplateEpic = (action$: EpicAction<any>, store: 
                     id: template.id,
                     type: 'delete',
                 })
+                    .then(() => deleteTemplateExtendedProps({
+                        mutate,
+                        querySingleResource,
+                        type: templateExtendedPropType.tracker,
+                        id: template.id,
+                    }))
                     .then(() => {
                         const { programId } = getLocationQuery();
                         onChangeTemplate && onChangeTemplate(`${programId}-default`);
@@ -163,7 +195,13 @@ export const deleteProgramStageTemplateEpic = (action$: EpicAction<any>, store: 
         ),
     );
 
-export const updateProgramStageTemplateEpic = (action$: EpicAction<any>, store: ReduxStore, { mutate }: ApiUtils) =>
+export const updateProgramStageTemplateEpic = (
+    action$: EpicAction<any>,
+    store: ReduxStore,
+    {
+        mutate,
+        querySingleResource,
+    }: ApiUtils) =>
     action$.pipe(
         ofType(workingListsCommonActionTypes.TEMPLATE_UPDATE),
         filter(
@@ -178,6 +216,9 @@ export const updateProgramStageTemplateEpic = (action$: EpicAction<any>, store: 
                 storeId,
                 criteria,
             } = action.payload;
+
+            const filtersConfig = store.value.workingListsFiltersConfig?.[storeId];
+
             const {
                 programStatus,
                 enrolledAt,
@@ -225,12 +266,20 @@ export const updateProgramStageTemplateEpic = (action$: EpicAction<any>, store: 
                 id,
                 type: 'replace',
                 data: programStageWorkingLists,
-            })
+            }).then(() =>
+                saveTemplateExtendedProps({ querySingleResource,
+                    mutate,
+                    type: templateExtendedPropType.tracker,
+                    config: {
+                        [id]: { filtersConfig },
+                    } }),
+            )
                 .then(() => {
                     const isActiveTemplate = store.value.workingListsTemplates[storeId].selectedTemplateId === id;
                     return updateTemplateSuccess(id, criteria, {
                         storeId,
                         isActiveTemplate,
+                        filtersConfig,
                     });
                 })
                 .catch((error) => {

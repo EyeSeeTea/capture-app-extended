@@ -150,7 +150,7 @@ export const workingListsMetaDesc = createReducerDescription({
         };
     },
     [workingListsCommonActionTypes.TEMPLATE_ADD_SUCCESS]: (state, action) => {
-        const { isActiveTemplate, storeId } = action.payload;
+        const { isActiveTemplate, storeId, filtersConfig } = action.payload;
 
         if (!isActiveTemplate) {
             return state;
@@ -163,6 +163,7 @@ export const workingListsMetaDesc = createReducerDescription({
                 initial: state[storeId].nextInitial,
                 nextInitial: undefined,
                 viewPreloaded: false,
+                filtersConfig,
             },
         };
     },

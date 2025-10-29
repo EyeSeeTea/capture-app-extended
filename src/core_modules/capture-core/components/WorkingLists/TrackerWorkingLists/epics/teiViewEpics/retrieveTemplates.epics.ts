@@ -9,6 +9,10 @@ import { workingListsCommonActionTypes, fetchTemplatesSuccess, fetchTemplatesErr
 import { getProgramStageTemplates } from './templates/getProgramStageTemplates';
 import { getTEITemplates } from './templates/getTEITemplates';
 import { TRACKER_WORKING_LISTS_TYPE, TRACKER_WORKING_LISTS, PROGRAM_STAGE_WORKING_LISTS } from '../../constants';
+import {
+    getTemplateExtendedProps,
+    templateExtendedPropType,
+} from 'capture-core/extended/dataStoreTemplateExtendedProps';
 
 // Deduplicate default template so that only one default template is returned
 const removeDefaultTemplate = (templates: any) =>
@@ -44,11 +48,21 @@ export const retrieveAllTemplatesEpic = (
             const promise = Promise.all([
                 getTEITemplates(programId, querySingleResource),
                 getProgramStageTemplates(programId, querySingleResource),
-            ])
-                .then((values) => {
-                    const { templates, defaultTemplateId } = mergeTempletes(values, selectedTemplateId);
+                getTemplateExtendedProps(querySingleResource, templateExtendedPropType.tracker),
 
-                    return fetchTemplatesSuccess(templates, defaultTemplateId, storeId);
+            ])
+                .then(([teiTemplates, programStageTemplates, extendedTemplates]) => {
+                    const { templates, defaultTemplateId } = mergeTempletes([teiTemplates, programStageTemplates], selectedTemplateId);
+
+                    const updatedTemplates = templates.map((template) => {
+                        const extendedProps = extendedTemplates[template.id] || {};
+                        return {
+                            ...template,
+                            ...extendedProps,
+                        };
+                    });
+
+                    return fetchTemplatesSuccess(updatedTemplates, defaultTemplateId, storeId);
                 })
                 .catch((error) => {
                     log.error(errorCreator(error)({ epic: 'retrieveTemplatesEpic' }));

@@ -51,7 +51,6 @@ export type Props = {
 
 export type TrackerWorkingListsReduxProviderOutputProps = {
     categories?: Categories,
-    filtersConfig: FiltersConfig,
     currentPage?: number,
     currentTemplateId?: string,
     currentViewHasTemplateChanges?: boolean,
@@ -60,6 +59,7 @@ export type TrackerWorkingListsReduxProviderOutputProps = {
     customRowMenuContents?: CustomRowMenuContents,
     customTopBarActions?: CustomTopBarActions,
     filters?: FiltersData,
+    filtersConfig: FiltersConfig,
     initialViewConfig: InitialViewConfig,
     loadedContext?: LoadedContext,
     loading: boolean,

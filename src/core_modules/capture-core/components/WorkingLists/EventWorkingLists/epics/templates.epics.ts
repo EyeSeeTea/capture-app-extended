@@ -161,7 +161,8 @@ export const updateTemplateEpic = (
 
 export const addTemplateEpic = (
     action$: EpicAction<any>,
-    store: ReduxStore, {
+    store: ReduxStore,
+    {
         mutate,
         querySingleResource,
     }: ApiUtils) =>
