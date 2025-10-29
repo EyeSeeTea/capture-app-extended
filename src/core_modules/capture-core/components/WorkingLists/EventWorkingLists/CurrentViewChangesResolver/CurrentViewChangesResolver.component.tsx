@@ -1,4 +1,5 @@
 import React from 'react';
+import { areFilterConfigsEqual } from 'capture-core/extended/filterHelper';
 import { useViewHasTemplateChanges } from '../../WorkingListsCommon';
 import { EventWorkingListsDataSourceSetup } from '../DataSourceSetup';
 import type { Props } from './currentViewChangesResolver.types';
@@ -10,6 +11,8 @@ export const CurrentViewChangesResolver = ({
     sortByDirection,
     defaultColumns,
     initialViewConfig,
+    currentTemplate,
+    filtersConfig,
     ...passOnProps
 }: Props) => {
     const viewHasChanges = useViewHasTemplateChanges({
@@ -28,7 +31,9 @@ export const CurrentViewChangesResolver = ({
             columns={columns}
             sortById={sortById}
             sortByDirection={sortByDirection}
-            currentViewHasTemplateChanges={viewHasChanges}
+            currentViewHasTemplateChanges={viewHasChanges || (currentTemplate && !areFilterConfigsEqual(currentTemplate.filtersConfig, filtersConfig))}
+            filtersConfig={filtersConfig}
+            currentTemplate={currentTemplate}
         />
     );
 };

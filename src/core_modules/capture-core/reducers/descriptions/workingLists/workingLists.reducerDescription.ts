@@ -122,7 +122,7 @@ export const workingListsTemplatesDesc = createReducerDescription({
         };
     },
     [workingListsCommonActionTypes.TEMPLATE_UPDATE_SUCCESS]: (state, action) => {
-        const { criteria, templateId, storeId } = action.payload;
+        const { criteria, templateId, storeId, filtersConfig } = action.payload;
         const templates = state[storeId].templates;
         const targetTemplate = templates.find(t => t.id === templateId);
 
@@ -132,6 +132,7 @@ export const workingListsTemplatesDesc = createReducerDescription({
                 ...targetTemplate,
                 criteria,
                 nextCriteria: undefined,
+                filtersConfig,
             };
 
             return {

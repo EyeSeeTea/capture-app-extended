@@ -123,6 +123,7 @@ export const updateTemplateEpic = (
                         eventQueryCriteria, {
                             storeId,
                             isActiveTemplate,
+                            filtersConfig,
                         });
                 })
                 .catch((error) => {
