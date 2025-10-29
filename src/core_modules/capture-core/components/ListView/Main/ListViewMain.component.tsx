@@ -62,8 +62,11 @@ class ListViewMainPlain extends React.PureComponent<Props & WithStyles<typeof ge
             bulkActionBarComponent,
         } = this.props;
 
+        const defaultFiltersOrColumns = filtersOnly || additionalFilters ?
+            [...(filtersOnly || []), ...(additionalFilters || [])] :
+            columns;
         const defaultFilters = getFiltersWithFiltersConfig(
-            [...(filtersOnly || []), ...(additionalFilters || [])],
+            defaultFiltersOrColumns,
             filtersConfig,
         );
 

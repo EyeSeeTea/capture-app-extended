@@ -3,7 +3,7 @@ import i18n from '@dhis2/d2-i18n';
 import { colors, spacersNum } from '@dhis2/ui';
 import { withStyles, type WithStyles } from '@material-ui/core/styles';
 import { ExtendedFiltersConfig } from 'capture-core/extended/filtersConfig.types';
-import { hideFilter } from 'capture-core/extended/filterHelper';
+import { hiddenFilters } from 'capture-core/extended/filterHelper';
 import { Filters } from './Filters.component';
 import type { Column, FiltersOnly, AdditionalFilters, UpdateFilter, ClearFilter, RemoveFilter, StickyFilters } from '../types';
 
@@ -63,12 +63,13 @@ export const FiltersRowsPlain = ({
     shouldRenderAdditionalFiltersButtons,
     visibleSelectorId,
     classes,
-}: Props & WithStyles<typeof getStyles>) => (
-    <>
+}: Props & WithStyles<typeof getStyles>) => {
+    const isFilterHidden = hiddenFilters(filtersConfig);
+    return (<>
         <div className={classes.filtersButtons}>
             <Filters
-                columns={columns.filter(item => !item.additionalColumn)}
-                filtersOnly={filtersOnly?.filter(hideFilter(filtersConfig))}
+                columns={columns.filter(item => !item.additionalColumn && isFilterHidden(item))}
+                filtersOnly={filtersOnly?.filter(isFilterHidden)}
                 additionalFilters={additionalFilters}
                 onUpdateFilter={onUpdateFilter}
                 onClearFilter={onClearFilter}
@@ -85,7 +86,7 @@ export const FiltersRowsPlain = ({
                     <div className={classes.break} />
                     <Filters
                         columns={columns.filter(item => item.additionalColumn)}
-                        filtersOnly={additionalFilters?.filter(hideFilter(filtersConfig))}
+                        filtersOnly={additionalFilters?.filter(isFilterHidden)}
                         onUpdateFilter={onUpdateFilter}
                         onClearFilter={onClearFilter}
                         onSelectRestMenuItem={onSelectRestMenuItem}
@@ -96,7 +97,7 @@ export const FiltersRowsPlain = ({
                 </div>
             </>
         )}
-    </>
-);
+    </>);
+};
 
 export const FiltersRowsComponent = withStyles(getStyles)(FiltersRowsPlain);

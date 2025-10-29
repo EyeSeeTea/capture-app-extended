@@ -22,7 +22,7 @@ type Props = {
     onClose: () => void;
     onSave: (columns: Columns, defaultFilters?: ExtendedFilters) => void;
     columns: Columns;
-    defaultFilters?: ExtendedFilters
+    defaultFilters: ExtendedFilters
 
 };
 
@@ -38,6 +38,10 @@ export const ColumnSelectorDialog = ({ columns, defaultFilters, open, onClose, o
     useEffect(() => {
         setColumnList(currentColumns => (isEqual(columns, currentColumns) ? currentColumns : columns));
     }, [columns]);
+
+    useEffect(() => {
+        setFilterList(currentFilters => (isEqual(defaultFilters, currentFilters) ? currentFilters : defaultFilters));
+    }, [defaultFilters]);
 
     const handleSave = () => {
         onSave(columnList, filterList);

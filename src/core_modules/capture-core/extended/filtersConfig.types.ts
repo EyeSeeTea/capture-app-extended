@@ -1,13 +1,13 @@
-import { FilterOnly } from 'capture-core/components/ListView/types';
-
 type FilterConfig = {
   hidden?: boolean;
 };
 
 export type ExtendedFiltersConfig = Record<string, FilterConfig>;
 
-
-export type ExtendedFilter = FilterOnly & FilterConfig;
-export type ExtendedFilters = Array<ExtendedFilter>;
+export type BaseFilter = {
+  id: string;
+  header: string;
+}
+export type ExtendedFilters = Array<FilterConfig & BaseFilter>;
 
 export type SetFiltersConfig = (filtersConfig: ExtendedFiltersConfig) => void;
