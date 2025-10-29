@@ -1,4 +1,4 @@
-import { compact } from 'lodash';
+import { compact, isEqual } from 'lodash';
 import { BaseFilter, ExtendedFilters, ExtendedFiltersConfig } from 'capture-core/extended/filtersConfig.types';
 
 export const defaultFilters = [
@@ -24,7 +24,13 @@ export function getFiltersWithFiltersConfig(filters: ExtendedFilters, filtersCon
     }));
 }
 
-export const hiddenFilters = (filtersConfig: ExtendedFiltersConfig) => (filter: BaseFilter) => {
-    const filterConfig = filtersConfig[filter.id];
-    return !filterConfig || !filterConfig.hidden;
-};
+export function hiddenFilters(filtersConfig: ExtendedFiltersConfig) {
+    return (filter: BaseFilter) => {
+        const filterConfig = filtersConfig[filter.id];
+        return !filterConfig || !filterConfig.hidden;
+    };
+}
+
+export function areFilterConfigsEqual(initial: ExtendedFiltersConfig, updated: ExtendedFiltersConfig) {
+    return isEqual(initial, updated);
+}

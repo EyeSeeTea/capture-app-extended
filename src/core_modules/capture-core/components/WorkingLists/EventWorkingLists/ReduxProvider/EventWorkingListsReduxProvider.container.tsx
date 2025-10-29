@@ -25,7 +25,6 @@ export const EventWorkingListsReduxProvider = ({ storeId, program, programStage,
         onLoadView,
         onUpdateList,
         onResetListColumnOrder,
-        onClearFilters,
         onUpdateDefaultTemplate,
         ...commonStateManagementRestProps
     } = useWorkingListsCommonStateManagement(storeId, SINGLE_EVENT_WORKING_LISTS_TYPE, program, mainViewConfig);

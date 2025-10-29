@@ -46,6 +46,7 @@ export const WorkingListsContextBuilder = (props: Props) => {
         filters,
         onUpdateFilter,
         onClearFilter,
+        onClearFilters,
         onRemoveFilter,
         onSelectRestMenuItem,
         onChangePage,
@@ -154,6 +155,7 @@ export const WorkingListsContextBuilder = (props: Props) => {
                         >
                             <TemplatesLoader
                                 {...passOnProps}
+                                onClearFilters={onClearFilters}
                                 templates={templates}
                                 dirtyTemplates={!!dirtyTemplatesStateFirstRunRef.current}
                                 loadedProgramIdForTemplates={loadedProgramIdForTemplates}

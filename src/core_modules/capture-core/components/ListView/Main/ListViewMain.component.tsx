@@ -60,6 +60,7 @@ class ListViewMainPlain extends React.PureComponent<Props & WithStyles<typeof ge
             onSetFiltersConfig,
             isSelectionInProgress,
             bulkActionBarComponent,
+            onClearFilters,
         } = this.props;
 
         const defaultFiltersOrColumns = filtersOnly || additionalFilters ?
@@ -81,6 +82,7 @@ class ListViewMainPlain extends React.PureComponent<Props & WithStyles<typeof ge
                     }
                     return acc;
                 }, {} as ExtendedFiltersConfig);
+                onClearFilters(Object.keys(filtersConfigToSave));
                 onSetFiltersConfig(filtersConfigToSave);
             }
         };

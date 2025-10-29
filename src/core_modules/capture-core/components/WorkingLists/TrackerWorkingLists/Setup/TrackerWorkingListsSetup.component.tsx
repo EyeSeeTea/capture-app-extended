@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import { areFilterConfigsEqual } from 'capture-core/extended/filterHelper';
 import type { Props } from './trackerWorkingListsSetup.types';
 import { WorkingListsBase } from '../../WorkingListsBase';
 import {
@@ -62,6 +63,7 @@ export const TrackerWorkingListsSetup = ({
     forceUpdateOnMount,
     customUpdateTrigger,
     bulkActionBarComponent,
+    filtersConfig,
     ...passOnProps
 }: Props) => {
     const prevProgramStageId = useRef(programStageId);
@@ -75,6 +77,7 @@ export const TrackerWorkingListsSetup = ({
         `${program.id}-default`,
     );
     const templates = apiTemplates?.length > DEFAULT_TEMPLATES_LENGTH ? apiTemplates : staticTemplates;
+    const currentTemplate = useCurrentTemplate(templates, currentTemplateId);
     const viewHasChanges = useViewHasTemplateChanges({
         initialViewConfig,
         defaultColumns,
@@ -83,7 +86,7 @@ export const TrackerWorkingListsSetup = ({
         sortById,
         sortByDirection,
         isDefaultTemplateAltered: storedTemplates?.find(template => template.isDefault)?.isAltered,
-    });
+    }) || !areFilterConfigsEqual(currentTemplate.extended_filtersConfig || {}, filtersConfig);
 
     useEffect(() => {
         const viewHasProgramStageChanges = viewHasChanges && programStageId !== prevProgramStageId.current;
@@ -195,13 +198,14 @@ export const TrackerWorkingListsSetup = ({
         <WorkingListsBase
             {...passOnProps}
             forceUpdateOnMount={forceUpdateOnMount}
-            currentTemplate={useCurrentTemplate(templates, currentTemplateId)}
+            currentTemplate={currentTemplate}
             customUpdateTrigger={customUpdateTrigger}
             templates={templates}
             columns={columns}
             onAddTemplate={injectArgumentsForAddTemplate}
             onUpdateTemplate={injectArgumentsForUpdateTemplate}
             onDeleteTemplate={injectArgumentsForDeleteTemplate}
+            onClearFilters={onClearFilters}
             filtersOnly={filtersOnly}
             additionalFilters={programStageFiltersOnly}
             dataSource={useDataSource(records, recordsOrder, columns)}
@@ -226,6 +230,7 @@ export const TrackerWorkingListsSetup = ({
             sortById={sortById}
             sortByDirection={sortByDirection}
             bulkActionBarComponent={bulkActionBarComponent}
+            filtersConfig={filtersConfig}
         />
     );
 };
