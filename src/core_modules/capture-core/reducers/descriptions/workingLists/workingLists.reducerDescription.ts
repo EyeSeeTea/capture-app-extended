@@ -207,7 +207,7 @@ export const workingListsTemplatesDesc = createReducerDescription({
         };
     },
     [workingListsCommonActionTypes.TEMPLATE_ADD_SUCCESS]: (state, action) => {
-        const { templateId, clientId, storeId } = action.payload;
+        const { templateId, clientId, storeId, filtersConfig } = action.payload;
         const templates = state[storeId].templates;
         const targetTemplate = templates.find(t => t.id === clientId);
         const otherTemplates = templates.filter(t => t.id !== clientId);
@@ -223,6 +223,7 @@ export const workingListsTemplatesDesc = createReducerDescription({
             ...targetTemplate,
             id: templateId,
             notPreserved: undefined,
+            filtersConfig,
         };
 
         return {
@@ -531,8 +532,8 @@ export const workingListsColumnsOrderDesc = createReducerDescription({
 export const workingListsFiltersConfigDesc = createReducerDescription({
     [workingListsCommonActionTypes.LIST_VIEW_INIT_SUCCESS]: (state, action) => {
         const { storeId, config } = action.payload;
-        const filtersConfig = config.extended_filtersConfig;
         const filtersConfig = config.filtersConfig;
+        console.log('LIST_VIEW_INIT_SUCCESS', action.payload);
         return {
             ...state,
             [storeId]: filtersConfig,
@@ -540,6 +541,7 @@ export const workingListsFiltersConfigDesc = createReducerDescription({
     },
     [extendedWorkingListsCommonActionTypes.FILTERS_CONFIG_SET]: (state, action) => {
         const { filtersConfig, storeId } = action.payload;
+        console.log('FILTERS_CONFIG_SET', action.payload);
 
         return {
             ...state,

@@ -9,6 +9,13 @@ type SaveTemplateExtendedProps = {
   config: ExtendedTemplates;
 }
 
+type DeleteTemplateExtendedProps = {
+  mutate: Mutate;
+  querySingleResource: QuerySingleResource;
+  type: TemplateExtendedPropType;
+  id: string;
+}
+
 export const templateExtendedPropType = {
     event: 'extended_eventFilter',
     tei: 'extended_trackedEntityFilter',
@@ -27,6 +34,10 @@ async function getFiltersConfig(querySingleResource: QuerySingleResource, type: 
         return {};
     }
 }
+
+export const saveTemplateExtendedProps = async (props: SaveTemplateExtendedProps) => saveFiltersConfig(props);
+
+export const deleteTemplateExtendedProps = async (props: DeleteTemplateExtendedProps) => deleteFiltersConfig(props);
 
 export const getTemplateExtendedProps = async (querySingleResource: QuerySingleResource, type: TemplateExtendedPropType) => await getFiltersConfig(querySingleResource, type);
 
@@ -59,9 +70,39 @@ async function saveFiltersConfig({
         return apiRes;
     } catch (e) {
         console.error(`saveFiltersConfig - Error saving ${type}:`, e);
-        throw e; // Re-throw the error so caller knows it failed
+        return undefined;
     }
 }
 
+async function deleteFiltersConfig({
+    mutate,
+    querySingleResource,
+    type,
+    id,
+}: DeleteTemplateExtendedProps) {
+    let storedValue = {};
 
-export const saveTemplateExtendedProps = async (props: SaveTemplateExtendedProps) => saveFiltersConfig(props);
+    try {
+        storedValue = await getFiltersConfig(querySingleResource, type);
+    } catch (e) {
+        console.log('deleteFiltersConfig - Error getting existing config, using empty object:', e);
+        storedValue = {};
+    }
+
+    const payload = Object.fromEntries(
+        Object.entries(storedValue).filter(([key]) => key !== id),
+    );
+
+
+    try {
+        const apiRes = await mutate({
+            resource: `dataStore/capture/${type}`,
+            data: payload,
+            type: Object.keys(storedValue).length > 0 ? 'update' : 'create',
+        });
+        return apiRes;
+    } catch (e) {
+        console.error(`deleteFiltersConfig - Error saving ${type}:`, e);
+        return undefined;
+    }
+}
