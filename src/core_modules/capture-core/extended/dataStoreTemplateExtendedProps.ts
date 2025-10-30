@@ -35,7 +35,7 @@ async function getFiltersConfig(querySingleResource: QuerySingleResource, type: 
         });
         return apiRes;
     } catch (e) {
-        console.log(`getFiltersConfig - No existing config for ${type}, returning empty object:`, e);
+        console.error(`getFiltersConfig - No existing config for ${type}, returning empty object:`, e);
         return {};
     }
 }
@@ -51,7 +51,7 @@ async function saveFiltersConfig({
     try {
         storedValue = await getFiltersConfig(querySingleResource, type);
     } catch (e) {
-        console.log('saveFiltersConfig - Error getting existing config, using empty object:', e);
+        console.error('saveFiltersConfig - Error getting existing config, using empty object:', e);
     }
 
     const payload = {
@@ -83,7 +83,7 @@ async function deleteFiltersConfig({
     try {
         storedValue = await getFiltersConfig(querySingleResource, type);
     } catch (e) {
-        console.log('deleteFiltersConfig - Error getting existing config, using empty object:', e);
+        console.error('deleteFiltersConfig - Error getting existing config, using empty object:', e);
         storedValue = {};
     }
 

@@ -534,7 +534,6 @@ export const workingListsFiltersConfigDesc = createReducerDescription({
     [workingListsCommonActionTypes.LIST_VIEW_INIT_SUCCESS]: (state, action) => {
         const { storeId, config } = action.payload;
         const filtersConfig = config.filtersConfig;
-        console.log('LIST_VIEW_INIT_SUCCESS', action.payload);
         return {
             ...state,
             [storeId]: filtersConfig,
@@ -542,8 +541,6 @@ export const workingListsFiltersConfigDesc = createReducerDescription({
     },
     [extendedWorkingListsCommonActionTypes.FILTERS_CONFIG_SET]: (state, action) => {
         const { filtersConfig, storeId } = action.payload;
-        console.log('FILTERS_CONFIG_SET', action.payload);
-
         return {
             ...state,
             [storeId]: filtersConfig,

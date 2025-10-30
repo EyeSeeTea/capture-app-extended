@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { spacers } from '@dhis2/ui';
 import { withStyles, type WithStyles } from '@material-ui/core/styles';
+import { difference } from 'lodash';
 import { getFiltersWithFiltersConfig } from 'capture-core/extended/filterHelper';
 import { Columns } from 'capture-core/components/ListView';
 import { FiltersWithConfig, FiltersConfig } from 'capture-core/extended/filtersConfig.types';
@@ -82,7 +83,7 @@ class ListViewMainPlain extends React.PureComponent<Props & WithStyles<typeof ge
                     }
                     return acc;
                 }, {} as FiltersConfig);
-                onClearFilters(Object.keys(filtersConfigToSave));
+                onClearFilters(difference(Object.keys(filtersConfigToSave), Object.keys(filtersConfig)));
                 onSetFiltersConfig(filtersConfigToSave);
             }
         };

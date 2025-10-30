@@ -78,7 +78,7 @@ export const TrackerWorkingListsSetup = ({
     );
     const templates = apiTemplates?.length > DEFAULT_TEMPLATES_LENGTH ? apiTemplates : staticTemplates;
     const currentTemplate = useCurrentTemplate(templates, currentTemplateId);
-    const viewHasChanges = useViewHasTemplateChanges({
+    const viewHasTemplateChanges = useViewHasTemplateChanges({
         initialViewConfig,
         defaultColumns,
         filters,
@@ -86,7 +86,9 @@ export const TrackerWorkingListsSetup = ({
         sortById,
         sortByDirection,
         isDefaultTemplateAltered: storedTemplates?.find(template => template.isDefault)?.isAltered,
-    }) || !areFilterConfigsEqual(currentTemplate.filtersConfig || {}, filtersConfig);
+    });
+
+    const viewHasChanges = useMemo(() => viewHasTemplateChanges || !areFilterConfigsEqual(currentTemplate.filtersConfig || {}, filtersConfig), [viewHasTemplateChanges, currentTemplate.filtersConfig, filtersConfig]);
 
     useEffect(() => {
         const viewHasProgramStageChanges = viewHasChanges && programStageId !== prevProgramStageId.current;
