@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useFiltersConfig } from 'capture-core/extended/filtersConfig/FiltersConfigContext';
+import { useFiltersConfig } from 'capture-core/extended/filtersConfig';
 import {
     ListViewBuilderContext,
 } from '../../workingListsBase.context';

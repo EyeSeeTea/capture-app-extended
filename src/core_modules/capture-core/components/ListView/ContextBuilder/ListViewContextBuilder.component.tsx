@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useFiltersConfig } from 'capture-core/extended/filtersConfig';
 import {
     FilterValuesContext,
     PaginationContext,
@@ -6,7 +7,6 @@ import {
 import { ListViewMain } from '../Main';
 import type { Props } from './listViewContextBuilder.types';
 import type { PaginationContextData } from '../types';
-import { useFiltersConfig } from 'capture-core/extended/filtersConfig';
 
 export const ListViewContextBuilder = ({
     filters,
