@@ -8,21 +8,32 @@ export function isProgramAccessible(
     if (!program.access.data.read) return false;
     if (!selectedOrgUnitId) return true;
 
-    const orgUnits = program.organisationUnits || {};
+    const orgUnits: Record<string, string> = program.organisationUnits || {};
     const isSelectedOrgUnitInProgram = Boolean(orgUnits[selectedOrgUnitId]);
 
     switch (ouMode) {
     case 'DESCENDANTS':
-        return isSelectedOrgUnitInProgram || Object.values(orgUnits).some(path =>
-            String(path).includes(`/${selectedOrgUnitId}/`),
-        );
+        if (isSelectedOrgUnitInProgram) return true;
+
+        // Iterate directly over the object without creating an intermediate array
+        for (const path of Object.values(orgUnits)) {
+            if (path.includes(`/${selectedOrgUnitId}/`) || path.endsWith(`/${selectedOrgUnitId}`)) {
+                return true;
+            }
+        }
+        return false;
 
     case 'CHILDREN':
-        return isSelectedOrgUnitInProgram || Object.values(orgUnits).some((path) => {
-            const parts = String(path).split('/');
-            const index = parts.indexOf(selectedOrgUnitId);
-            return index !== -1 && parts.length === index + 2;
-        });
+        if (isSelectedOrgUnitInProgram) return true;
+
+        // Iterate directly over the object without creating an intermediate array
+        for (const path of Object.values(orgUnits)) {
+            const parts = path.split('/').filter(Boolean);
+            if (parts[parts.length - 2] === selectedOrgUnitId) {
+                return true;
+            }
+        }
+        return false;
 
     case 'SELECTED':
     default:

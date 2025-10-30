@@ -1,13 +1,14 @@
 import { compact, isEqual } from 'lodash';
 import { BaseFilter, FiltersWithConfig, FiltersConfig } from './filtersConfig.types';
 
+// default filters generated for event and tracker programs
 export const defaultFilters = [
     'programStatus',
     'enrolledAt',
     'eventOccurredAt',
     'status',
     'createdAt',
-    'occurredAt', // event program
+    'occurredAt',
 ];
 
 export function getFiltersWithFiltersConfig(filters: FiltersWithConfig, filtersConfig: FiltersConfig): FiltersWithConfig {

@@ -69,7 +69,7 @@ async function saveFiltersConfig({
         return apiRes;
     } catch (e) {
         console.error(`saveFiltersConfig - Error saving ${type}:`, e);
-        return undefined;
+        throw e;
     }
 }
 
@@ -99,6 +99,6 @@ async function deleteFiltersConfig({
         return apiRes;
     } catch (e) {
         console.error(`deleteFiltersConfig - Error saving ${type}:`, e);
-        return undefined;
+        throw e;
     }
 }
