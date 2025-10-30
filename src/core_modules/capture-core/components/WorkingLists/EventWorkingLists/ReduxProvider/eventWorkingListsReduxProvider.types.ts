@@ -1,4 +1,3 @@
-import { FiltersConfig } from 'capture-core/extended/filtersConfig';
 import type { EventProgram, ProgramStage } from '../../../../metaData';
 import type {
     CancelLoadTemplates,
@@ -60,7 +59,6 @@ export type EventWorkingListsReduxOutputProps = {
     downloadRequest: { url: string, queryParams: any | null | undefined },
     records?: EventRecords,
     filters: FiltersData,
-    filtersConfig: FiltersConfig,
     initialViewConfig?: InitialViewConfig,
     lastIdDeleted?: string,
     lastTransaction: number,

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import { areFilterConfigsEqual } from 'capture-core/extended/filtersConfig';
+import { areFilterConfigsEqual, useFiltersConfig } from 'capture-core/extended/filtersConfig';
 import type { Props } from './trackerWorkingListsSetup.types';
 import { WorkingListsBase } from '../../WorkingListsBase';
 import {
@@ -63,9 +63,9 @@ export const TrackerWorkingListsSetup = ({
     forceUpdateOnMount,
     customUpdateTrigger,
     bulkActionBarComponent,
-    filtersConfig,
     ...passOnProps
 }: Props) => {
+    const { filtersConfig } = useFiltersConfig();
     const prevProgramStageId = useRef(programStageId);
     const prevTemplateId = useRef(currentTemplateId);
     const defaultColumns = useDefaultColumnConfig(program, orgUnitId, programStageId);
@@ -233,7 +233,6 @@ export const TrackerWorkingListsSetup = ({
             sortById={sortById}
             sortByDirection={sortByDirection}
             bulkActionBarComponent={bulkActionBarComponent}
-            filtersConfig={filtersConfig}
         />
     );
 };

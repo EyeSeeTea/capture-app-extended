@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useFiltersConfig } from 'capture-core/extended/filtersConfig/FiltersConfigContext';
 import {
     ListViewBuilderContext,
 } from '../../workingListsBase.context';
@@ -26,10 +27,10 @@ export const WorkingListsListViewBuilderContextProvider = ({
     stickyFilters,
     programStageId,
     bulkActionBarComponent,
-    filtersConfig,
-    onSetFiltersConfig,
     children,
 }: Props) => {
+    const { filtersConfig, onSetFiltersConfig } = useFiltersConfig();
+
     const listViewBuilderContextData = useMemo(() => ({
         updating,
         updatingWithDialog,

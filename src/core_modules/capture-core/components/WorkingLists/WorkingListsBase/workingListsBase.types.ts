@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import { FiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig';
+import { FiltersConfig } from 'capture-core/extended/filtersConfig';
 import type { dataElementTypes } from '../../../metaData';
 import type {
     AdditionalFilters,
@@ -166,8 +166,6 @@ export type ListViewBuilderContextData = {
     selectionInProgress?: boolean,
     allRowsAreSelected: boolean,
     bulkActionBarComponent: ReactElement<any>,
-    filtersConfig: FiltersConfig,
-    onSetFiltersConfig: SetFiltersConfig,
 };
 
 export type SharingSettings = {
@@ -198,7 +196,6 @@ export type InterfaceProps = Readonly<{
     customUpdateTrigger?: any,
     dataSource?: DataSource,
     filters?: FiltersData,
-    filtersConfig: FiltersConfig,
     filtersOnly?: FiltersOnly,
     additionalFilters?: AdditionalFilters,
     forceUpdateOnMount?: boolean,
@@ -222,7 +219,6 @@ export type InterfaceProps = Readonly<{
     onSelectRestMenuItem: SelectRestMenuItem,
     onSelectTemplate: SelectTemplate,
     onSetListColumnOrder: SetColumnOrder,
-    onSetFiltersConfig: SetFiltersConfig,
     onSetTemplateSharingSettings?: SetTemplateSharingSettings,
     onSortList: Sort,
     onUnloadingContext?: UnloadingContext,

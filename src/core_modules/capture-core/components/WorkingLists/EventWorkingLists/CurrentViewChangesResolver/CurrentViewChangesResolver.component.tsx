@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { areFilterConfigsEqual } from 'capture-core/extended/filtersConfig';
+import { areFilterConfigsEqual, useFiltersConfig } from 'capture-core/extended/filtersConfig';
 import { useViewHasTemplateChanges } from '../../WorkingListsCommon';
 import { EventWorkingListsDataSourceSetup } from '../DataSourceSetup';
 import type { Props } from './currentViewChangesResolver.types';
@@ -12,9 +12,9 @@ export const CurrentViewChangesResolver = ({
     defaultColumns,
     initialViewConfig,
     currentTemplate,
-    filtersConfig,
     ...passOnProps
 }: Props) => {
+    const { filtersConfig } = useFiltersConfig();
     const viewHasTemplateChanges = useViewHasTemplateChanges({
         initialViewConfig,
         defaultColumns,
@@ -34,7 +34,6 @@ export const CurrentViewChangesResolver = ({
             sortById={sortById}
             sortByDirection={sortByDirection}
             currentViewHasTemplateChanges={viewHasChanges}
-            filtersConfig={filtersConfig}
             currentTemplate={currentTemplate}
         />
     );

@@ -1,4 +1,3 @@
-import { FiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig';
 import type { TrackerProgram } from '../../../../metaData';
 import type {
     CancelLoadTemplates,
@@ -59,7 +58,6 @@ export type TrackerWorkingListsReduxProviderOutputProps = {
     customRowMenuContents?: CustomRowMenuContents,
     customTopBarActions?: CustomTopBarActions,
     filters?: FiltersData,
-    filtersConfig: FiltersConfig,
     initialViewConfig: InitialViewConfig,
     loadedContext?: LoadedContext,
     loading: boolean,
@@ -78,7 +76,6 @@ export type TrackerWorkingListsReduxProviderOutputProps = {
     onClickListRow: SelectRow,
     onSelectRestMenuItem: SelectRestMenuItem,
     onSelectTemplate: SelectTemplate,
-    onSetFiltersConfig: SetFiltersConfig,
     onSetListColumnOrder: SetColumnOrder,
     onResetListColumnOrder: ResetColumnOrder,
     onSortList: Sort,
