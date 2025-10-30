@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import { areFilterConfigsEqual } from 'capture-core/extended/filterHelper';
+import { areFilterConfigsEqual } from 'capture-core/extended/filtersConfig/filtersConfig';
 import type { Props } from './trackerWorkingListsSetup.types';
 import { WorkingListsBase } from '../../WorkingListsBase';
 import {

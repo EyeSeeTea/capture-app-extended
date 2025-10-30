@@ -7,7 +7,7 @@ import { concatMap, filter, takeUntil } from 'rxjs/operators';
 import {
     getTemplateExtendedProps,
     templateExtendedPropType,
-} from 'capture-core/extended/dataStoreTemplateExtendedProps';
+} from 'capture-core/extended/filtersConfig/dataStoreTemplateExtendedProps';
 import type { ReduxStore, ApiUtils, EpicAction } from '../../../../../../capture-core-utils/types';
 import { workingListsCommonActionTypes, fetchTemplatesSuccess, fetchTemplatesError } from '../../../WorkingListsCommon';
 import { getProgramStageTemplates } from './templates/getProgramStageTemplates';

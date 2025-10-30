@@ -1,4 +1,4 @@
-import { isProgramAccessible } from 'capture-core/utils/isProgramAccessible';
+import { isProgramAccessible } from 'capture-core/extended/ouMode/isProgramAccessible';
 import type { Program, Icon } from '../../../../metaData';
 
 const getOptionsFromPrograms = (

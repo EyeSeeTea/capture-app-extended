@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { useNavigate, buildUrlQueryString, useLocationQuery } from '../../../utils/routing';
+import { useNavigate, buildUrlQueryString, useLocationQuery } from '../../utils/routing';
 
 export const useOuMode = () => {
     const { navigate } = useNavigate();

@@ -1,7 +1,7 @@
 import log from 'loglevel';
 import i18n from '@dhis2/d2-i18n';
 import { errorCreator } from 'capture-core-utils';
-import { FiltersConfig } from 'capture-core/extended/filtersConfig.types';
+import { FiltersConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
 import { convertToClientConfig } from '../helpers/eventFilters';
 import { getEventListData } from './getEventListData';
 import {

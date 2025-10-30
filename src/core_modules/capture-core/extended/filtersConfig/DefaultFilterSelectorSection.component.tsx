@@ -10,14 +10,14 @@ import {
     TableHead,
 } from '@dhis2/ui';
 import i18n from '@dhis2/d2-i18n';
-import { FiltersWithConfig } from 'capture-core/extended/filtersConfig.types';
+import { FiltersWithConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
 
 type Props = {
   handleToggle: (id: string) => () => any;
   defaultFilters: FiltersWithConfig;
 }
 
-export const FilterSelectorSection = ({ defaultFilters, handleToggle }: Props) => (<>
+export const DefaultFilterSelectorSection = ({ defaultFilters, handleToggle }: Props) => (<>
     <ModalTitle>{i18n.t('Default filters to hide')}</ModalTitle>
     <ModalContent>
         <DataTable>

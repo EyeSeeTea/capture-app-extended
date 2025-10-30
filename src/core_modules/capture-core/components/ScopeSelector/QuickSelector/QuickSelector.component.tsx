@@ -5,7 +5,7 @@ import { SelectorBar } from '@dhis2/ui';
 import { ProgramSelector } from './Program/ProgramSelector.component';
 import { OrgUnitSelector } from './OrgUnitSelector.component';
 import type { Props } from './QuickSelector.types';
-import { OrgUnitModeSelector } from './OrgUnitModeSelector.component';
+import { OrgUnitModeSelector } from '../../../extended/ouMode/OrgUnitModeSelector.component';
 
 export const QuickSelector = ({
     selectedOrgUnitId,

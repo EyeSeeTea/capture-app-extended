@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FiltersConfig } from 'capture-core/extended/filtersConfig.types';
+import { FiltersConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
 import { FiltersRows } from '../Filters';
 import type { Columns, FiltersOnly, AdditionalFilters, UpdateFilter, ClearFilter, RemoveFilter, StickyFilters } from '../types';
 

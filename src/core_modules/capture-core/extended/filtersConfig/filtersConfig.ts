@@ -1,5 +1,5 @@
 import { compact, isEqual } from 'lodash';
-import { BaseFilter, FiltersWithConfig, FiltersConfig } from 'capture-core/extended/filtersConfig.types';
+import { BaseFilter, FiltersWithConfig, FiltersConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
 
 export const defaultFilters = [
     'programStatus',
@@ -24,7 +24,7 @@ export function getFiltersWithFiltersConfig(filters: FiltersWithConfig, filtersC
     }));
 }
 
-export function hiddenFilters(filtersConfig: FiltersConfig) {
+export function isFilterVisible(filtersConfig: FiltersConfig) {
     return (filter: BaseFilter) => {
         const filterConfig = filtersConfig[filter.id];
         return !filterConfig || !filterConfig.hidden;
@@ -32,6 +32,5 @@ export function hiddenFilters(filtersConfig: FiltersConfig) {
 }
 
 export function areFilterConfigsEqual(initial: FiltersConfig, updated: FiltersConfig) {
-    console.log('areFilterConfigsEqual', initial, updated);
     return isEqual(initial, updated);
 }

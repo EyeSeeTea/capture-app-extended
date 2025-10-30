@@ -1,4 +1,4 @@
-import { FiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig.types';
+import { FiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
 import type { TrackerProgram } from '../../../../metaData';
 import type {
     CancelLoadTemplates,

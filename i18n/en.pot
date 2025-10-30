@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-10-30T06:07:12.425Z\n"
-"PO-Revision-Date: 2025-10-30T06:07:12.425Z\n"
+"POT-Creation-Date: 2025-10-30T06:45:20.396Z\n"
+"PO-Revision-Date: 2025-10-30T06:45:20.396Z\n"
 
 msgid "Choose one or more dates..."
 msgstr "Choose one or more dates..."
@@ -567,9 +567,6 @@ msgstr "Column"
 msgid "Visible"
 msgstr "Visible"
 
-msgid "Default filters to hide"
-msgstr "Default filters to hide"
-
 msgid "Update"
 msgstr "Update"
 
@@ -985,29 +982,14 @@ msgstr "Add relationship"
 msgid "No results found for "
 msgstr "No results found for "
 
-msgid "Selected"
-msgstr "Selected"
-
-msgid "Children"
-msgstr "Children"
-
-msgid "Descendants"
-msgstr "Descendants"
-
-msgid "Choose an organisation unit before selecting the ouMode."
-msgstr "Choose an organisation unit before selecting the ouMode."
-
-msgid "ouMode"
-msgstr "ouMode"
+msgid "Choose an organisation unit in the form below"
+msgstr "Choose an organisation unit in the form below"
 
 msgid "None selected"
 msgstr "None selected"
 
 msgid "Choose an organisation unit"
 msgstr "Choose an organisation unit"
-
-msgid "Choose an organisation unit in the form below"
-msgstr "Choose an organisation unit in the form below"
 
 msgid "Clear selection"
 msgstr "Clear selection"
@@ -2021,6 +2003,24 @@ msgstr "Skipped"
 
 msgid "Visited"
 msgstr "Visited"
+
+msgid "Default filters to hide"
+msgstr "Default filters to hide"
+
+msgid "Selected"
+msgstr "Selected"
+
+msgid "Children"
+msgstr "Children"
+
+msgid "Descendants"
+msgstr "Descendants"
+
+msgid "Choose an organisation unit before selecting the ouMode."
+msgstr "Choose an organisation unit before selecting the ouMode."
+
+msgid "ouMode"
+msgstr "ouMode"
 
 msgid "{{trackedEntityName}} in program{{escape}} {{programName}}"
 msgstr "{{trackedEntityName}} in program{{escape}} {{programName}}"

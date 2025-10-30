@@ -12,8 +12,8 @@ import {
 } from '@dhis2/ui';
 import i18n from '@dhis2/d2-i18n';
 
-import { FilterSelectorSection } from 'capture-core/components/ListView/ColumnSelector/FilterSelectorSection.component';
-import { FiltersWithConfig } from 'capture-core/extended/filtersConfig.types';
+import { DefaultFilterSelectorSection } from 'capture-core/extended/filtersConfig/DefaultFilterSelectorSection.component';
+import { FiltersWithConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
 import { DragDropList } from './DragDropList';
 import { Columns } from '../types';
 
@@ -110,7 +110,7 @@ export const ColumnSelectorDialog = ({ columns, defaultFilters, open, onClose, o
                     </ModalContent>
                 </>}
                 {tab === 'filter' && defaultFilters && <>
-                    <FilterSelectorSection
+                    <DefaultFilterSelectorSection
                         defaultFilters={filterList}
                         handleToggle={handleFilterToggle}
                     />

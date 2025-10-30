@@ -2,8 +2,8 @@ import * as React from 'react';
 import i18n from '@dhis2/d2-i18n';
 import { colors, spacersNum } from '@dhis2/ui';
 import { withStyles, type WithStyles } from '@material-ui/core/styles';
-import { FiltersConfig } from 'capture-core/extended/filtersConfig.types';
-import { hiddenFilters } from 'capture-core/extended/filterHelper';
+import { FiltersConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
+import { isFilterVisible } from 'capture-core/extended/filtersConfig/filtersConfig';
 import { Filters } from './Filters.component';
 import type { Column, FiltersOnly, AdditionalFilters, UpdateFilter, ClearFilter, RemoveFilter, StickyFilters } from '../types';
 
@@ -64,12 +64,12 @@ export const FiltersRowsPlain = ({
     visibleSelectorId,
     classes,
 }: Props & WithStyles<typeof getStyles>) => {
-    const isFilterHidden = hiddenFilters(filtersConfig);
+    const filterIsVisible = isFilterVisible(filtersConfig);
     return (<>
         <div className={classes.filtersButtons}>
             <Filters
-                columns={columns.filter(item => !item.additionalColumn && isFilterHidden(item))}
-                filtersOnly={filtersOnly?.filter(isFilterHidden)}
+                columns={columns.filter(item => !item.additionalColumn && filterIsVisible(item))}
+                filtersOnly={filtersOnly?.filter(filterIsVisible)}
                 additionalFilters={additionalFilters}
                 onUpdateFilter={onUpdateFilter}
                 onClearFilter={onClearFilter}
@@ -86,7 +86,7 @@ export const FiltersRowsPlain = ({
                     <div className={classes.break} />
                     <Filters
                         columns={columns.filter(item => item.additionalColumn)}
-                        filtersOnly={additionalFilters?.filter(isFilterHidden)}
+                        filtersOnly={additionalFilters?.filter(filterIsVisible)}
                         onUpdateFilter={onUpdateFilter}
                         onClearFilter={onClearFilter}
                         onSelectRestMenuItem={onSelectRestMenuItem}

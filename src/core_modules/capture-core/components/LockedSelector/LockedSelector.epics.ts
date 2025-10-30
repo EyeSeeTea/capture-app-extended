@@ -2,7 +2,7 @@ import i18n from '@dhis2/d2-i18n';
 import { ofType } from 'redux-observable';
 import { filter, map, concatMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { isProgramAccessible } from 'capture-core/utils/isProgramAccessible';
+import { isProgramAccessible } from 'capture-core/extended/ouMode/isProgramAccessible';
 import {
     lockedSelectorActionTypes,
     invalidSelectionsFromUrl,

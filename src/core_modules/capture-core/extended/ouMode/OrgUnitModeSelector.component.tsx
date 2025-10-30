@@ -3,7 +3,7 @@ import i18n from '@dhis2/d2-i18n';
 // @ts-expect-error - SelectorBarItem is available at runtime, but its TypeScript definition is not exposed by the UI library
 import { Menu, MenuItem, SelectorBarItem, spacers } from '@dhis2/ui';
 import { withStyles, type WithStyles } from '@material-ui/core/styles';
-import { ConditionalTooltip } from '../../Tooltips/ConditionalTooltip';
+import { ConditionalTooltip } from '../../components/Tooltips/ConditionalTooltip';
 
 const ouModeOptions = {
     SELECTED: {

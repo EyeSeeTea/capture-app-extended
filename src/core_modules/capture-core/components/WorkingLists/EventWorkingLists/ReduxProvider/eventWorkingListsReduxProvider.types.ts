@@ -1,4 +1,4 @@
-import { FiltersConfig } from 'capture-core/extended/filtersConfig.types';
+import { FiltersConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
 import type { EventProgram, ProgramStage } from '../../../../metaData';
 import type {
     CancelLoadTemplates,

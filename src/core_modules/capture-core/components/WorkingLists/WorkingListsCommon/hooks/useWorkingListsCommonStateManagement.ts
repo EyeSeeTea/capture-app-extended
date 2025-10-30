@@ -2,8 +2,8 @@
 import { useMemo, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import type { ReduxDispatch } from 'capture-core/components/App/withAppUrlSync.types';
-import { setFiltersConfig } from 'capture-core/extended/workingListCommon/workingList.extended';
-import { FiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig.types';
+import { setFiltersConfig } from 'capture-core/extended/filtersConfig/workingList.extended';
+import { FiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
 import {
     selectTemplate,
     addTemplate,
