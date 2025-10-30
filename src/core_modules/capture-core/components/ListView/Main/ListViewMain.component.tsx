@@ -83,7 +83,10 @@ class ListViewMainPlain extends React.PureComponent<Props & WithStyles<typeof ge
                     }
                     return acc;
                 }, {} as FiltersConfig);
-                onClearFilters(difference(Object.keys(filtersConfigToSave), Object.keys(filtersConfig)));
+                const filtersToClear = difference(Object.keys(filtersConfigToSave), Object.keys(filtersConfig));
+                if (filtersToClear.length > 0) {
+                    onClearFilters(filtersToClear);
+                }
                 onSetFiltersConfig(filtersConfigToSave);
             }
         };

@@ -1,3 +1,4 @@
+import { omit } from 'lodash';
 import { createReducerDescription } from '../../../../trackerRedux/trackerReducer';
 import { workingListsCommonActionTypes } from '../../../../components/WorkingLists/WorkingListsCommon';
 import { recentlyAddedEventsActionTypes } from '../../../../components/DataEntries/SingleEventRegistrationEntry/DataEntryWrapper/RecentlyAddedEventsList';
@@ -283,13 +284,20 @@ export const workingListsMetaDesc = createReducerDescription({
         };
     },
     [workingListsCommonActionTypes.FILTERS_CLEAR]: (state, action) => {
-        const { filtersList: filtersListToKeep, storeId } = action.payload;
-        if (state[storeId]) {
+        const { filtersList: filtersListToClear, storeId } = action.payload;
+        if (state[storeId] && state[storeId].filters) {
+            const currentFilters = state[storeId].filters;
+            const clearedFilters = omit(currentFilters, filtersListToClear);
+
             return {
                 ...state,
                 [storeId]: {
                     ...state[storeId],
-                    filters: filtersListToKeep,
+                    filters: clearedFilters,
+                    next: {
+                        ...state[storeId].next,
+                        currentPage: 1,
+                    },
                 },
             };
         }

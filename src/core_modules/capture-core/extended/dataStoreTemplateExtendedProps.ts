@@ -1,3 +1,4 @@
+import { omit } from 'lodash';
 import type { QuerySingleResource } from 'capture-core/utils/api';
 import { ExtendedTemplates } from 'capture-core/extended/filtersConfig.types';
 import { Mutate } from 'capture-core/utils/api/api.types';
@@ -87,10 +88,7 @@ async function deleteFiltersConfig({
         storedValue = {};
     }
 
-    const payload = Object.fromEntries(
-        Object.entries(storedValue).filter(([key]) => key !== id),
-    );
-
+    const payload = omit(storedValue, [id]);
 
     try {
         const apiRes = await mutate({
