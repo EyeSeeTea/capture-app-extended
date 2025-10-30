@@ -91,7 +91,7 @@ export const TrackerWorkingListsSetup = ({
     const viewHasChanges = useMemo(() => viewHasTemplateChanges || !areFilterConfigsEqual(currentTemplate.filtersConfig || {}, filtersConfig), [viewHasTemplateChanges, currentTemplate.filtersConfig, filtersConfig]);
 
     useEffect(() => {
-        const viewHasProgramStageChanges = viewHasChanges && programStageId !== prevProgramStageId.current;
+        const viewHasProgramStageChanges = viewHasTemplateChanges && programStageId !== prevProgramStageId.current;
 
         if (viewHasProgramStageChanges) {
             onResetListColumnOrder && onResetListColumnOrder();
@@ -124,7 +124,7 @@ export const TrackerWorkingListsSetup = ({
     }, [
         programStageId,
         onResetListColumnOrder,
-        viewHasChanges,
+        viewHasTemplateChanges,
         program,
         onPreserveCurrentViewState,
         filters,
