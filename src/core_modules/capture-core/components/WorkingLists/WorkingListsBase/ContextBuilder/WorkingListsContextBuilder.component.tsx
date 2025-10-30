@@ -60,8 +60,8 @@ export const WorkingListsContextBuilder = (props: Props) => {
         forceUpdateOnMount,
         programStageId,
         bulkActionBarComponent,
-        onSetFiltersConfig,
         filtersConfig,
+        onSetFiltersConfig,
         ...passOnProps
     } = props;
 
@@ -154,13 +154,11 @@ export const WorkingListsContextBuilder = (props: Props) => {
                             stickyFilters={stickyFilters}
                             programStageId={programStageId}
                             bulkActionBarComponent={bulkActionBarComponent}
-                            onSetFiltersConfig={onSetFiltersConfig}
                             filtersConfig={filtersConfig}
+                            onSetFiltersConfig={onSetFiltersConfig}
                         >
                             <TemplatesLoader
                                 {...passOnProps}
-                                onSetFiltersConfig={onSetFiltersConfig}
-                                filtersConfig={filtersConfig}
                                 onClearFilters={onClearFilters}
                                 templates={templates}
                                 dirtyTemplates={!!dirtyTemplatesStateFirstRunRef.current}
