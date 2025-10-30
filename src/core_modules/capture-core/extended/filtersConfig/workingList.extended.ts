@@ -25,4 +25,12 @@ export const filtersConfigReducerDescriptors = {
             [storeId]: filtersConfig,
         };
     },
+    [workingListsCommonActionTypes.TEMPLATE_DELETE_SUCCESS]: (state, action) => {
+        const { storeId } = action.payload;
+
+        return {
+            ...state,
+            [storeId]: {},
+        };
+    },
 };
