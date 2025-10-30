@@ -24,7 +24,7 @@ export const CurrentViewChangesResolver = ({
         sortByDirection,
     });
 
-    const viewHasChanges = useMemo(() => viewHasTemplateChanges || !areFilterConfigsEqual(currentTemplate?.filtersConfig || {}, filtersConfig), [viewHasTemplateChanges, currentTemplate, filtersConfig]);
+    const viewHasChanges = useMemo(() => viewHasTemplateChanges || !areFilterConfigsEqual(currentTemplate?.filtersConfig || {}, filtersConfig), [viewHasTemplateChanges, currentTemplate?.filtersConfig, filtersConfig]);
 
     return (
         <EventWorkingListsDataSourceSetup
