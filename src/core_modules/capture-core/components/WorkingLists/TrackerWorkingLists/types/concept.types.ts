@@ -23,7 +23,7 @@ export type TrackerWorkingListsTemplate = {
     updating?: boolean,
     order?: number,
     isAltered?: boolean,
-    filtersConfig: FiltersConfig;
+    filtersConfig?: FiltersConfig;
 };
 
 export type TrackerWorkingListsTemplates = TrackerWorkingListsTemplate[];
