@@ -4,15 +4,15 @@ import { from } from 'rxjs';
 import { errorCreator } from 'capture-core-utils';
 import { ofType } from 'redux-observable';
 import { concatMap, filter, takeUntil } from 'rxjs/operators';
+import {
+    getTemplateExtendedProps,
+    templateExtendedPropType,
+} from 'capture-core/extended/dataStoreTemplateExtendedProps';
 import type { ReduxStore, ApiUtils, EpicAction } from '../../../../../../capture-core-utils/types';
 import { workingListsCommonActionTypes, fetchTemplatesSuccess, fetchTemplatesError } from '../../../WorkingListsCommon';
 import { getProgramStageTemplates } from './templates/getProgramStageTemplates';
 import { getTEITemplates } from './templates/getTEITemplates';
 import { TRACKER_WORKING_LISTS_TYPE, TRACKER_WORKING_LISTS, PROGRAM_STAGE_WORKING_LISTS } from '../../constants';
-import {
-    getTemplateExtendedProps,
-    templateExtendedPropType,
-} from 'capture-core/extended/dataStoreTemplateExtendedProps';
 
 // Deduplicate default template so that only one default template is returned
 const removeDefaultTemplate = (templates: any) =>
