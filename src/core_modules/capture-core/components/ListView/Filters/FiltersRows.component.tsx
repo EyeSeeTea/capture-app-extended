@@ -2,8 +2,7 @@ import * as React from 'react';
 import i18n from '@dhis2/d2-i18n';
 import { colors, spacersNum } from '@dhis2/ui';
 import { withStyles, type WithStyles } from '@material-ui/core/styles';
-import { FiltersConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
-import { isFilterVisible } from 'capture-core/extended/filtersConfig/filtersConfig';
+import { isFilterVisible, FiltersConfig } from 'capture-core/extended/filtersConfig';
 import { Filters } from './Filters.component';
 import type { Column, FiltersOnly, AdditionalFilters, UpdateFilter, ClearFilter, RemoveFilter, StickyFilters } from '../types';
 

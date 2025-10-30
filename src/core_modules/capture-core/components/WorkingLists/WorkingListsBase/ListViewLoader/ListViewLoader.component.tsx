@@ -1,5 +1,4 @@
 import React, { memo, useCallback, useContext, useEffect, useRef } from 'react';
-import { useOuMode } from 'capture-core/components/ScopeSelector';
 import { withLoadingIndicator, withErrorMessageHandler } from '../../../../HOC';
 import { ListViewUpdater } from '../ListViewUpdater';
 import { ListViewLoaderContext } from '../workingListsBase.context';
@@ -46,7 +45,6 @@ const useLoadView = ({
     const prevTemplateRef = useRef(undefined);
     const triggerLoadRef = useRef(true);
     const viewLoadedOnFirstRunRef = useRef(false);
-    const { ouMode } = useOuMode();
 
     const triggerLoad = useCalculateTriggerLoad({
         programId,
@@ -68,7 +66,7 @@ const useLoadView = ({
         firstRunRef.current = false;
         if (triggerLoad) {
             onLoadView(currentTemplate,
-                { programId, programStageId, orgUnitId, ouMode, categories },
+                { programId, programStageId, orgUnitId, categories },
             );
         }
         return () => cancelLoadViewIfApplicable();
@@ -79,7 +77,6 @@ const useLoadView = ({
         currentTemplate,
         programId,
         programStageId,
-        ouMode,
         categories,
         cancelLoadViewIfApplicable,
     ]);

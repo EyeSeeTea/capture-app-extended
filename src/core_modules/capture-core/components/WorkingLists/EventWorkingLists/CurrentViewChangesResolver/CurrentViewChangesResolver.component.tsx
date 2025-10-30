@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { areFilterConfigsEqual } from 'capture-core/extended/filtersConfig/filtersConfig';
+import { areFilterConfigsEqual } from 'capture-core/extended/filtersConfig';
 import { useViewHasTemplateChanges } from '../../WorkingListsCommon';
 import { EventWorkingListsDataSourceSetup } from '../DataSourceSetup';
 import type { Props } from './currentViewChangesResolver.types';

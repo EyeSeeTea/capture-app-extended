@@ -17,7 +17,9 @@ export const initTeiViewEpic = (
         filter(({ payload: { workingListsType } }) => workingListsType === TRACKER_WORKING_LISTS_TYPE),
         concatMap((action) => {
             const { storeId, columnsMetaForDataFetching, filtersOnlyMetaForDataFetching, selectedTemplate } = action.payload;
-            const { programId, orgUnitId, ouMode } = action.payload.context;
+            const { programId, orgUnitId } = action.payload.context;
+            const { ouMode = 'SELECTED' } = store.value.currentSelections;
+
             return from(initTrackerWorkingListsViewAsync({
                 programId,
                 orgUnitId,
@@ -33,6 +35,7 @@ export const initTeiViewEpic = (
                 filter(cancelAction => cancelAction.payload.storeId === storeId),
             )));
         }));
+
 export const updateTeiListEpic = (
     action$: EpicAction<any>,
     store: ReduxStore, {
@@ -51,11 +54,12 @@ export const updateTeiListEpic = (
                 programId,
                 programStageId,
                 orgUnitId,
-                ouMode,
                 filters,
                 sortById,
                 sortByDirection,
             } = queryArgs;
+
+            const { ouMode = 'SELECTED' } = store.value.currentSelections;
 
             return from(updateTrackerWorkingListsRecords({
                 page,

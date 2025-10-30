@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useContext, type ComponentType } from 'react';
 import log from 'loglevel';
 import { errorCreator } from 'capture-core-utils';
-import { useOuMode } from 'capture-core/components/ScopeSelector';
 import { withLoadingIndicator } from '../../../../HOC';
 import { ListViewUpdaterContext } from '../workingListsBase.context';
 import { ListViewBuilder } from '../ListViewBuilder';
@@ -68,8 +67,6 @@ export const ListViewUpdater = (props: Props) => {
         loadedOrgUnitId,
     } = context;
 
-    const { ouMode } = useOuMode();
-
     const forceFirstRunUpdateRef = useRef(
         (forceUpdateOnMount || dirtyList || loadedOrgUnitId !== orgUnitId) &&
         !viewLoadedOnFirstRun,
@@ -98,7 +95,6 @@ export const ListViewUpdater = (props: Props) => {
             programId,
             programStageId,
             orgUnitId,
-            ouMode,
             categories,
             resetMode,
         });
@@ -114,7 +110,6 @@ export const ListViewUpdater = (props: Props) => {
             programId,
             programStageId,
             orgUnitId,
-            ouMode,
             categories,
             customUpdateTrigger,
             onUpdateList,

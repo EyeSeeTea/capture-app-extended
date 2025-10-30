@@ -1,5 +1,5 @@
 import { useHistory } from 'react-router-dom';
-import { persistOuModeQueryParam } from 'capture-core/extended/ouMode/persistOuMode';
+import { persistOuModeQueryParam } from 'capture-core/extended/ouMode';
 
 export const useNavigate = () => {
     const history = useHistory();

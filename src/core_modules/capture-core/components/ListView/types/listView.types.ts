@@ -1,5 +1,5 @@
 import type { ReactNode, ReactElement } from 'react';
-import { FiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
+import { FiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig';
 import type { dataElementTypes } from '../../../metaData';
 import type { FilterData, Options } from '../../FiltersForTypes';
 

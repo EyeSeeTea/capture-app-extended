@@ -1,7 +1,7 @@
 import { omit } from 'lodash';
 import type { QuerySingleResource } from 'capture-core/utils/api';
-import { ExtendedTemplates } from 'capture-core/extended/filtersConfig/filtersConfig.types';
 import { Mutate } from 'capture-core/utils/api/api.types';
+import { ExtendedTemplates } from './filtersConfig.types';
 
 type SaveTemplateExtendedProps = {
   mutate: Mutate;

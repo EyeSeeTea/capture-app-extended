@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import { FiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
+import { FiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig';
 import type { dataElementTypes } from '../../../metaData';
 import type {
     AdditionalFilters,
@@ -99,7 +99,6 @@ export type UpdateList = (data: {
     programId: string,
     programStageId: string,
     orgUnitId: string,
-    ouMode: string,
     categories?: Categories,
     lastIdDeleted?: string,
     resetMode: boolean,

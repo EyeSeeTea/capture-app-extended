@@ -1,6 +1,6 @@
 import type { Observable } from 'rxjs';
 import type { Action } from 'redux';
-import { FiltersConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
+import { FiltersConfig } from 'capture-core/extended/filtersConfig';
 
 export type ReduxStore = {
     value: {

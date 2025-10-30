@@ -8,7 +8,7 @@ import {
     deleteTemplateExtendedProps,
     saveTemplateExtendedProps,
     templateExtendedPropType,
-} from 'capture-core/extended/filtersConfig/dataStoreTemplateExtendedProps';
+} from 'capture-core/extended/filtersConfig';
 import type { ReduxStore, ApiUtils, EpicAction } from '../../../../../../capture-core-utils/types';
 import {
     addTemplateError,

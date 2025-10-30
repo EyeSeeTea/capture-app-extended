@@ -1,6 +1,6 @@
+import { workingListsCommonActionTypes } from 'capture-core/components/WorkingLists/WorkingListsCommon/actions';
 import { actionCreator } from 'capture-core/actions/actions.utils';
-import { FiltersConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
-import { workingListsCommonActionTypes } from 'capture-core/components/WorkingLists/WorkingListsCommon';
+import { FiltersConfig } from './filtersConfig.types';
 
 export const extendedWorkingListsCommonActionTypes = {
     FILTERS_CONFIG_SET: 'WorkingListFiltersConfigSet',

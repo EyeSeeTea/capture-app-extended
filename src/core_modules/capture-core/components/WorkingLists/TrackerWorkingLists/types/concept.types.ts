@@ -1,4 +1,4 @@
-import { FiltersConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
+import { FiltersConfig } from 'capture-core/extended/filtersConfig';
 import { dataElementTypes } from '../../../../metaData';
 import type { Categories } from '../../WorkingListsBase';
 import type { ApiTrackerQueryCriteria } from './apiTemplate.types';

@@ -10,7 +10,7 @@ import {
     TableHead,
 } from '@dhis2/ui';
 import i18n from '@dhis2/d2-i18n';
-import { FiltersWithConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
+import { FiltersWithConfig } from './filtersConfig.types';
 
 type Props = {
   handleToggle: (id: string) => () => any;

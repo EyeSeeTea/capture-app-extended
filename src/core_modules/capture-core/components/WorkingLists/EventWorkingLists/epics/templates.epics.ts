@@ -9,7 +9,7 @@ import {
     getTemplateExtendedProps,
     saveTemplateExtendedProps,
     templateExtendedPropType,
-} from 'capture-core/extended/filtersConfig/dataStoreTemplateExtendedProps';
+} from 'capture-core/extended/filtersConfig';
 import type { EpicAction, ReduxStore, ApiUtils } from '../../../../../capture-core-utils/types/global';
 import {
     workingListsCommonActionTypes,

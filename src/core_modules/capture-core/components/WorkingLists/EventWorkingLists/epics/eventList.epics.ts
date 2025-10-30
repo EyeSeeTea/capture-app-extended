@@ -16,7 +16,7 @@ import { SINGLE_EVENT_WORKING_LISTS_TYPE } from '../constants';
 
 export const initEventListEpic = (
     action$: EpicAction<any>,
-    _: ReduxStore,
+    store: ReduxStore,
     { absoluteApiPath, querySingleResource }: ApiUtils,
 ) =>
     action$.pipe(
@@ -27,12 +27,13 @@ export const initEventListEpic = (
             const {
                 programId,
                 orgUnitId,
-                ouMode,
                 categories,
                 lastTransaction,
                 programStageId,
                 lockedFilters,
             } = action.payload.context;
+
+            const { ouMode = 'SELECTED' } = store.value.currentSelections;
 
             const eventQueryCriteria = {
                 ...(selectedTemplate.nextCriteria || selectedTemplate.criteria),
@@ -75,7 +76,7 @@ export const initEventListEpic = (
 
 export const updateEventListEpic = (
     action$: EpicAction<any>,
-    _: ReduxStore,
+    store: ReduxStore,
     { absoluteApiPath, querySingleResource }: ApiUtils,
 ) =>
     action$.pipe(
@@ -90,8 +91,11 @@ export const updateEventListEpic = (
                 columnsMetaForDataFetching,
                 categoryCombinationId,
                 storeId,
-                queryArgs: { programId, orgUnitId, programStageId, categories, ouMode },
+                queryArgs: { programId, orgUnitId, programStageId, categories },
             } = action.payload;
+
+            const { ouMode = 'SELECTED' } = store.value.currentSelections;
+
             !queryArgs?.orgUnitId && (queryArgs[orgUnitModeQueryParam] = 'ACCESSIBLE');
             const updatePromise = updateEventWorkingListAsync(queryArgs, {
                 commonQueryData: {

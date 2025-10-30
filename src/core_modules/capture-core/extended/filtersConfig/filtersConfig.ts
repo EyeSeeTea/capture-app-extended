@@ -1,5 +1,5 @@
 import { compact, isEqual } from 'lodash';
-import { BaseFilter, FiltersWithConfig, FiltersConfig } from 'capture-core/extended/filtersConfig/filtersConfig.types';
+import { BaseFilter, FiltersWithConfig, FiltersConfig } from './filtersConfig.types';
 
 export const defaultFilters = [
     'programStatus',

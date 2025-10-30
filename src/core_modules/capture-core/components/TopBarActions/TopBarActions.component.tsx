@@ -2,7 +2,7 @@ import React, { type ComponentType, useState, useEffect, useMemo } from 'react';
 import { withStyles, type WithStyles } from '@material-ui/core/styles';
 import i18n from '@dhis2/d2-i18n';
 import { Button, spacers, DropdownButton, FlyoutMenu, MenuItem, SplitButton } from '@dhis2/ui';
-import { isProgramAccessible } from 'capture-core/extended/ouMode/isProgramAccessible';
+import { isProgramAccessible } from 'capture-core/extended/ouMode';
 import { useLocationQuery } from 'capture-core/utils/routing';
 import { Program, scopeTypes } from '../../metaData';
 import { useScopeInfo } from '../../hooks/useScopeInfo';
