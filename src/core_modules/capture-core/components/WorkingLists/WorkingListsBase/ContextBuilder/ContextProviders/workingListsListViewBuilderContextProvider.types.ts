@@ -1,4 +1,5 @@
 import type { ReactNode, ReactElement } from 'react';
+import { FiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig.types';
 import type {
     ChangePage,
     ChangeRowsPerPage,
@@ -38,5 +39,7 @@ export type Props = Readonly<{
     allRowsAreSelected: boolean,
     selectionInProgress: boolean,
     bulkActionBarComponent: ReactElement<any>,
+    filtersConfig: FiltersConfig,
+    onSetFiltersConfig: SetFiltersConfig,
     children: ReactNode,
 }>;

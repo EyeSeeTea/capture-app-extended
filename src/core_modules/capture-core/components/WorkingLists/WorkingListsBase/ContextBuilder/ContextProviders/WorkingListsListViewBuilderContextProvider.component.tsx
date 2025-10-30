@@ -26,6 +26,8 @@ export const WorkingListsListViewBuilderContextProvider = ({
     stickyFilters,
     programStageId,
     bulkActionBarComponent,
+    filtersConfig,
+    onSetFiltersConfig,
     children,
 }: Props) => {
     const listViewBuilderContextData = useMemo(() => ({
@@ -50,6 +52,8 @@ export const WorkingListsListViewBuilderContextProvider = ({
         stickyFilters,
         programStageId,
         bulkActionBarComponent,
+        filtersConfig,
+        onSetFiltersConfig,
     }), [
         updating,
         updatingWithDialog,
@@ -72,6 +76,8 @@ export const WorkingListsListViewBuilderContextProvider = ({
         stickyFilters,
         programStageId,
         bulkActionBarComponent,
+        filtersConfig,
+        onSetFiltersConfig,
     ]);
 
     return (

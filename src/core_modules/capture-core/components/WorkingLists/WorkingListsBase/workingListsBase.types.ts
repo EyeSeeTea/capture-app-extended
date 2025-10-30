@@ -167,6 +167,8 @@ export type ListViewBuilderContextData = {
     selectionInProgress?: boolean,
     allRowsAreSelected: boolean,
     bulkActionBarComponent: ReactElement<any>,
+    filtersConfig: FiltersConfig,
+    onSetFiltersConfig: SetFiltersConfig,
 };
 
 export type SharingSettings = {
