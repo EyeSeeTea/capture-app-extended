@@ -47,7 +47,7 @@ export class ColumnSelector extends React.PureComponent<Props, State> {
             <React.Fragment>
                 <Tooltip
                     openDelay={500}
-                    content={i18n.t('Select columns')}
+                    content={i18n.t('Select columns or hide default filters')}
                     dataTest="select-columns"
                 >
                     <IconButton
