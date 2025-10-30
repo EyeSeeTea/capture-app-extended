@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { FiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig';
 import type { ListViewContextBuilderPassOnProps } from '../ContextBuilder';
 
 import type {
@@ -30,6 +31,9 @@ type ComponentProps = {
     onSelectAll: (rows: Array<string>) => void;
     isSelectionInProgress: boolean;
     bulkActionBarComponent: ReactNode;
+    filtersConfig: FiltersConfig;
+    onSetFiltersConfig: SetFiltersConfig;
+
 };
 
 type RestProps = Omit<WithFilterPassOnProps, keyof ComponentProps>;

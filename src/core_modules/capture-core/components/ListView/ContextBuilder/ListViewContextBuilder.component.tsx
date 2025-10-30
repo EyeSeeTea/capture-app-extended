@@ -6,6 +6,7 @@ import {
 import { ListViewMain } from '../Main';
 import type { Props } from './listViewContextBuilder.types';
 import type { PaginationContextData } from '../types';
+import { useFiltersConfig } from 'capture-core/extended/filtersConfig';
 
 export const ListViewContextBuilder = ({
     filters,
@@ -21,6 +22,7 @@ export const ListViewContextBuilder = ({
     dataSource,
     ...passOnProps
 }: Props) => {
+    const { filtersConfig, onSetFiltersConfig } = useFiltersConfig();
     const paginationContextData = useMemo((): PaginationContextData => ({
         onChangePage,
         onChangeRowsPerPage,
@@ -44,6 +46,8 @@ export const ListViewContextBuilder = ({
             >
                 <ListViewMain
                     {...passOnProps}
+                    filtersConfig={filtersConfig}
+                    onSetFiltersConfig={onSetFiltersConfig}
                     dataSource={dataSource}
                     selectedRows={selectedRows}
                     allRowsAreSelected={allRowsAreSelected}
