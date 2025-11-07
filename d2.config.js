@@ -3,7 +3,7 @@ const config = {
     title: 'Capture Extended',
     type: 'app',
 
-    id: '92b75fd0-34cc-451c-942f-3dd0f283bcbd',
+    id: 'ef302097-3f68-48fd-92a0-2b0748830852',
     minDHIS2Version: '2.40',
     coreApp: true,
 
