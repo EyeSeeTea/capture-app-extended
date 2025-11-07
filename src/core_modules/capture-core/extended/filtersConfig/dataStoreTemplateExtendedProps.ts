@@ -32,7 +32,7 @@ export const deleteTemplateExtendedProps = async (props: DeleteTemplateExtendedP
 async function getFiltersConfig(querySingleResource: QuerySingleResource, type: TemplateExtendedPropType) {
     try {
         const apiRes = await querySingleResource({
-            resource: `dataStore/capture/${type}`,
+            resource: `dataStore/capture-extended/${type}`,
         });
         return apiRes;
     } catch (e) {
@@ -62,7 +62,7 @@ async function saveFiltersConfig({
 
     try {
         const apiRes = await mutate({
-            resource: `dataStore/capture/${type}`,
+            resource: `dataStore/capture-extended/${type}`,
             data: payload,
             type: storedValue ? 'update' : 'create',
         });
@@ -92,7 +92,7 @@ async function deleteFiltersConfig({
 
     try {
         const apiRes = await mutate({
-            resource: `dataStore/capture/${type}`,
+            resource: `dataStore/capture-extended/${type}`,
             data: payload,
             type: Object.keys(storedValue).length > 0 ? 'update' : 'create',
         });
