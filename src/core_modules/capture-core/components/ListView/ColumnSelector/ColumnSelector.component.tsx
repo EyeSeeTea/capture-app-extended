@@ -4,7 +4,7 @@ import { IconSettings24, Tooltip } from '@dhis2/ui';
 import i18n from '@dhis2/d2-i18n';
 import { FiltersWithConfig } from 'capture-core/extended/filtersConfig';
 import { ColumnSelectorDialog } from './ColumnSelectorDialog.component';
-import { Columns } from '../types';
+import type { Columns } from '../types';
 
 type Props = {
     onSave: (columns: Columns, defaultFilters?: FiltersWithConfig) => void;

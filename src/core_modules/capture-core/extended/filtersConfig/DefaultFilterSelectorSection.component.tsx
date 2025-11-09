@@ -13,7 +13,7 @@ import i18n from '@dhis2/d2-i18n';
 import { FiltersWithConfig } from './filtersConfig.types';
 
 type Props = {
-  handleToggle: (id: string) => () => any;
+  handleToggle: (id: string) => () => void;
   defaultFilters: FiltersWithConfig;
 }
 

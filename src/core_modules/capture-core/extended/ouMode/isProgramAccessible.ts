@@ -1,4 +1,5 @@
 import type { Program } from 'capture-core/metaData';
+import { objectSome } from 'capture-core/extended/util';
 
 export function isProgramAccessible(
     program: Program,
@@ -15,26 +16,18 @@ export function isProgramAccessible(
     case 'DESCENDANTS':
         if (isSelectedOrgUnitInProgram) return true;
 
-        // Iterate directly over the object without creating an intermediate array
-        for (const path of Object.values(orgUnits)) {
-            if (path.includes(`/${selectedOrgUnitId}/`) || path.endsWith(`/${selectedOrgUnitId}`)) {
-                return true;
-            }
-        }
-        return false;
+        return objectSome(orgUnits, path =>
+            path.includes(`/${selectedOrgUnitId}/`) ||
+            path.endsWith(`/${selectedOrgUnitId}`),
+        );
 
     case 'CHILDREN':
         if (isSelectedOrgUnitInProgram) return true;
 
-        // Iterate directly over the object without creating an intermediate array
-        for (const path of Object.values(orgUnits)) {
+        return objectSome(orgUnits, (path) => {
             const parts = path.split('/').filter(Boolean);
-            if (parts[parts.length - 2] === selectedOrgUnitId) {
-                return true;
-            }
-        }
-        return false;
-
+            return parts[parts.length - 2] === selectedOrgUnitId;
+        });
     case 'SELECTED':
     default:
         return isSelectedOrgUnitInProgram;

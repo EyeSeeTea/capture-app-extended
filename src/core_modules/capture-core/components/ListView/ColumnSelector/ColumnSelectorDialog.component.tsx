@@ -9,7 +9,7 @@ import {
     TabBar,
     Tab,
     IconFilter16, IconLayoutColumns16,
-} from '@dhis2/ui';
+    spacers } from '@dhis2/ui';
 import i18n from '@dhis2/d2-i18n';
 
 import { DefaultFilterSelectorSection, FiltersWithConfig } from 'capture-core/extended/filtersConfig';
@@ -26,13 +26,15 @@ type Props = {
 };
 
 const tabBarStyle = {
-    marginBottom: '16px',
+    marginBottom: spacers.dp16,
 };
 
 export const ColumnSelectorDialog = ({ columns, defaultFilters, open, onClose, onSave }: Props) => {
     const [columnList, setColumnList] = useState(columns);
     const [filterList, setFilterList] = useState(defaultFilters || []);
     const [tab, setTab] = useState<'column'|'filter'>('column');
+
+    const isFiltersTab = tab === 'filter';
 
     useEffect(() => {
         setColumnList(currentColumns => (isEqual(columns, currentColumns) ? currentColumns : columns));
@@ -55,11 +57,13 @@ export const ColumnSelectorDialog = ({ columns, defaultFilters, open, onClose, o
     };
 
     const handleFilterToggle = (id: string) => () => {
-        const index = filterList.findIndex(filter => filter.id === id);
-        const toggleList = [...filterList];
+        const updatedList = filterList.map(filter =>
+            (filter.id === id
+                ? { ...filter, hidden: !filter.hidden }
+                : filter),
+        );
 
-        toggleList[index] = { ...toggleList[index], hidden: !toggleList[index].hidden };
-        setFilterList(toggleList);
+        setFilterList(updatedList);
     };
 
     const handleUpdateListOrder = (sortedList: Columns) => {
@@ -91,7 +95,7 @@ export const ColumnSelectorDialog = ({ columns, defaultFilters, open, onClose, o
                         <Tab
                             onClick={() => setTab('filter')}
                             icon={<IconFilter16 />}
-                            selected={tab === 'filter'}
+                            selected={isFiltersTab}
                         >
                             {i18n.t('Filters')}
                         </Tab>
@@ -108,7 +112,7 @@ export const ColumnSelectorDialog = ({ columns, defaultFilters, open, onClose, o
                         />
                     </ModalContent>
                 </>}
-                {tab === 'filter' && defaultFilters && <>
+                {isFiltersTab && defaultFilters && <>
                     <DefaultFilterSelectorSection
                         defaultFilters={filterList}
                         handleToggle={handleFilterToggle}
