@@ -1,8 +1,11 @@
 import React from 'react';
+import { useOuMode } from 'capture-core/components/ScopeSelector';
+
 import { SelectorBar } from '@dhis2/ui';
 import { ProgramSelector } from './Program/ProgramSelector.component';
 import { OrgUnitSelector } from './OrgUnitSelector.component';
 import type { Props } from './QuickSelector.types';
+import { OrgUnitModeSelector } from '../../../extended/ouMode';
 
 export const QuickSelector = ({
     selectedOrgUnitId,
@@ -22,14 +25,17 @@ export const QuickSelector = ({
     onStartAgain,
     isReadOnlyOrgUnit,
     orgUnitTooltip,
-}: Props) => (
-    <SelectorBar
+    showOuModeSelection,
+}: Props) => {
+    const { setOuMode, ouMode } = useOuMode();
+    return (<SelectorBar
         disableClearSelections={!selectedProgramId && !selectedOrgUnitId}
         onClearSelectionClick={() => onStartAgain()}
     >
         <ProgramSelector
             selectedProgramId={selectedProgramId}
             selectedOrgUnitId={selectedOrgUnitId}
+            selectedOuMode={showOuModeSelection && ouMode}
             selectedCategories={selectedCategories}
             handleClickProgram={onSetProgramId}
             handleSetCatergoryCombo={onSetCategoryOption}
@@ -49,6 +55,11 @@ export const QuickSelector = ({
             isReadOnly={isReadOnlyOrgUnit}
             tooltip={orgUnitTooltip}
         />
+        {showOuModeSelection && <OrgUnitModeSelector
+            onClickOuMode={setOuMode}
+            selectedOuMode={ouMode}
+            isReadOnly={!selectedOrgUnitId}
+        />}
         {children}
-    </SelectorBar>
-);
+    </SelectorBar>);
+};

@@ -14,6 +14,7 @@ import { convertToClientConfig } from '../../../helpers/TEIFilters';
 export const initTrackerWorkingListsViewAsync = async ({
     programId,
     orgUnitId,
+    ouMode,
     storeId,
     selectedTemplate,
     columnsMetaForDataFetching,
@@ -37,6 +38,7 @@ export const initTrackerWorkingListsViewAsync = async ({
     const rawQueryArgs = {
         programId,
         orgUnitId,
+        ouMode,
         pageSize: rowsPerPage,
         page: currentPage,
         sortById,
@@ -67,6 +69,7 @@ export const initTrackerWorkingListsViewAsync = async ({
                         orgUnitId,
                     },
                     customColumnOrder,
+                    filtersConfig: selectedTemplate.filtersConfig,
                 },
                 context: {
                     programStageId,

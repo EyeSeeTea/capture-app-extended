@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import { areFilterConfigsEqual, useFiltersConfig } from 'capture-core/extended/filtersConfig';
 import type { Props } from './trackerWorkingListsSetup.types';
 import { WorkingListsBase } from '../../WorkingListsBase';
 import {
@@ -64,6 +65,7 @@ export const TrackerWorkingListsSetup = ({
     bulkActionBarComponent,
     ...passOnProps
 }: Props) => {
+    const { filtersConfig } = useFiltersConfig();
     const prevProgramStageId = useRef(programStageId);
     const prevTemplateId = useRef(currentTemplateId);
     const defaultColumns = useDefaultColumnConfig(program, orgUnitId, programStageId);
@@ -75,7 +77,8 @@ export const TrackerWorkingListsSetup = ({
         `${program.id}-default`,
     );
     const templates = apiTemplates?.length > DEFAULT_TEMPLATES_LENGTH ? apiTemplates : staticTemplates;
-    const viewHasChanges = useViewHasTemplateChanges({
+    const currentTemplate = useCurrentTemplate(templates, currentTemplateId);
+    const viewHasTemplateChanges = useViewHasTemplateChanges({
         initialViewConfig,
         defaultColumns,
         filters,
@@ -85,8 +88,10 @@ export const TrackerWorkingListsSetup = ({
         isDefaultTemplateAltered: storedTemplates?.find(template => template.isDefault)?.isAltered,
     });
 
+    const viewHasChanges = useMemo(() => viewHasTemplateChanges || !areFilterConfigsEqual(currentTemplate.filtersConfig || {}, filtersConfig), [viewHasTemplateChanges, currentTemplate.filtersConfig, filtersConfig]);
+
     useEffect(() => {
-        const viewHasProgramStageChanges = viewHasChanges && programStageId !== prevProgramStageId.current;
+        const viewHasProgramStageChanges = viewHasTemplateChanges && programStageId !== prevProgramStageId.current;
 
         if (viewHasProgramStageChanges) {
             onResetListColumnOrder && onResetListColumnOrder();
@@ -119,7 +124,7 @@ export const TrackerWorkingListsSetup = ({
     }, [
         programStageId,
         onResetListColumnOrder,
-        viewHasChanges,
+        viewHasTemplateChanges,
         program,
         onPreserveCurrentViewState,
         filters,
@@ -171,7 +176,7 @@ export const TrackerWorkingListsSetup = ({
                 programId: program.id,
                 programStageId,
             });
-            onUpdateTemplate(template, criteria, data);
+            onUpdateTemplate(template, criteria, { ...data, filtersConfig });
         },
         [
             onUpdateTemplate,
@@ -183,6 +188,7 @@ export const TrackerWorkingListsSetup = ({
             sortByDirection,
             program.id,
             programStageId,
+            filtersConfig,
         ],
     );
 
@@ -195,13 +201,14 @@ export const TrackerWorkingListsSetup = ({
         <WorkingListsBase
             {...passOnProps}
             forceUpdateOnMount={forceUpdateOnMount}
-            currentTemplate={useCurrentTemplate(templates, currentTemplateId)}
+            currentTemplate={currentTemplate}
             customUpdateTrigger={customUpdateTrigger}
             templates={templates}
             columns={columns}
             onAddTemplate={injectArgumentsForAddTemplate}
             onUpdateTemplate={injectArgumentsForUpdateTemplate}
             onDeleteTemplate={injectArgumentsForDeleteTemplate}
+            onClearFilters={onClearFilters}
             filtersOnly={filtersOnly}
             additionalFilters={programStageFiltersOnly}
             dataSource={useDataSource(records, recordsOrder, columns)}

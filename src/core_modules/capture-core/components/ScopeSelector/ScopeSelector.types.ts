@@ -19,6 +19,7 @@ export type OwnProps = {
   children: ReactNode;
   isReadOnlyOrgUnit?: boolean;
   orgUnitTooltip?: boolean;
+  showOuModeSelection?: boolean;
 };
 
 export type PropsFromRedux = {

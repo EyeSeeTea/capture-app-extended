@@ -18,9 +18,12 @@ export const initTeiViewEpic = (
         concatMap((action) => {
             const { storeId, columnsMetaForDataFetching, filtersOnlyMetaForDataFetching, selectedTemplate } = action.payload;
             const { programId, orgUnitId } = action.payload.context;
+            const { ouMode = 'SELECTED' } = store.value.currentSelections;
+
             return from(initTrackerWorkingListsViewAsync({
                 programId,
                 orgUnitId,
+                ouMode,
                 storeId,
                 selectedTemplate,
                 columnsMetaForDataFetching,
@@ -32,6 +35,7 @@ export const initTeiViewEpic = (
                 filter(cancelAction => cancelAction.payload.storeId === storeId),
             )));
         }));
+
 export const updateTeiListEpic = (
     action$: EpicAction<any>,
     store: ReduxStore, {
@@ -55,12 +59,15 @@ export const updateTeiListEpic = (
                 sortByDirection,
             } = queryArgs;
 
+            const { ouMode = 'SELECTED' } = store.value.currentSelections;
+
             return from(updateTrackerWorkingListsRecords({
                 page,
                 pageSize,
                 programId,
                 programStageId,
                 orgUnitId,
+                ouMode,
                 filters,
                 sortById,
                 sortByDirection,
@@ -74,4 +81,3 @@ export const updateTeiListEpic = (
                 filter(cancelAction => cancelAction.payload.storeId === storeId),
             )));
         }));
-

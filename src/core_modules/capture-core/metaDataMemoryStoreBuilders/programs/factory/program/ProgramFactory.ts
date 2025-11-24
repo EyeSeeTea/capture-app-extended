@@ -9,7 +9,6 @@ import {
     type TrackedEntityType,
     type Category,
 } from '../../../../metaData';
-import { getUserMetadataStorageController, USER_METADATA_STORES } from '../../../../storageControllers';
 import { SearchGroupFactory } from '../../../common/factory';
 import { buildIcon } from '../../../common/helpers';
 import { EnrollmentFactory } from '../enrollment';
@@ -178,7 +177,10 @@ export class ProgramFactory {
 
             program.enrollment = await this.enrollmentFactory.build(cachedProgram, program.searchGroups);
         }
-        program.organisationUnits = (await getUserMetadataStorageController().get(USER_METADATA_STORES.ORGANISATION_UNITS_BY_PROGRAM, program.id))?.organisationUnits;
+        program.organisationUnits = cachedProgram.organisationUnits?.reduce((acc, { id, path }) => {
+            acc[id] = path;
+            return acc;
+        }, {});
         program.icon = buildIcon(cachedProgram.style);
         program.displayFrontPageList = cachedProgram.displayFrontPageList;
         program.onlyEnrollOnce = cachedProgram.onlyEnrollOnce;

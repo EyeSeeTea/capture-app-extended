@@ -3,6 +3,7 @@ export {
     workingListsListRecordsDesc,
     workingListsTemplatesDesc,
     workingListsColumnsOrderDesc,
+    workingListsFiltersConfigDesc,
     workingListsContextDesc,
     workingListsDesc,
     workingListsUIDesc,

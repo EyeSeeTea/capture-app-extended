@@ -8,6 +8,7 @@ export type Input = {
     programId: string,
     programStageId?: string,
     orgUnitId: string,
+    ouMode: string,
     filters: FiltersData,
     sortById: string,
     sortByDirection: string,

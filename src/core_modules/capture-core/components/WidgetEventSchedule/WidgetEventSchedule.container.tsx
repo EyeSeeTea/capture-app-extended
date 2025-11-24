@@ -3,6 +3,7 @@ import i18n from '@dhis2/d2-i18n';
 import { useDispatch } from 'react-redux';
 import { useTimeZoneConversion } from '@dhis2/app-runtime';
 import moment from 'moment';
+import { useOuMode } from 'capture-core/components/ScopeSelector';
 import { getProgramAndStageForProgram, TrackerProgram, getProgramEventAccess, dataElementTypes } from '../../metaData';
 import { getCachedOrgUnitName } from '../../metadataRetrieval/orgUnitName';
 import { useLocationQuery } from '../../utils/routing';
@@ -81,8 +82,9 @@ export const WidgetEventSchedule = ({
     }>>([]);
     const [assignee, setAssignee] = useState(storedAssignee);
     const { eventId } = useLocationQuery();
+    const { ouMode } = useOuMode();
     const selectedOrgUnitId = scheduledOrgUnit?.id || initialOrgUnitId;
-    const { events = [] } = useEventsInOrgUnit(selectedOrgUnitId, serverScheduleDate, programId);
+    const { events = [] } = useEventsInOrgUnit(selectedOrgUnitId, serverScheduleDate, programId, ouMode);
     const eventCountInOrgUnit = events.length;
     const [selectedCategories, setSelectedCategories] = useState<any>({});
     const [categoryOptionsError, setCategoryOptionsError] = useState<any>();

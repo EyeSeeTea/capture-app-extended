@@ -1,4 +1,7 @@
 import moment from 'moment';
+import {
+    filtersConfigReducerDescriptors,
+} from 'capture-core/extended/filtersConfig/workingList.extended';
 import { createReducerDescription } from '../../../trackerRedux/trackerReducer';
 import { workingListsCommonActionTypes } from '../../../components/WorkingLists/WorkingListsCommon';
 import { eventWorkingListsActionTypes } from '../../../components/WorkingLists/EventWorkingLists';
@@ -119,7 +122,7 @@ export const workingListsTemplatesDesc = createReducerDescription({
         };
     },
     [workingListsCommonActionTypes.TEMPLATE_UPDATE_SUCCESS]: (state, action) => {
-        const { criteria, templateId, storeId } = action.payload;
+        const { criteria, templateId, storeId, filtersConfig } = action.payload;
         const templates = state[storeId].templates;
         const targetTemplate = templates.find(t => t.id === templateId);
 
@@ -129,6 +132,7 @@ export const workingListsTemplatesDesc = createReducerDescription({
                 ...targetTemplate,
                 criteria,
                 nextCriteria: undefined,
+                filtersConfig,
             };
 
             return {
@@ -204,7 +208,7 @@ export const workingListsTemplatesDesc = createReducerDescription({
         };
     },
     [workingListsCommonActionTypes.TEMPLATE_ADD_SUCCESS]: (state, action) => {
-        const { templateId, clientId, storeId } = action.payload;
+        const { templateId, clientId, storeId, filtersConfig } = action.payload;
         const templates = state[storeId].templates;
         const targetTemplate = templates.find(t => t.id === clientId);
         const otherTemplates = templates.filter(t => t.id !== clientId);
@@ -220,6 +224,7 @@ export const workingListsTemplatesDesc = createReducerDescription({
             ...targetTemplate,
             id: templateId,
             notPreserved: undefined,
+            filtersConfig,
         };
 
         return {
@@ -524,6 +529,11 @@ export const workingListsColumnsOrderDesc = createReducerDescription({
         return newState;
     },
 }, 'workingListsColumnsOrder');
+
+export const workingListsFiltersConfigDesc = createReducerDescription(
+    filtersConfigReducerDescriptors,
+    'workingListsFiltersConfig',
+);
 
 export const workingListsContextDesc = createReducerDescription({
     /*

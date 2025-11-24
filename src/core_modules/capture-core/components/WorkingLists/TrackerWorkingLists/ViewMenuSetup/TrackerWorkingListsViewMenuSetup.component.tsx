@@ -71,6 +71,7 @@ export const TrackerWorkingListsViewMenuSetup = ({
                 context: {
                     programId: context.programId,
                     orgUnitId: context.orgUnitId,
+                    ouMode: context.ouMode,
                     storeId,
                 },
                 meta: { columnsMetaForDataFetching },
@@ -90,6 +91,7 @@ export const TrackerWorkingListsViewMenuSetup = ({
                 context: {
                     programId: queryArgs.programId,
                     orgUnitId: queryArgs.orgUnitId,
+                    ouMode: queryArgs.ouMode,
                     storeId,
                 },
                 meta: { columnsMetaForDataFetching },

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useDataEngine } from '@dhis2/app-runtime';
 import { makeQuerySingleResource } from 'capture-core/utils/api';
 import { useLocationQuery } from 'capture-core/utils/routing';
+import { FiltersConfigProvider } from 'capture-core/extended/filtersConfig';
 import {
     openViewEventPage,
     requestDeleteEvent,
@@ -25,8 +26,9 @@ export const EventWorkingListsReduxProvider = ({ storeId, program, programStage,
         onLoadView,
         onUpdateList,
         onResetListColumnOrder,
-        onClearFilters,
         onUpdateDefaultTemplate,
+        filtersConfig,
+        onSetFiltersConfig,
         ...commonStateManagementRestProps
     } = useWorkingListsCommonStateManagement(storeId, SINGLE_EVENT_WORKING_LISTS_TYPE, program, mainViewConfig);
 
@@ -76,6 +78,7 @@ export const EventWorkingListsReduxProvider = ({ storeId, program, programStage,
                     programId: context.programId,
                     categories: context.categories,
                     programStageId: context.programStageId,
+                    ouMode: context.ouMode,
                     orgUnitId,
                     storeId,
                     program,
@@ -101,6 +104,7 @@ export const EventWorkingListsReduxProvider = ({ storeId, program, programStage,
                     programId: queryArgs.programId,
                     categories: queryArgs.categories,
                     programStageId: queryArgs.programStageId,
+                    ouMode: queryArgs.ouMode,
                     orgUnitId,
                     storeId,
                     program,
@@ -112,20 +116,22 @@ export const EventWorkingListsReduxProvider = ({ storeId, program, programStage,
         [onUpdateList, orgUnitId, storeId, program],
     );
     return (
-        <EventWorkingListsColumnSetup
-            {...commonStateManagementRestProps}
-            templateSharingType={TEMPLATE_SHARING_TYPE[storeId]}
-            program={program}
-            programStage={programStage}
-            orgUnitId={orgUnitId}
-            currentTemplate={currentTemplate}
-            templates={templates}
-            lastIdDeleted={lastEventIdDeleted}
-            onClickListRow={onClickListRow}
-            onLoadView={handleLoadView}
-            onUpdateList={injectDownloadRequestToUpdateList}
-            onDeleteEvent={onDeleteEvent}
-            downloadRequest={downloadRequest}
-        />
+        <FiltersConfigProvider filtersConfig={filtersConfig} onSetFiltersConfig={onSetFiltersConfig}>
+            <EventWorkingListsColumnSetup
+                {...commonStateManagementRestProps}
+                templateSharingType={TEMPLATE_SHARING_TYPE[storeId]}
+                program={program}
+                programStage={programStage}
+                orgUnitId={orgUnitId}
+                currentTemplate={currentTemplate}
+                templates={templates}
+                lastIdDeleted={lastEventIdDeleted}
+                onClickListRow={onClickListRow}
+                onLoadView={handleLoadView}
+                onUpdateList={injectDownloadRequestToUpdateList}
+                onDeleteEvent={onDeleteEvent}
+                downloadRequest={downloadRequest}
+            />
+        </FiltersConfigProvider>
     );
 };

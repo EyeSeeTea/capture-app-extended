@@ -4,6 +4,10 @@ import { from } from 'rxjs';
 import { errorCreator } from 'capture-core-utils';
 import { ofType } from 'redux-observable';
 import { concatMap, filter, takeUntil } from 'rxjs/operators';
+import {
+    getTemplateExtendedProps,
+    templateExtendedPropType,
+} from 'capture-core/extended/filtersConfig';
 import type { ReduxStore, ApiUtils, EpicAction } from '../../../../../../capture-core-utils/types';
 import { workingListsCommonActionTypes, fetchTemplatesSuccess, fetchTemplatesError } from '../../../WorkingListsCommon';
 import { getProgramStageTemplates } from './templates/getProgramStageTemplates';
@@ -44,11 +48,21 @@ export const retrieveAllTemplatesEpic = (
             const promise = Promise.all([
                 getTEITemplates(programId, querySingleResource),
                 getProgramStageTemplates(programId, querySingleResource),
-            ])
-                .then((values) => {
-                    const { templates, defaultTemplateId } = mergeTempletes(values, selectedTemplateId);
+                getTemplateExtendedProps(querySingleResource, templateExtendedPropType.tracker),
 
-                    return fetchTemplatesSuccess(templates, defaultTemplateId, storeId);
+            ])
+                .then(([teiTemplates, programStageTemplates, extendedTemplates]) => {
+                    const { templates, defaultTemplateId } = mergeTempletes([teiTemplates, programStageTemplates], selectedTemplateId);
+
+                    const updatedTemplates = templates.map((template) => {
+                        const extendedProps = extendedTemplates[template.id] || {};
+                        return {
+                            ...template,
+                            ...extendedProps,
+                        };
+                    });
+
+                    return fetchTemplatesSuccess(updatedTemplates, defaultTemplateId, storeId);
                 })
                 .catch((error) => {
                     log.error(errorCreator(error)({ epic: 'retrieveTemplatesEpic' }));

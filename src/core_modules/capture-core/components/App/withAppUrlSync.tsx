@@ -25,6 +25,9 @@ const programIdParameter = {
 const orgUnitIdParameter = {
     urlParameterName: 'orgUnitId',
 };
+const orgUnitModeParameter = {
+    urlParameterName: 'ouMode',
+};
 const tetIdParameter = {
     urlParameterName: 'trackedEntityTypeId',
 };
@@ -33,9 +36,9 @@ const eventIdParameter = {
 };
 
 const specificationForPages = {
-    [pageKeys.MAIN]: [programIdParameter, orgUnitIdParameter],
+    [pageKeys.MAIN]: [programIdParameter, orgUnitIdParameter, orgUnitModeParameter],
     [pageKeys.VIEW_EVENT]: [eventIdParameter],
-    [pageKeys.SEARCH]: [programIdParameter, orgUnitIdParameter],
+    [pageKeys.SEARCH]: [programIdParameter, orgUnitIdParameter, orgUnitModeParameter],
     [pageKeys.NEW]: [programIdParameter, orgUnitIdParameter, tetIdParameter],
 };
 

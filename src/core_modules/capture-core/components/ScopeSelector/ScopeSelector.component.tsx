@@ -125,6 +125,7 @@ class ScopeSelectorClass extends Component<Props & WithStyles<typeof styles>, St
                     formIsOpen={this.props.formIsOpen}
                     isReadOnlyOrgUnit={this.props.isReadOnlyOrgUnit}
                     orgUnitTooltip={this.props.orgUnitTooltip}
+                    showOuModeSelection={this.props.showOuModeSelection}
                 >
                     {this.props.children}
                 </QuickSelector>

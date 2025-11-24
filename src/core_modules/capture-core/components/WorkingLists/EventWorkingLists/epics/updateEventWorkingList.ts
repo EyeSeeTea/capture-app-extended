@@ -29,8 +29,10 @@ export const updateEventWorkingListAsync = (
     absoluteApiPath: string,
     querySingleResource: QuerySingleResource,
 ): Promise<any> => {
+    const { ouMode, orgUnitMode, ...queryArgsWithoutOuMode } = queryArgsSource;
+
     const rawQueryArgs = {
-        ...queryArgsSource,
+        ...queryArgsWithoutOuMode,
         fields: 'dataValues,occurredAt,event,status,orgUnit,program,programType,updatedAt,createdAt,assignedUser',
         filters: buildFilterQueryArgs(queryArgsSource.filters, {
             columns: columnsMetaForDataFetching,

@@ -6,7 +6,7 @@ import type { ColumnsMetaForDataFetching } from '../types';
 
 export const computeDownloadRequest = ({
     clientConfig: { currentPage, rowsPerPage, sortById, sortByDirection, filters },
-    context: { programId, categories, programStageId, orgUnitId, storeId, program },
+    context: { programId, categories, programStageId, orgUnitId, ouMode, storeId, program },
     meta: { columnsMetaForDataFetching },
 }: {
     clientConfig: {
@@ -21,6 +21,7 @@ export const computeDownloadRequest = ({
         categories: any;
         programStageId: string;
         orgUnitId: string;
+        ouMode: string;
         storeId: string;
         program: Program;
     };
@@ -41,7 +42,7 @@ export const computeDownloadRequest = ({
         orgUnitId,
         categories,
         programStageId,
-        [orgUnitModeQueryParam]: orgUnitId ? 'SELECTED' : 'ACCESSIBLE',
+        [orgUnitModeQueryParam]: orgUnitId ? ouMode : 'ACCESSIBLE',
     };
     const mainColumns = getMainColumns(columnsMetaForDataFetching);
     const queryParams = createApiQueryArgs(rawQueryArgs, mainColumns, categoryCombinationId);

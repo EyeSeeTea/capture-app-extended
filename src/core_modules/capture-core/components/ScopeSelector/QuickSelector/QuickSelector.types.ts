@@ -18,5 +18,6 @@ export type Props = {
     children: ReactNode;
     isReadOnlyOrgUnit?: boolean;
     orgUnitTooltip?: boolean;
+    showOuModeSelection?: boolean;
     isUserInteractionInProgress?: boolean;
 };

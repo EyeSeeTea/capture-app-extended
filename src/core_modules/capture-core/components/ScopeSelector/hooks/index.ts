@@ -1,6 +1,7 @@
 export { useSetProgramId } from './useSetProgramId';
 export { useSetOrgUnitId } from './useSetOrgUnitId';
 export { useSetEnrollmentId } from './useSetEnrollmentId';
+export { useOuMode } from '../../../extended/ouMode';
 
 export { useResetProgramId } from './useResetProgramId';
 export { useResetOrgUnitId } from './useResetOrgUnitId';

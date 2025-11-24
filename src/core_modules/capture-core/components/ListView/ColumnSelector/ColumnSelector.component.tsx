@@ -2,12 +2,14 @@ import * as React from 'react';
 import { IconButton } from 'capture-ui';
 import { IconSettings24, Tooltip } from '@dhis2/ui';
 import i18n from '@dhis2/d2-i18n';
+import { FiltersWithConfig } from 'capture-core/extended/filtersConfig';
 import { ColumnSelectorDialog } from './ColumnSelectorDialog.component';
 import type { Columns } from '../types';
 
 type Props = {
-    onSave: (columns: Columns) => void;
+    onSave: (columns: Columns, defaultFilters?: FiltersWithConfig) => void;
     columns: Columns;
+    defaultFilters: FiltersWithConfig;
 };
 
 type State = {
@@ -34,8 +36,8 @@ export class ColumnSelector extends React.PureComponent<Props, State> {
         });
     }
 
-    handleSaveColumns = (columns: Columns) => {
-        this.props.onSave(columns);
+    handleSave = (columns: Columns, defaultFilters?: FiltersWithConfig) => {
+        this.props.onSave(columns, defaultFilters);
         this.closeDialog();
     }
 
@@ -45,7 +47,7 @@ export class ColumnSelector extends React.PureComponent<Props, State> {
             <React.Fragment>
                 <Tooltip
                     openDelay={500}
-                    content={i18n.t('Select columns')}
+                    content={i18n.t('Select columns or hide default filters')}
                     dataTest="select-columns"
                 >
                     <IconButton
@@ -57,8 +59,9 @@ export class ColumnSelector extends React.PureComponent<Props, State> {
                 <ColumnSelectorDialog
                     open={this.state.dialogOpen}
                     onClose={this.closeDialog}
-                    onSave={this.handleSaveColumns}
+                    onSave={this.handleSave}
                     columns={columns}
+                    defaultFilters={this.props.defaultFilters}
                 />
             </React.Fragment>
         );

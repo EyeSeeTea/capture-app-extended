@@ -4,7 +4,7 @@ import type { TeiColumnsMetaForDataFetching, TeiFiltersOnlyMetaForDataFetching }
 
 export const computeDownloadRequest = ({
     clientConfig: { currentPage: page, rowsPerPage: pageSize, sortById, sortByDirection, filters },
-    context: { programId, orgUnitId, storeId },
+    context: { programId, orgUnitId, ouMode, storeId },
     meta: { columnsMetaForDataFetching },
     filtersOnlyMetaForDataFetching,
 }: {
@@ -18,6 +18,7 @@ export const computeDownloadRequest = ({
     context: {
         programId: string;
         orgUnitId: string;
+        ouMode: string;
         storeId: string;
     };
     meta: { columnsMetaForDataFetching: TeiColumnsMetaForDataFetching };
@@ -30,7 +31,7 @@ export const computeDownloadRequest = ({
         isInit: true,
     });
 
-    const rawQueryArgs = { programId, orgUnitId, pageSize, page, sortById, sortByDirection, filters: apiFilters };
+    const rawQueryArgs = { programId, orgUnitId, ouMode, pageSize, page, sortById, sortByDirection, filters: apiFilters };
     const queryParams = createApiTrackedEntitiesQueryArgs(
         rawQueryArgs,
         columnsMetaForDataFetching,

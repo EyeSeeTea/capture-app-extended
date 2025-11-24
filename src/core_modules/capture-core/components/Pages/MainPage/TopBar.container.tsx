@@ -62,6 +62,7 @@ export const TopBar = ({ programId, orgUnitId, selectedCategories }: TopBarProps
             onResetAllCategoryOptions={dispatchOnResetAllCategoryOptions}
             onResetCategoryOption={dispatchOnResetCategoryOption}
             onStartAgain={() => reset()}
+            showOuModeSelection
         >
             <TopBarActions selectedProgramId={programId} selectedOrgUnitId={orgUnitId} />
         </ScopeSelector>

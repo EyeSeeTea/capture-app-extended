@@ -1,10 +1,11 @@
 import { useHistory } from 'react-router-dom';
+import { persistOuModeQueryParam } from 'capture-core/extended/ouMode';
 
 export const useNavigate = () => {
     const history = useHistory();
 
     const navigate = (path: string, scrollToTop = true) => {
-        history.push(path);
+        history.push(persistOuModeQueryParam(path));
         if (scrollToTop) {
             window.scrollTo(0, 0);
         }

@@ -1,3 +1,4 @@
+import { omit } from 'lodash';
 import { createReducerDescription } from '../../../../trackerRedux/trackerReducer';
 import { workingListsCommonActionTypes } from '../../../../components/WorkingLists/WorkingListsCommon';
 import { recentlyAddedEventsActionTypes } from '../../../../components/DataEntries/SingleEventRegistrationEntry/DataEntryWrapper/RecentlyAddedEventsList';
@@ -79,25 +80,27 @@ export const workingListsMetaDesc = createReducerDescription({
         return newState;
     },
     [workingListsCommonActionTypes.TEMPLATE_UPDATE]: (state, action) => {
-        const { visibleColumnIds, filters, sortById, sortByDirection, storeId } = action.payload;
+        const { visibleColumnIds, filters, sortById, sortByDirection, storeId, filtersConfig } = action.payload;
 
         const nextInitial = {
             filters,
             sortById,
             sortByDirection,
             customVisibleColumnIds: visibleColumnIds,
+            filtersConfig,
         };
 
         return {
             ...state,
             [storeId]: {
                 ...state[storeId],
+                filtersConfig,
                 nextInitial,
             },
         };
     },
     [workingListsCommonActionTypes.TEMPLATE_UPDATE_SUCCESS]: (state, action) => {
-        const { isActiveTemplate, storeId } = action.payload;
+        const { isActiveTemplate, storeId, filtersConfig } = action.payload;
 
         if (!isActiveTemplate) {
             return state;
@@ -109,6 +112,7 @@ export const workingListsMetaDesc = createReducerDescription({
                 ...state[storeId],
                 initial: state[storeId].nextInitial,
                 nextInitial: undefined,
+                filtersConfig,
             },
         };
     },
@@ -147,7 +151,7 @@ export const workingListsMetaDesc = createReducerDescription({
         };
     },
     [workingListsCommonActionTypes.TEMPLATE_ADD_SUCCESS]: (state, action) => {
-        const { isActiveTemplate, storeId } = action.payload;
+        const { isActiveTemplate, storeId, filtersConfig } = action.payload;
 
         if (!isActiveTemplate) {
             return state;
@@ -160,6 +164,7 @@ export const workingListsMetaDesc = createReducerDescription({
                 initial: state[storeId].nextInitial,
                 nextInitial: undefined,
                 viewPreloaded: false,
+                filtersConfig,
             },
         };
     },
@@ -279,13 +284,20 @@ export const workingListsMetaDesc = createReducerDescription({
         };
     },
     [workingListsCommonActionTypes.FILTERS_CLEAR]: (state, action) => {
-        const { filtersList: filtersListToKeep, storeId } = action.payload;
-        if (state[storeId]) {
+        const { filtersList: filtersListToClear, storeId } = action.payload;
+        if (state[storeId] && state[storeId].filters) {
+            const currentFilters = state[storeId].filters;
+            const clearedFilters = omit(currentFilters, filtersListToClear);
+
             return {
                 ...state,
                 [storeId]: {
                     ...state[storeId],
-                    filters: filtersListToKeep,
+                    filters: clearedFilters,
+                    next: {
+                        ...state[storeId].next,
+                        currentPage: 1,
+                    },
                 },
             };
         }

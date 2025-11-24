@@ -94,7 +94,8 @@ const fieldsParam = 'id,displayName,displayShortName,description,programType,sty
 'programStageDataElements[compulsory,displayInReports,renderOptionsAsRadio,allowFutureDate,renderType[*],dataElement[id]]]' +
 'programSections[id, displayDescription, displayFormName, sortOrder, trackedEntityAttributes],' +
 // eslint-disable-next-line max-len
-'programTrackedEntityAttributes[trackedEntityAttribute[id],displayInList,searchable,mandatory,renderOptionsAsRadio,allowFutureDate]';
+'programTrackedEntityAttributes[trackedEntityAttribute[id],displayInList,searchable,mandatory,renderOptionsAsRadio,allowFutureDate],' +
+'organisationUnits[id,path]';
 
 export const storePrograms = (programIds: Array<string>) => {
     const query = {
