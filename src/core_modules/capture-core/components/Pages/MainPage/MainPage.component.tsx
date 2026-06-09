@@ -13,6 +13,7 @@ import { SearchBox } from '../../SearchBox';
 import { TemplateSelector } from '../../TemplateSelector';
 import { BulkDataEntry } from '../../BulkDataEntry';
 import { WidgetBulkDataEntry } from '../../WidgetBulkDataEntry';
+import { useBulkDataEntryConfigurations } from '../../common/bulkDataEntry';
 import {
     InvalidCategoryCombinationForOrgUnitMessage,
 } from './InvalidCategoryCombinationForOrgUnitMessage/InvalidCategoryCombinationForOrgUnitMessage';
@@ -69,6 +70,8 @@ const MainPagePlain = ({
     onOpenBulkDataEntryPlugin,
     bulkDataEntryTrackedEntityIds,
 }: Props) => {
+    const { bulkDataEntryConfigurations } = useBulkDataEntryConfigurations(programId);
+
     const showMainPage = useMemo(() => {
         const noProgramSelected = !programId;
         const noOrgUnitSelected = !orgUnitId;
@@ -115,12 +118,14 @@ const MainPagePlain = ({
                                     onOpenBulkDataEntryPlugin={onOpenBulkDataEntryPlugin}
                                 />
                             </div>
-                            <div className={classNames(classes.rightColumn, 'right-column-main-page')}>
-                                <WidgetBulkDataEntry
-                                    programId={programId}
-                                    onOpenBulkDataEntryPlugin={onOpenBulkDataEntryPlugin}
-                                />
-                            </div>
+                            {!!bulkDataEntryConfigurations?.length && (
+                                <div className={classNames(classes.rightColumn, 'right-column-main-page')}>
+                                    <WidgetBulkDataEntry
+                                        programId={programId}
+                                        onOpenBulkDataEntryPlugin={onOpenBulkDataEntryPlugin}
+                                    />
+                                </div>
+                            )}
                         </div>
                     )}
                 </>
