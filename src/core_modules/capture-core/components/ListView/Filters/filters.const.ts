@@ -1,6 +1,6 @@
 import { dataElementTypes } from '../../../metaData';
 
-export const MAX_OPTIONS_COUNT_FOR_OPTION_SET_CONTENTS = 25;
+export const MAX_OPTIONS_COUNT_FOR_OPTION_SET_CONTENTS = 70;
 
 export const filterTypesObject = {
     TEXT: dataElementTypes.TEXT,
