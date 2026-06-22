@@ -1,20 +1,29 @@
 import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useApiMetadataQuery } from 'capture-core/utils/reactQueryHelpers';
-import { buildUrlQueryString, useLocationQuery, useNavigate } from 'capture-core/utils/routing';
+import { buildUrlQueryString, useLocationQuery } from 'capture-core/utils/routing';
+import { persistOuModeQueryParam } from 'capture-core/extended/ouMode';
 import { resolveDefaultView } from './resolveDefaultView';
 import type { DefaultViewsConfig } from './defaultView.types';
 
 type Me = { userGroups?: ReadonlyArray<{ id: string }> };
 
 export const useDefaultView = (): void => {
-    const { navigate } = useNavigate();
+    const history = useHistory();
     const { programId, selectedTemplateId } = useLocationQuery();
     const isColdLoad = !programId && selectedTemplateId === undefined;
 
+    // Reason: list namespaces first so a fresh instance (no capture-extended) never 404s.
+    const { data: hasNamespace } = useApiMetadataQuery<Array<string>, boolean>(
+        ['defaultView', 'namespaces'],
+        { resource: 'dataStore' },
+        { enabled: isColdLoad, select: namespaces => !!namespaces?.includes('capture-extended') },
+    );
+
     const { data: hasConfig } = useApiMetadataQuery<Array<string>, boolean>(
-        ['defaultView', 'namespace'],
+        ['defaultView', 'keys'],
         { resource: 'dataStore/capture-extended' },
-        { enabled: isColdLoad, select: keys => !!keys?.includes('defaultViews') },
+        { enabled: isColdLoad && !!hasNamespace, select: keys => !!keys?.includes('defaultViews') },
     );
 
     const { data: config } = useApiMetadataQuery<DefaultViewsConfig>(
@@ -40,6 +49,7 @@ export const useDefaultView = (): void => {
             programId: defaultView.programId,
             selectedTemplateId: defaultView.templateId,
         });
-        navigate(`/?${query}`);
-    }, [isColdLoad, defaultView, navigate]);
+        // Reason: replace (not push) so the transient cold URL stays out of history and Back can't re-trigger the redirect.
+        history.replace(persistOuModeQueryParam(`/?${query}`));
+    }, [isColdLoad, defaultView, history]);
 };
