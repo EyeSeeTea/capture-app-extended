@@ -41,4 +41,12 @@ describe('resolveDefaultView', () => {
     it('returns undefined when the only matching entry is missing programId or templateId', () => {
         expect(resolveDefaultView(['g1'], { g1: { programId: 'prog1' } })).toBeUndefined();
     });
+
+    it('returns undefined when ids are truthy but not non-empty strings', () => {
+        const malformedConfig = {
+            g1: { programId: 1, templateId: true },
+            g2: { programId: 'prog2', templateId: '' },
+        };
+        expect(resolveDefaultView(['g1', 'g2'], malformedConfig)).toBeUndefined();
+    });
 });
