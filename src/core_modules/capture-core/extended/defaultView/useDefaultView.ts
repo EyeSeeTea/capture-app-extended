@@ -4,6 +4,7 @@ import { useApiMetadataQuery } from 'capture-core/utils/reactQueryHelpers';
 import { buildUrlQueryString, useLocationQuery } from 'capture-core/utils/routing';
 import { persistOuModeQueryParam } from 'capture-core/extended/ouMode';
 import { resolveDefaultView } from './resolveDefaultView';
+import { parseDefaultViewsConfig } from './parseDefaultViewsConfig';
 import type { DefaultViewsConfig } from './defaultView.types';
 
 type Me = { userGroups?: ReadonlyArray<{ id: string }> };
@@ -26,10 +27,10 @@ export const useDefaultView = (): void => {
         { enabled: isColdLoad && !!hasNamespace, select: keys => !!keys?.includes('defaultViews') },
     );
 
-    const { data: config } = useApiMetadataQuery<DefaultViewsConfig>(
+    const { data: config } = useApiMetadataQuery<unknown, DefaultViewsConfig>(
         ['defaultView', 'config'],
         { resource: 'dataStore/capture-extended/defaultViews' },
-        { enabled: isColdLoad && !!hasConfig },
+        { enabled: isColdLoad && !!hasConfig, select: parseDefaultViewsConfig },
     );
 
     const { data: userGroupIds } = useApiMetadataQuery<Me, Array<string>>(
