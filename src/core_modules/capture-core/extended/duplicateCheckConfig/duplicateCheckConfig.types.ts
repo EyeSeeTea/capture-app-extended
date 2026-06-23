@@ -9,7 +9,6 @@ export const validOrgUnitModes = [
 
 export type OrgUnitMode = (typeof validOrgUnitModes)[number];
 
-// Reason: org-unit-relative modes need an explicit org unit; the rest are user-scoped.
 export const orgUnitModesRequiringOrgUnit: ReadonlyArray<OrgUnitMode> = [
     'SELECTED',
     'CHILDREN',
@@ -18,8 +17,11 @@ export const orgUnitModesRequiringOrgUnit: ReadonlyArray<OrgUnitMode> = [
 
 export const defaultOrgUnitMode: OrgUnitMode = 'ACCESSIBLE';
 
+export const isOrgUnitMode = (value: unknown): value is OrgUnitMode =>
+    typeof value === 'string' && (validOrgUnitModes as ReadonlyArray<string>).includes(value);
+
 export type DuplicateCheckEntry = {
-    orgUnitMode: string;
+    orgUnitMode: OrgUnitMode;
 };
 
 export type DuplicateCheckConfig = Readonly<Record<string, DuplicateCheckEntry>>;

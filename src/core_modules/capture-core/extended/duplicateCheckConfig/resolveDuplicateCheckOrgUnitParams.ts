@@ -1,9 +1,7 @@
 import {
-    validOrgUnitModes,
     orgUnitModesRequiringOrgUnit,
     defaultOrgUnitMode,
     type DuplicateCheckConfig,
-    type OrgUnitMode,
 } from './duplicateCheckConfig.types';
 
 type Input = {
@@ -14,9 +12,6 @@ type Input = {
     orgUnitQueryParam: string;
 };
 
-const isValidMode = (value: unknown): value is OrgUnitMode =>
-    typeof value === 'string' && (validOrgUnitModes as ReadonlyArray<string>).includes(value);
-
 export function resolveDuplicateCheckOrgUnitParams({
     config,
     scopeId,
@@ -24,11 +19,11 @@ export function resolveDuplicateCheckOrgUnitParams({
     orgUnitModeQueryParam,
     orgUnitQueryParam,
 }: Input): Record<string, string> {
-    const configured = config?.[scopeId]?.orgUnitMode;
-    const requestedMode = isValidMode(configured) ? configured : defaultOrgUnitMode;
+    const requestedMode = config[scopeId]?.orgUnitMode ?? defaultOrgUnitMode;
     const needsOrgUnit = orgUnitModesRequiringOrgUnit.includes(requestedMode);
 
-    return needsOrgUnit && orgUnitId
-        ? { [orgUnitModeQueryParam]: requestedMode, [orgUnitQueryParam]: orgUnitId }
-        : { [orgUnitModeQueryParam]: needsOrgUnit ? defaultOrgUnitMode : requestedMode };
+    return {
+        [orgUnitModeQueryParam]: needsOrgUnit && !orgUnitId ? defaultOrgUnitMode : requestedMode,
+        ...(needsOrgUnit && orgUnitId ? { [orgUnitQueryParam]: orgUnitId } : {}),
+    };
 }

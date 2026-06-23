@@ -33,7 +33,7 @@ describe('resolveDuplicateCheckOrgUnitParams', () => {
         });
     });
 
-    describe('fallback to ACCESSIBLE', () => {
+    describe('unconfigured scope falls back to ACCESSIBLE', () => {
         it('absent scope entry', () => {
             expect(resolve({ OtherScope: { orgUnitMode: 'SELECTED' } }))
                 .toEqual({ orgUnitMode: 'ACCESSIBLE' });
@@ -41,16 +41,6 @@ describe('resolveDuplicateCheckOrgUnitParams', () => {
 
         it('empty config', () => {
             expect(resolve({})).toEqual({ orgUnitMode: 'ACCESSIBLE' });
-        });
-
-        it('invalid mode string', () => {
-            expect(resolve({ [SCOPE]: { orgUnitMode: 'WRONG' } }))
-                .toEqual({ orgUnitMode: 'ACCESSIBLE' });
-        });
-
-        it('non-string mode value', () => {
-            expect(resolve({ [SCOPE]: { orgUnitMode: 42 } }))
-                .toEqual({ orgUnitMode: 'ACCESSIBLE' });
         });
     });
 
