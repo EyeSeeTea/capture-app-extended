@@ -11,7 +11,7 @@ type Me = { userGroups?: ReadonlyArray<{ id: string }> };
 
 export const useDefaultView = (): void => {
     const history = useHistory();
-    const { programId, selectedTemplateId } = useLocationQuery();
+    const { programId, selectedTemplateId, orgUnitId, all } = useLocationQuery();
     const isColdLoad = !programId && selectedTemplateId === undefined;
 
     // Reason: list namespaces first so a fresh instance (no capture-extended) never 404s.
@@ -46,11 +46,14 @@ export const useDefaultView = (): void => {
 
     useEffect(() => {
         if (!isColdLoad || !defaultView) return;
+        // Reason: stay consistent with handleChangeTemplateUrl, which preserves orgUnitId/all rather than dropping them.
         const query = buildUrlQueryString({
+            ...(orgUnitId ? { orgUnitId } : {}),
             programId: defaultView.programId,
             selectedTemplateId: defaultView.templateId,
         });
+        const url = `/?${query}${all !== undefined ? '&all' : ''}`;
         // Reason: replace (not push) so the transient cold URL stays out of history and Back can't re-trigger the redirect.
-        history.replace(persistOuModeQueryParam(`/?${query}`));
-    }, [isColdLoad, defaultView, history]);
+        history.replace(persistOuModeQueryParam(url));
+    }, [isColdLoad, defaultView, orgUnitId, all, history]);
 };
