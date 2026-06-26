@@ -16,6 +16,7 @@ import { convertFormToClient, convertClientToServer } from '../../converters';
 import { getTrackedEntityInstances } from '../../trackedEntityInstances/trackedEntityInstanceRequests';
 import { getAttributesFromScopeId } from '../../metaData/helpers';
 import { escapeString } from '../../utils/escapeString';
+import { getDuplicateCheckConfig, resolveDuplicateCheckOrgUnitParams } from '../../extended/duplicateCheckConfig';
 
 function getGroupElementsFromScopeId(scopeId: string | null) {
     if (!scopeId) {
@@ -46,6 +47,7 @@ export const loadSearchGroupDuplicatesForReviewEpic = (
             payload: {
                 page,
                 pageSize,
+                orgUnitId,
                 selectedScopeId,
                 scopeType,
                 dataEntryId,
@@ -77,8 +79,10 @@ export const loadSearchGroupDuplicatesForReviewEpic = (
                 const orgUnitModeQueryParam: string = featureAvailable(FEATURES.newOrgUnitModeQueryParam)
                     ? 'orgUnitMode'
                     : 'ouMode';
-                const queryArgs = {
-                    [orgUnitModeQueryParam]: 'ACCESSIBLE',
+                const orgUnitQueryParam: string = featureAvailable(FEATURES.newEntityFilterQueryParam)
+                    ? 'orgUnits'
+                    : 'orgUnit';
+                const baseQueryArgs = {
                     pageSize,
                     page,
                     filter: filters,
@@ -88,7 +92,22 @@ export const loadSearchGroupDuplicatesForReviewEpic = (
                 const programId = scopeType === scopeTypes.TRACKER_PROGRAM ? selectedScopeId : null;
 
                 const stream$ = from(
-                    getTrackedEntityInstances(queryArgs, attributes, absoluteApiPath, querySingleResource, programId),
+                    getDuplicateCheckConfig(querySingleResource).then((config) => {
+                        const orgUnitParams = resolveDuplicateCheckOrgUnitParams({
+                            config,
+                            scopeId: selectedScopeId,
+                            orgUnitId,
+                            orgUnitModeQueryParam,
+                            orgUnitQueryParam,
+                        });
+                        return getTrackedEntityInstances(
+                            { ...baseQueryArgs, ...orgUnitParams },
+                            attributes,
+                            absoluteApiPath,
+                            querySingleResource,
+                            programId,
+                        );
+                    }),
                 );
                 return stream$.pipe(
                     map(({ trackedEntityInstanceContainers: searchResults, pagingData }: { trackedEntityInstanceContainers: any, pagingData: any }) =>
