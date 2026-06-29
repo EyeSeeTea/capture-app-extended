@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
+import { FiltersConfigProvider } from 'capture-core/extended/filtersConfig/FiltersConfigContext';
 import { TrackerWorkingListsViewMenuSetup } from '../ViewMenuSetup';
 import { useWorkingListsCommonStateManagement, fetchTemplates, TEMPLATE_SHARING_TYPE } from '../../WorkingListsCommon';
 import { useTrackerProgram } from '../../../../hooks/useTrackerProgram';
@@ -40,6 +41,8 @@ export const TrackerWorkingListsReduxProvider = ({
         programStage,
         currentTemplateId,
         viewPreloaded,
+        filtersConfig,
+        onSetFiltersConfig,
         ...commonStateManagementProps
     } = useWorkingListsCommonStateManagement(storeId, TRACKER_WORKING_LISTS_TYPE, program);
     const dispatch = useDispatch();
@@ -92,8 +95,10 @@ export const TrackerWorkingListsReduxProvider = ({
     [onAddTemplate, onChangeTemplate]);
 
     const injectCallbacksForDeleteTemplate = useCallback(
-        (template: any, programIdArg: string, programStageArg?: string) =>
-            onDeleteTemplate(template, programIdArg, programStageArg, { onChangeTemplate }),
+        (template: any, programIdArg: string, programStageArg?: string) => {
+            onChangeTemplate && onChangeTemplate(`${programIdArg}-default`);
+            return onDeleteTemplate(template, programIdArg, programStageArg, { onChangeTemplate });
+        },
         [onDeleteTemplate, onChangeTemplate],
     );
     const templateSharingType = programStage
@@ -101,25 +106,27 @@ export const TrackerWorkingListsReduxProvider = ({
         : TEMPLATE_SHARING_TYPE[storeId]?.tei;
 
     return (
-        <TrackerWorkingListsViewMenuSetup
-            {...commonStateManagementProps}
-            forceUpdateOnMount={forceUpdateOnMount}
-            currentTemplateId={currentTemplateId}
-            viewPreloaded={viewPreloaded}
-            templateSharingType={templateSharingType}
-            onClickListRow={onClickListRow}
-            onLoadTemplates={onLoadTemplates}
-            program={program}
-            programStageId={programStage}
-            records={records}
-            orgUnitId={orgUnitId}
-            apiTemplates={apiTemplates}
-            onSelectTemplate={handleOnSelectTemplate}
-            onPreserveCurrentViewState={handlePreserveCurrentViewState}
-            onAddTemplate={injectCallbacksForAddTemplate}
-            onDeleteTemplate={injectCallbacksForDeleteTemplate}
-            storeId={storeId}
-            onOpenBulkDataEntryPlugin={onOpenBulkDataEntryPlugin}
-        />
+        <FiltersConfigProvider filtersConfig={filtersConfig} onSetFiltersConfig={onSetFiltersConfig}>
+            <TrackerWorkingListsViewMenuSetup
+                {...commonStateManagementProps}
+                forceUpdateOnMount={forceUpdateOnMount}
+                currentTemplateId={currentTemplateId}
+                viewPreloaded={viewPreloaded}
+                templateSharingType={templateSharingType}
+                onClickListRow={onClickListRow}
+                onLoadTemplates={onLoadTemplates}
+                program={program}
+                programStageId={programStage}
+                records={records}
+                orgUnitId={orgUnitId}
+                apiTemplates={apiTemplates}
+                onSelectTemplate={handleOnSelectTemplate}
+                onPreserveCurrentViewState={handlePreserveCurrentViewState}
+                onAddTemplate={injectCallbacksForAddTemplate}
+                onDeleteTemplate={injectCallbacksForDeleteTemplate}
+                storeId={storeId}
+                onOpenBulkDataEntryPlugin={onOpenBulkDataEntryPlugin}
+            />
+        </FiltersConfigProvider>
     );
 };

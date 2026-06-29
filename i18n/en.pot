@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-08-19T08:14:08.696Z\n"
-"PO-Revision-Date: 2025-08-19T08:14:08.696Z\n"
+"POT-Creation-Date: 2025-10-30T06:45:20.396Z\n"
+"PO-Revision-Date: 2025-10-30T06:45:20.396Z\n"
 
 msgid "Choose one or more dates..."
 msgstr "Choose one or more dates..."
@@ -549,8 +549,14 @@ msgstr "No results found"
 msgid "No items to display"
 msgstr "No items to display"
 
-msgid "Select columns"
-msgstr "Select columns"
+msgid "Select columns or hide default filters"
+msgstr "Select columns or hide default filters"
+
+msgid "Columns"
+msgstr "Columns"
+
+msgid "Filters"
+msgstr "Filters"
 
 msgid "Columns to show in table"
 msgstr "Columns to show in table"
@@ -600,8 +606,12 @@ msgstr "Could not get organisation unit"
 msgid "Program doesn't exist"
 msgstr "Program doesn't exist"
 
-msgid "Selected program is invalid for selected organisation unit"
-msgstr "Selected program is invalid for selected organisation unit"
+msgid ""
+"Selected program is not available for this organisation unit with "
+"{{ouMode}} mode"
+msgstr ""
+"Selected program is not available for this organisation unit with "
+"{{ouMode}} mode"
 
 msgid "Add note"
 msgstr "Add note"
@@ -1993,6 +2003,24 @@ msgstr "Skipped"
 
 msgid "Visited"
 msgstr "Visited"
+
+msgid "Default filters to hide"
+msgstr "Default filters to hide"
+
+msgid "Selected"
+msgstr "Selected"
+
+msgid "Children"
+msgstr "Children"
+
+msgid "Descendants"
+msgstr "Descendants"
+
+msgid "Choose an organisation unit before selecting the ouMode."
+msgstr "Choose an organisation unit before selecting the ouMode."
+
+msgid "ouMode"
+msgstr "ouMode"
 
 msgid "{{trackedEntityName}} in program{{escape}} {{programName}}"
 msgstr "{{trackedEntityName}} in program{{escape}} {{programName}}"

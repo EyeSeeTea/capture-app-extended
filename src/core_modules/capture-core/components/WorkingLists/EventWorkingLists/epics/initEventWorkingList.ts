@@ -1,6 +1,7 @@
 import log from 'loglevel';
 import i18n from '@dhis2/d2-i18n';
 import { errorCreator } from 'capture-core-utils';
+import { FiltersConfig } from 'capture-core/extended/filtersConfig';
 import { convertToClientConfig } from '../helpers/eventFilters';
 import { getEventListData } from './getEventListData';
 import {
@@ -23,11 +24,12 @@ export const initEventWorkingListAsync = async (
         categoryCombinationId?: string | null;
         storeId: string;
         lastTransaction: number;
+        filtersConfig?: FiltersConfig;
     },
     absoluteApiPath: string,
     querySingleResource: QuerySingleResource,
 ): Promise<any> => {
-    const { commonQueryData, columnsMetaForDataFetching, categoryCombinationId, storeId, lastTransaction } = meta;
+    const { commonQueryData, columnsMetaForDataFetching, categoryCombinationId, storeId, lastTransaction, filtersConfig } = meta;
     const clientConfig: ClientConfig = await convertToClientConfig(
         config,
         columnsMetaForDataFetching,
@@ -58,6 +60,7 @@ export const initEventWorkingListAsync = async (
                 request,
                 config: {
                     ...clientConfig,
+                    filtersConfig,
                     selections: {
                         ...commonQueryData,
                         lastTransaction,

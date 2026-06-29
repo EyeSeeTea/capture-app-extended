@@ -10,6 +10,7 @@ import { OrgUnitFetcher } from '../../OrgUnitFetcher';
 import { useCategoryOptionIsValidForOrgUnit } from '../../../hooks/useCategoryComboIsValidForOrgUnit';
 import { TopBar } from './TopBar.container';
 import { TrackerProgram } from '../../../metaData';
+import { useDefaultView } from '../../../extended/defaultView';
 
 type ReduxState = {
     activePage: {
@@ -198,6 +199,8 @@ const MainPageContainer = () => {
             setShowBulkDataEntryPlugin,
             setBulkDataEntryTrackedEntityIds,
         });
+
+    useDefaultView();
 
     useEffect(() => {
         dispatch(updateShowAccessibleStatus(showAllAccessible));

@@ -2,6 +2,7 @@ import i18n from '@dhis2/d2-i18n';
 import { ofType } from 'redux-observable';
 import { filter, map, concatMap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { isProgramAccessible } from 'capture-core/extended/ouMode';
 import {
     lockedSelectorActionTypes,
     invalidSelectionsFromUrl,
@@ -54,7 +55,7 @@ export const validateSelectionsBasedOnUrlUpdateEpic = (action$: EpicAction<any>)
             return pageFetchesOrgUnitUsingTheOldWay(pathname.substring(1));
         }),
         map(() => {
-            const { programId, orgUnitId } = getLocationQuery();
+            const { programId, orgUnitId, ouMode = 'SELECTED' } = getLocationQuery();
 
             if (programId) {
                 const program = programCollection.get(programId);
@@ -62,8 +63,10 @@ export const validateSelectionsBasedOnUrlUpdateEpic = (action$: EpicAction<any>)
                     return invalidSelectionsFromUrl(i18n.t("Program doesn't exist"));
                 }
 
-                if (orgUnitId && !program.organisationUnits[orgUnitId]) {
-                    return invalidSelectionsFromUrl(i18n.t('Selected program is invalid for selected organisation unit'));
+                if (orgUnitId && !program.organisationUnits[orgUnitId] && !isProgramAccessible(program, ouMode, orgUnitId)) {
+                    return invalidSelectionsFromUrl(
+                        i18n.t('Selected program is not available for this organisation unit with {{ouMode}} mode', { ouMode }),
+                    );
                 }
             }
 

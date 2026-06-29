@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FiltersConfig } from 'capture-core/extended/filtersConfig';
 import { FiltersRowsComponent } from './FiltersRows.component';
 import type { Column, FiltersOnly, AdditionalFilters, UpdateFilter, ClearFilter, RemoveFilter, StickyFilters } from '../types';
 
@@ -12,6 +13,7 @@ type Props = {
     onRemoveFilter: RemoveFilter,
     onSelectRestMenuItem: (filterId: string, item: any) => void,
     stickyFilters: StickyFilters,
+    filtersConfig: FiltersConfig
 };
 
 const useAdditionalFiltersButtons = ({ additionalFilters, stickyFilters, filterHasValue }) => {
@@ -41,6 +43,7 @@ export const FiltersRows = ({
     onSelectRestMenuItem,
     stickyFilters,
     programStageId,
+    filtersConfig,
 }: Props) => {
     const { shouldRenderAdditionalFiltersButtons, visibleSelectorId } = useAdditionalFiltersButtons({
         additionalFilters,
@@ -60,6 +63,7 @@ export const FiltersRows = ({
             stickyFilters={stickyFilters}
             shouldRenderAdditionalFiltersButtons={shouldRenderAdditionalFiltersButtons}
             visibleSelectorId={visibleSelectorId}
+            filtersConfig={filtersConfig}
         />
     );
 };

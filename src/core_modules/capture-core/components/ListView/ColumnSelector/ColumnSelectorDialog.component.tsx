@@ -1,28 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import { isEqual } from 'lodash';
-import { Modal, ModalTitle, ModalContent, ModalActions, Button } from '@dhis2/ui';
+import {
+    Modal,
+    ModalTitle,
+    ModalContent,
+    ModalActions,
+    Button,
+    TabBar,
+    Tab,
+    IconFilter16, IconLayoutColumns16,
+    spacers } from '@dhis2/ui';
 import i18n from '@dhis2/d2-i18n';
 
+import { DefaultFilterSelectorSection, FiltersWithConfig } from 'capture-core/extended/filtersConfig';
 import { DragDropList } from './DragDropList';
-
-import type { Columns } from '../types';
+import { Columns } from '../types';
 
 type Props = {
     open: boolean | null;
     onClose: () => void;
-    onSave: (columns: Columns) => void;
+    onSave: (columns: Columns, defaultFilters?: FiltersWithConfig) => void;
     columns: Columns;
+    defaultFilters: FiltersWithConfig
+
 };
 
-export const ColumnSelectorDialog = ({ columns, open, onClose, onSave }: Props) => {
+const tabBarStyle = {
+    marginBottom: spacers.dp16,
+};
+
+export const ColumnSelectorDialog = ({ columns, defaultFilters, open, onClose, onSave }: Props) => {
     const [columnList, setColumnList] = useState(columns);
+    const [filterList, setFilterList] = useState(defaultFilters || []);
+    const [tab, setTab] = useState<'column'|'filter'>('column');
+
+    const isFiltersTab = tab === 'filter';
 
     useEffect(() => {
         setColumnList(currentColumns => (isEqual(columns, currentColumns) ? currentColumns : columns));
     }, [columns]);
 
+    useEffect(() => {
+        setFilterList(currentFilters => (isEqual(defaultFilters, currentFilters) ? currentFilters : defaultFilters));
+    }, [defaultFilters]);
+
     const handleSave = () => {
-        onSave(columnList);
+        onSave(columnList, filterList);
     };
 
     const handleToggle = (id: string) => () => {
@@ -31,6 +54,16 @@ export const ColumnSelectorDialog = ({ columns, open, onClose, onSave }: Props) 
 
         toggleList[index] = { ...toggleList[index], visible: !toggleList[index].visible };
         setColumnList(toggleList);
+    };
+
+    const handleFilterToggle = (id: string) => () => {
+        const updatedList = filterList.map(filter =>
+            (filter.id === id
+                ? { ...filter, hidden: !filter.hidden }
+                : filter),
+        );
+
+        setFilterList(updatedList);
     };
 
     const handleUpdateListOrder = (sortedList: Columns) => {
@@ -48,14 +81,43 @@ export const ColumnSelectorDialog = ({ columns, open, onClose, onSave }: Props) 
                 onClose={onClose}
                 dataTest={'column-selector-dialog'}
             >
-                <ModalTitle>{i18n.t('Columns to show in table')}</ModalTitle>
-                <ModalContent>
-                    <DragDropList
-                        listItems={columnList}
-                        handleUpdateListOrder={handleUpdateListOrder}
-                        handleToggle={handleToggle}
+
+                {defaultFilters &&
+                <div style={tabBarStyle}>
+                    <TabBar >
+                        <Tab
+                            onClick={() => setTab('column')}
+                            icon={<IconLayoutColumns16 />}
+                            selected={tab === 'column'}
+                        >
+                            {i18n.t('Columns')}
+                        </Tab>
+                        <Tab
+                            onClick={() => setTab('filter')}
+                            icon={<IconFilter16 />}
+                            selected={isFiltersTab}
+                        >
+                            {i18n.t('Filters')}
+                        </Tab>
+                    </TabBar>
+                </div>}
+
+                {tab === 'column' && <>
+                    <ModalTitle>{i18n.t('Columns to show in table')}</ModalTitle>
+                    <ModalContent>
+                        <DragDropList
+                            listItems={columnList}
+                            handleUpdateListOrder={handleUpdateListOrder}
+                            handleToggle={handleToggle}
+                        />
+                    </ModalContent>
+                </>}
+                {isFiltersTab && defaultFilters && <>
+                    <DefaultFilterSelectorSection
+                        defaultFilters={filterList}
+                        handleToggle={handleFilterToggle}
                     />
-                </ModalContent>
+                </>}
                 <ModalActions>
                     <Button onClick={handleSave} primary initialFocus>
                         {i18n.t('Save')}

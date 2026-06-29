@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { spacers } from '@dhis2/ui';
 import { withStyles, type WithStyles } from '@material-ui/core/styles';
+import { difference } from 'lodash';
+import { getFiltersWithFiltersConfig, FiltersWithConfig, FiltersConfig } from 'capture-core/extended/filtersConfig';
+import { Columns } from 'capture-core/components/ListView';
 import { withFilters } from './withFilters';
 import { ListPagination } from '../Pagination';
 import { ColumnSelector } from '../ColumnSelector';
@@ -46,14 +49,46 @@ class ListViewMainPlain extends React.PureComponent<Props & WithStyles<typeof ge
     renderTopBar = () => {
         const {
             classes,
+            filtersOnly,
+            additionalFilters,
+            filtersConfig,
             filters,
             columns,
             customMenuContents,
             customTopBarActions,
             onSetColumnOrder,
+            onSetFiltersConfig,
             isSelectionInProgress,
             bulkActionBarComponent,
+            onClearFilters,
         } = this.props;
+
+        const defaultFiltersOrColumns = filtersOnly || additionalFilters ?
+            [...(filtersOnly || []), ...(additionalFilters || [])] :
+            columns;
+        const defaultFilters = getFiltersWithFiltersConfig(
+            defaultFiltersOrColumns,
+            filtersConfig,
+        );
+
+        const onSaveColumnSelector = (columnsToSave: Columns, defaultFiltersToSave?: FiltersWithConfig) => {
+            onSetColumnOrder(columnsToSave);
+            if (defaultFiltersToSave) {
+                const filtersConfigToSave = defaultFiltersToSave.reduce((acc, filter) => {
+                    if (filter.hidden) {
+                        acc[filter.id] = {
+                            hidden: true,
+                        };
+                    }
+                    return acc;
+                }, {} as FiltersConfig);
+                const filtersToClear = difference(Object.keys(filtersConfigToSave), Object.keys(filtersConfig));
+                if (filtersToClear.length > 0) {
+                    onClearFilters(filtersToClear);
+                }
+                onSetFiltersConfig(filtersConfigToSave);
+            }
+        };
 
         if (isSelectionInProgress) {
             return bulkActionBarComponent;
@@ -75,8 +110,9 @@ class ListViewMainPlain extends React.PureComponent<Props & WithStyles<typeof ge
                 >
                     <Actions customTopBarActions={customTopBarActions} />
                     <ColumnSelector
-                        onSave={onSetColumnOrder}
+                        onSave={onSaveColumnSelector}
                         columns={columns}
+                        defaultFilters={defaultFilters}
                     />
                     <ListViewMenu
                         customMenuContents={customMenuContents}

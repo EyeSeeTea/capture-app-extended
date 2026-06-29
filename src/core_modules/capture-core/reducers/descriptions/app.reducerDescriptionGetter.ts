@@ -74,6 +74,14 @@ export const getAppReducerDesc = (appUpdaters: Updaters) => createReducerDescrip
         };
         return newState;
     },
+    [setCurrentSelectionsActionTypes.SET_OU_MODE]: (state) => {
+        const newState = {
+            ...state,
+            page: null,
+            locationSwitchInProgress: true,
+        };
+        return newState;
+    },
     [setCurrentSelectionsActionTypes.SET_PROGRAM_ID]: (state) => {
         const newState = {
             ...state,

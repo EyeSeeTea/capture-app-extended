@@ -28,6 +28,7 @@ type OwnProps = {
     onResetOrgUnit: () => void;
     selectedProgramId?: string;
     selectedOrgUnitId?: string;
+    selectedOuMode: string;
     selectedCategories: Record<string, any>;
     formIsOpen: boolean;
 };
@@ -42,6 +43,7 @@ const ProgramSelectorPlain = ({
     onResetOrgUnit,
     selectedProgramId,
     selectedOrgUnitId,
+    selectedOuMode,
     selectedCategories,
     formIsOpen,
     classes,
@@ -49,7 +51,7 @@ const ProgramSelectorPlain = ({
     const [open, setOpen] = useState(false);
     const [programsArray, setProgramsArray] = useState<Array<Program>>([]);
     const selectedProgram = selectedProgramId ? programCollection.get(selectedProgramId) : null;
-    const programOptions = getOptions(programsArray, selectedOrgUnitId);
+    const programOptions = getOptions(programsArray, selectedOuMode, selectedOrgUnitId);
     const isMenuDisabled = !handleClickProgram;
 
     useEffect(() => {

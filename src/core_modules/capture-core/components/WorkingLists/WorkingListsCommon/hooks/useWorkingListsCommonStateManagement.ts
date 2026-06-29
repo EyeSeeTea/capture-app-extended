@@ -2,6 +2,8 @@
 import { useMemo, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import type { ReduxDispatch } from 'capture-core/components/App/withAppUrlSync.types';
+import { setFiltersConfig } from 'capture-core/extended/filtersConfig/workingList.extended';
+import { FiltersConfig, SetFiltersConfig } from 'capture-core/extended/filtersConfig';
 import {
     selectTemplate,
     addTemplate,
@@ -83,7 +85,8 @@ const useTemplates = (
             onAddTemplate: AddTemplate;
             onUpdateTemplate: UpdateTemplate;
             onDeleteTemplate: DeleteTemplate;
-            onSetTemplateSharingSettings: SetTemplateSharingSettings; } => ({
+            onSetTemplateSharingSettings: SetTemplateSharingSettings;
+    } => ({
         onSelectTemplate: (templateId, programStageIdArg) => {
             const selectedTemplate = templateState.templates?.find(templete => templete.id === templateId);
             const programStageId = programStageIdArg || selectedTemplate?.criteria?.programStage;
@@ -135,6 +138,7 @@ const useView = (
         workingListsUI,
         workingListsMeta,
         workingListsColumnsOrder,
+        workingListsFiltersConfig,
         workingListsStickyFilters,
         workingListsListRecords,
         workingListsContext,
@@ -176,6 +180,7 @@ const useView = (
             updatingWithDialog: !!updatingWithDialog,
             loadViewError,
             customColumnOrder: workingListsColumnsOrder[storeId],
+            filtersConfig: workingListsFiltersConfig[storeId] || {},
             programStage: workingListsContext[storeId]?.programStageId,
             stickyFilters: workingListsStickyFilters[storeId],
             rowsPerPage: nextRowsPerPage || rowsPerPage,
@@ -206,6 +211,7 @@ const useView = (
             onSortList: Sort;
             onSetListColumnOrder: SetColumnOrder;
             onResetListColumnOrder: ResetColumnOrder;
+            onSetFiltersConfig: SetFiltersConfig;
             onUpdateFilter: UpdateFilter;
             onClearFilter: ClearFilter;
             onRemoveFilter: RemoveFilter;
@@ -241,6 +247,7 @@ const useView = (
         onSortList: (sortById: string, sortByDirection: string) => dispatch(sortList(sortById, sortByDirection, storeId)),
         onSetListColumnOrder: (columnOrder: any) => dispatch(setListColumnOrder(columnOrder, storeId)),
         onResetListColumnOrder: () => dispatch(resetListColumnOrder(storeId)),
+        onSetFiltersConfig: (filtersConfig: FiltersConfig) => dispatch(setFiltersConfig(filtersConfig, storeId)),
         onUpdateFilter: (filterId: string, filterValue: any) => dispatch(setFilter(filterId, filterValue, storeId)),
         onRemoveFilter: (filterId: string, filterValue: any) => dispatch(removeFilter(filterId, filterValue, storeId)),
         onClearFilter: (filterId: string) => dispatch(clearFilter(filterId, storeId)),

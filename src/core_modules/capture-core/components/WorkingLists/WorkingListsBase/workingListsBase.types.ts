@@ -1,10 +1,12 @@
 import type { ReactElement } from 'react';
+import { FiltersConfig } from 'capture-core/extended/filtersConfig';
 import type { dataElementTypes } from '../../../metaData';
 import type {
     AdditionalFilters,
     ChangePage,
     ChangeRowsPerPage,
     ClearFilter,
+    ClearFilters,
     CustomMenuContents,
     CustomRowMenuContents,
     CustomTopBarActions,
@@ -34,6 +36,7 @@ export type WorkingListTemplate = {
     updating?: boolean,
     deleted?: boolean,
     order?: number,
+    filtersConfig?: FiltersConfig,
 };
 
 export type WorkingListTemplates = Array<WorkingListTemplate>;
@@ -207,6 +210,7 @@ export type InterfaceProps = Readonly<{
     onChangePage: ChangePage,
     onChangeRowsPerPage: ChangeRowsPerPage,
     onClearFilter: ClearFilter,
+    onClearFilters: ClearFilters,
     onRemoveFilter: RemoveFilter,
     onDeleteTemplate?: DeleteTemplate,
     onLoadView: LoadView,

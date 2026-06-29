@@ -2,6 +2,7 @@ import * as React from 'react';
 import i18n from '@dhis2/d2-i18n';
 import { colors, spacersNum } from '@dhis2/ui';
 import { withStyles, type WithStyles } from '@material-ui/core/styles';
+import { isFilterVisible, FiltersConfig } from 'capture-core/extended/filtersConfig';
 import { Filters } from './Filters.component';
 import type { Column, FiltersOnly, AdditionalFilters, UpdateFilter, ClearFilter, RemoveFilter, StickyFilters } from '../types';
 
@@ -38,6 +39,7 @@ type Props = {
     }>;
     filtersOnly?: FiltersOnly;
     additionalFilters?: AdditionalFilters;
+    filtersConfig: FiltersConfig;
     onUpdateFilter: UpdateFilter;
     onClearFilter: ClearFilter;
     onRemoveFilter: RemoveFilter;
@@ -51,6 +53,7 @@ export const FiltersRowsPlain = ({
     columns,
     filtersOnly,
     additionalFilters,
+    filtersConfig,
     onUpdateFilter,
     onClearFilter,
     onRemoveFilter,
@@ -59,17 +62,19 @@ export const FiltersRowsPlain = ({
     shouldRenderAdditionalFiltersButtons,
     visibleSelectorId,
     classes,
-}: Props & WithStyles<typeof getStyles>) => (
-    <>
+}: Props & WithStyles<typeof getStyles>) => {
+    const filterIsVisible = isFilterVisible(filtersConfig);
+    return (<>
         <div className={classes.filtersButtons}>
             <Filters
-                columns={columns.filter(item => !item.additionalColumn)}
-                filtersOnly={filtersOnly}
+                columns={columns.filter(item => !item.additionalColumn && filterIsVisible(item))}
+                filtersOnly={filtersOnly?.filter(filterIsVisible)}
                 additionalFilters={additionalFilters}
                 onUpdateFilter={onUpdateFilter}
                 onClearFilter={onClearFilter}
                 onSelectRestMenuItem={onSelectRestMenuItem}
                 stickyFilters={stickyFilters}
+                filtersConfig={filtersConfig}
             />
         </div>
         {shouldRenderAdditionalFiltersButtons && (
@@ -80,7 +85,7 @@ export const FiltersRowsPlain = ({
                     <div className={classes.break} />
                     <Filters
                         columns={columns.filter(item => item.additionalColumn)}
-                        filtersOnly={additionalFilters}
+                        filtersOnly={additionalFilters?.filter(filterIsVisible)}
                         onUpdateFilter={onUpdateFilter}
                         onClearFilter={onClearFilter}
                         onSelectRestMenuItem={onSelectRestMenuItem}
@@ -91,7 +96,7 @@ export const FiltersRowsPlain = ({
                 </div>
             </>
         )}
-    </>
-);
+    </>);
+};
 
 export const FiltersRowsComponent = withStyles(getStyles)(FiltersRowsPlain);

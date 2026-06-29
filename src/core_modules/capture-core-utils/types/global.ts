@@ -1,5 +1,6 @@
 import type { Observable } from 'rxjs';
 import type { Action } from 'redux';
+import { FiltersConfig } from 'capture-core/extended/filtersConfig';
 
 export type ReduxStore = {
     value: {
@@ -7,6 +8,7 @@ export type ReduxStore = {
         currentSelections: {
             programId: string;
             orgUnitId?: string;
+            ouMode: string;
             complete?: boolean;
         };
         possibleDuplicates: {
@@ -76,6 +78,7 @@ export type ReduxStore = {
         searchDomain: {
             currentSearchInfo: { currentSearchTerms : Record<string, any> };
         }
+      workingListsFiltersConfig: Record<string, FiltersConfig>
     };
 };
 

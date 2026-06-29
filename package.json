@@ -1,7 +1,7 @@
 {
-    "name": "capture-app",
+    "name": "capture-extended",
     "homepage": ".",
-    "version": "104.2.0",
+    "version": "104.2.0-est.2",
     "cacheVersion": "2",
     "license": "BSD-3-Clause",
     "private": true,

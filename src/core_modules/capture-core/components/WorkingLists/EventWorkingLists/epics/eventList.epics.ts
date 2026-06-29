@@ -16,7 +16,7 @@ import { SINGLE_EVENT_WORKING_LISTS_TYPE } from '../constants';
 
 export const initEventListEpic = (
     action$: EpicAction<any>,
-    _: ReduxStore,
+    store: ReduxStore,
     { absoluteApiPath, querySingleResource }: ApiUtils,
 ) =>
     action$.pipe(
@@ -33,10 +33,15 @@ export const initEventListEpic = (
                 lockedFilters,
             } = action.payload.context;
 
+            const { ouMode = 'SELECTED' } = store.value.currentSelections;
+
             const eventQueryCriteria = {
                 ...(selectedTemplate.nextCriteria || selectedTemplate.criteria),
                 ...lockedFilters,
             };
+
+            const filtersConfig = selectedTemplate.filtersConfig;
+
             const orgUnitModeQueryParam = featureAvailable(FEATURES.newOrgUnitModeQueryParam)
                 ? 'orgUnitMode'
                 : 'ouMode';
@@ -48,12 +53,13 @@ export const initEventListEpic = (
                             orgUnitId,
                             categories,
                             programStageId,
-                            [orgUnitModeQueryParam]: orgUnitId ? 'SELECTED' : 'ACCESSIBLE',
+                            [orgUnitModeQueryParam]: orgUnitId ? ouMode : 'ACCESSIBLE',
                         },
                         columnsMetaForDataFetching,
                         categoryCombinationId,
                         storeId,
                         lastTransaction,
+                        filtersConfig,
                     },
                     absoluteApiPath,
                     querySingleResource);
@@ -70,7 +76,7 @@ export const initEventListEpic = (
 
 export const updateEventListEpic = (
     action$: EpicAction<any>,
-    _: ReduxStore,
+    store: ReduxStore,
     { absoluteApiPath, querySingleResource }: ApiUtils,
 ) =>
     action$.pipe(
@@ -87,6 +93,9 @@ export const updateEventListEpic = (
                 storeId,
                 queryArgs: { programId, orgUnitId, programStageId, categories },
             } = action.payload;
+
+            const { ouMode = 'SELECTED' } = store.value.currentSelections;
+
             !queryArgs?.orgUnitId && (queryArgs[orgUnitModeQueryParam] = 'ACCESSIBLE');
             const updatePromise = updateEventWorkingListAsync(queryArgs, {
                 commonQueryData: {
@@ -94,7 +103,7 @@ export const updateEventListEpic = (
                     orgUnitId,
                     categories,
                     programStageId,
-                    [orgUnitModeQueryParam]: orgUnitId ? 'SELECTED' : 'ACCESSIBLE',
+                    [orgUnitModeQueryParam]: orgUnitId ? ouMode : 'ACCESSIBLE',
                 },
                 columnsMetaForDataFetching,
                 categoryCombinationId,
