@@ -20,6 +20,7 @@ import {
     updateTemplateSuccess,
     workingListsCommonActionTypes,
     workingListsCommonActionTypesBatchActionTypes,
+    toJsonPatchReplaceOps,
 } from '../../../WorkingListsCommon';
 import { TRACKER_WORKING_LISTS_TYPE } from '../../constants';
 import { getLocationQuery } from '../../../../../utils/routing';
@@ -191,8 +192,7 @@ export const updateTEITemplateEpic = (
         ),
         concatMap((action) => {
             const {
-                template: { id, name, externalAccess, publicAccess, user, userGroupAccesses, userAccesses },
-                program,
+                template: { id, name },
                 storeId,
                 criteria,
             } = action.payload;
@@ -201,32 +201,25 @@ export const updateTEITemplateEpic = (
 
             const filtersConfig = store.value.workingListsFiltersConfig?.[storeId];
 
-            const trackedEntityInstanceFilters = {
-                name,
-                program,
-                externalAccess,
-                publicAccess,
-                user,
-                userGroupAccesses,
-                userAccesses,
-                entityQueryCriteria: {
-                    displayColumnOrder,
-                    order,
-                    ...(assignedUserMode && { assignedUserMode }),
-                    ...(assignedUsers?.length > 0 && { assignedUsers }),
-                    ...(followUp !== undefined && { followUp: JSON.stringify(followUp) }),
-                    ...(programStatus && { enrollmentStatus: programStatus }),
-                    ...(enrolledAt && { enrollmentCreatedDate: enrolledAt }),
-                    ...(occurredAt && { enrollmentIncidentDate: occurredAt }),
-                    ...(attributeValueFilters?.length > 0 && { attributeValueFilters }),
-                },
+            const entityQueryCriteria = {
+                displayColumnOrder,
+                order,
+                ...(assignedUserMode && { assignedUserMode }),
+                ...(assignedUsers?.length > 0 && { assignedUsers }),
+                ...(followUp !== undefined && { followUp: JSON.stringify(followUp) }),
+                ...(programStatus && { enrollmentStatus: programStatus }),
+                ...(enrolledAt && { enrollmentCreatedDate: enrolledAt }),
+                ...(occurredAt && { enrollmentIncidentDate: occurredAt }),
+                ...(attributeValueFilters?.length > 0 && { attributeValueFilters }),
             };
+
+            const teiFilterPatch = toJsonPatchReplaceOps({ name, entityQueryCriteria });
 
             const requestPromise = mutate({
                 resource: 'trackedEntityInstanceFilters',
                 id,
-                type: 'replace',
-                data: trackedEntityInstanceFilters,
+                type: 'json-patch',
+                data: teiFilterPatch,
             }).then(() =>
                 saveTemplateExtendedProps({ querySingleResource,
                     mutate,
@@ -247,7 +240,7 @@ export const updateTEITemplateEpic = (
                     log.error(
                         errorCreator('could not update template')({
                             error,
-                            trackedEntityInstanceFilters,
+                            teiFilterPatch,
                         }),
                     );
                     const isActiveTemplate = store.value.workingListsTemplates[storeId].selectedTemplateId === id;

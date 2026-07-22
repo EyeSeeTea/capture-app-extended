@@ -21,6 +21,7 @@ import {
     addTemplateError,
     deleteTemplateSuccess,
     deleteTemplateError,
+    toJsonPatchReplaceOps,
 } from '../../WorkingListsCommon';
 import { getTemplates } from './getTemplates';
 import { SINGLE_EVENT_WORKING_LISTS_TYPE } from '../constants';
@@ -77,34 +78,19 @@ export const updateTemplateEpic = (
             template: {
                 id,
                 name,
-                externalAccess,
-                publicAccess,
-                user,
-                userGroupAccesses,
-                userAccesses,
             },
             criteria: eventQueryCriteria,
-            programId,
             storeId,
         } }: any) => {
             const filtersConfig = store.value.workingListsFiltersConfig?.[storeId];
 
-            const eventFilterData = {
-                name,
-                program: programId,
-                eventQueryCriteria,
-                externalAccess,
-                publicAccess,
-                user,
-                userGroupAccesses,
-                userAccesses,
-            };
+            const eventFilterPatch = toJsonPatchReplaceOps({ name, eventQueryCriteria });
 
             const requestPromise = mutate({
                 resource: 'eventFilters',
                 id,
-                data: eventFilterData,
-                type: 'replace',
+                data: eventFilterPatch,
+                type: 'json-patch',
             })
                 .then(() =>
                     saveTemplateExtendedProps({ querySingleResource,
@@ -130,7 +116,7 @@ export const updateTemplateEpic = (
                     log.error(
                         errorCreator('could not update template')({
                             error,
-                            eventFilterData,
+                            eventFilterPatch,
                         }),
                     );
                     const isActiveTemplate =
