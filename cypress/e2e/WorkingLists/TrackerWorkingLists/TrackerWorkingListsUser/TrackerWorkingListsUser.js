@@ -437,7 +437,7 @@ When('you update the list with the name My custom list', () => {
     cy.get('[data-test="list-view-menu-button"]')
         .click();
 
-    cy.intercept('PUT', '**/trackedEntityInstanceFilters/**').as('editTrackedEntityInstanceFilters');
+    cy.intercept('PATCH', '**/trackedEntityInstanceFilters/**').as('editTrackedEntityInstanceFilters');
     cy.contains('Update view')
         .click();
     cy.wait('@editTrackedEntityInstanceFilters', { timeout: 30000 });
@@ -447,7 +447,7 @@ When('you update the list with the name Custom Program stage list', () => {
     cy.get('[data-test="list-view-menu-button"]')
         .click();
 
-    cy.intercept('PUT', '**/programStageWorkingLists/**').as('editProgramStageWorkingLists');
+    cy.intercept('PATCH', '**/programStageWorkingLists/**').as('editProgramStageWorkingLists');
     cy.contains('Update view')
         .click();
     cy.wait('@editProgramStageWorkingLists', { timeout: 30000 });
